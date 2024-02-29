@@ -20,6 +20,43 @@ const users: User[] = [
     picture: "/person.svg",
     ensemble: "Orchester",
   },
+  {
+    id: 3,
+    name: "Max Mustermann",
+    picture: "/person.svg",
+    ensemble: "Kammerchor",
+  },
+  {
+    id: 4,
+    name: "Maria Musterfrau",
+    picture: "/person.svg",
+    ensemble: "Orchester",
+  },
+  {
+    id: 5,
+    name: "Hans Hansen",
+    picture: "/person.svg",
+    ensemble: "Kammerchor",
+  },
+
+  {
+    id: 6,
+    name: "Anna Anders",
+    picture: "/person.svg",
+    ensemble: "Orchester",
+  },
+  {
+    id: 7,
+    name: "Peter Peterson",
+    picture: "/person.svg",
+    ensemble: "Kammerchor",
+  },
+  {
+    id: 8,
+    name: "Petra Peters",
+    picture: "/person.svg",
+    ensemble: "Orchester",
+  },
 ];
 
 const UserList: React.FC = () => {
@@ -29,7 +66,7 @@ const UserList: React.FC = () => {
         <div key={user.id}>
           <Image
             src={user.picture}
-            alt={"Image not found"}
+            alt={"Profile Picture"}
             width={200}
             height={200}
           />

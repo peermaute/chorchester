@@ -8,10 +8,10 @@ const Footer = () => {
   const router = useRouter();
   return (
     <footer>
-      <nav className="mb-10">
+      <nav className="mb-4 mt-4">
         <ul className="flex">
           <li
-            className="mr-10 hover:cursor-pointer"
+            className="mr-12 hover:cursor-pointer lg:mr-32"
             onClick={() => router.push("/users")}
           >
             <ListIcon />
@@ -23,7 +23,7 @@ const Footer = () => {
             <SearchIcon />
           </li>
           <li
-            className="ml-10 hover:cursor-pointer"
+            className="ml-12 hover:cursor-pointer lg:ml-32"
             onClick={() => router.push("/profile")}
           >
             <UserIcon />
