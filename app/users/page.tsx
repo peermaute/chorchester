@@ -61,17 +61,22 @@ const users: User[] = [
 
 const UserList: React.FC = () => {
   return (
-    <div>
+    <div className="flex flex-col justify-center items-center w-screen">
       {users.map((user) => (
-        <div key={user.id}>
+        <div
+          className="rounded-md bg-white mb-3 p-3 shadow-sm shadow-slate-400 w-2/3 lg:w-1/4 flex flex-col lg:flex-row justify-center items-center"
+          key={user.id}
+        >
           <Image
             src={user.picture}
             alt={"Profile Picture"}
             width={200}
             height={200}
           />
-          <p>{user.name}</p>
-          <p>{user.ensemble}</p>
+          <div className="flex flex-col lg:ml-20 mb-3 lg:mb-0">
+            <p className="mb-3">Name: {user.name}</p>
+            <p>Ensemble: {user.ensemble}</p>
+          </div>
         </div>
       ))}
     </div>

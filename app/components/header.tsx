@@ -5,7 +5,7 @@ const Header = () => {
   return (
     <header>
       <h1
-        className="text-3xl text-center mt-5 mb-5 hover:cursor-pointer"
+        className="text-3xl text-center mt-9 mb-9 hover:cursor-pointer"
         onClick={() => router.push("/")}
       >
         Unimusik Hamburg
