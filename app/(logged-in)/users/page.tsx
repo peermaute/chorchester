@@ -1,4 +1,7 @@
+"use client";
 import Image from "next/image";
+import { useState } from "react";
+import { SegmentedControl } from "@primer/react";
 
 interface User {
   id: number;
@@ -60,9 +63,32 @@ const users: User[] = [
 ];
 
 const UserList: React.FC = () => {
+  const [userList, setUserList] = useState<User[]>(users);
+  const handleFilterChange = (index: number) => {
+    if (index === 0) {
+      setUserList(users);
+    } else if (index === 1) {
+      setUserList(users.filter((user) => user.ensemble === "Kammerchor"));
+    } else {
+      setUserList(users.filter((user) => user.ensemble === "Orchester"));
+    }
+  };
+
   return (
     <div className="flex flex-col justify-center items-center w-screen">
-      {users.map((user) => (
+      <div className="mb-5">
+        <SegmentedControl
+          aria-label="userListFilter"
+          onChange={handleFilterChange}
+        >
+          <SegmentedControl.Button defaultSelected>
+            Alle
+          </SegmentedControl.Button>
+          <SegmentedControl.Button>Kammerchor</SegmentedControl.Button>
+          <SegmentedControl.Button>Orchester</SegmentedControl.Button>
+        </SegmentedControl>
+      </div>
+      {userList.map((user) => (
         <div
           className="rounded-md bg-white mb-3 p-3 shadow-sm shadow-slate-400 w-2/3 lg:w-1/4 flex flex-col lg:flex-row justify-center items-center"
           key={user.id}
@@ -73,9 +99,9 @@ const UserList: React.FC = () => {
             width={200}
             height={200}
           />
-          <div className="flex flex-col lg:ml-20 mb-3 lg:mb-0">
-            <p className="mb-3">Name: {user.name}</p>
-            <p>Ensemble: {user.ensemble}</p>
+          <div className="flex flex-col lg:ml-20 mb-3 lg:mb-0 text-center">
+            <p className="mb-3 text-2xl">{user.name}</p>
+            <p>{user.ensemble}</p>
           </div>
         </div>
       ))}
