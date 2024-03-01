@@ -15,7 +15,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="de">
       <body className="flex-col bg-gradient-to-t from-lightSteelBlue to-pastelPurple bg-fixed">
         <ThemeProvider>
           <BaseStyles>
