@@ -10,6 +10,7 @@ import {
   TextInput,
   Textarea,
 } from "@primer/react";
+import { useRouter } from "next/navigation";
 
 type User = {
   picture: string;
@@ -20,6 +21,7 @@ type User = {
 };
 
 const Profile = () => {
+  const router = useRouter();
   const user: User = {
     picture: "/person.svg",
     name: "John Doe",
@@ -60,18 +62,21 @@ const Profile = () => {
   return (
     <div className="flex flex-row justify-center items-center">
       <Box as="form" onSubmit={handleSubmit}>
-        <Image
-          src={user.picture}
-          alt={"Profile Picture"}
-          width={200}
-          height={200}
-        />
+        <div className="flex justify-center items-center">
+          <Image
+            src={user.picture}
+            alt={"Profile Picture"}
+            width={200}
+            height={200}
+          />
+        </div>
         <FormControl sx={{ marginBottom: "10px" }}>
           <FormControl.Label>Name</FormControl.Label>
           <TextInput
             value={formData.name}
             onChange={handleNameChange}
             placeholder="Enter your text"
+            sx={{ width: "100%" }}
           />
         </FormControl>
         <FormControl sx={{ marginBottom: "10px" }}>
@@ -80,6 +85,7 @@ const Profile = () => {
             name="ensemble"
             value={formData.ensemble}
             onChange={handleEnsembleChange}
+            sx={{ width: "100%" }}
           >
             <Select.Option value="Kammerchor">Kammerchor</Select.Option>
             <Select.Option value="Orchester">Orchester</Select.Option>
@@ -94,6 +100,7 @@ const Profile = () => {
             onChange={handleStimmgruppeChange}
             placeholder={"Stimmgruppe"}
             required
+            sx={{ width: "100%" }}
           >
             <Select.Option
               value="Sopran"
@@ -158,9 +165,17 @@ const Profile = () => {
             value={formData.personalInfo}
             onChange={handlePersonalInfoChange}
             placeholder="Text eingeben"
+            sx={{ width: "100%" }}
           />
         </FormControl>
-        <Button type="submit">Save</Button>
+        <div className="flex justify-between">
+          <Button onClick={() => router.push("/settings")}>
+            Account Settings
+          </Button>
+          <Button type="submit" variant="primary">
+            Save
+          </Button>
+        </div>
       </Box>
     </div>
   );
