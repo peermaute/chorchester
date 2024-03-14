@@ -76,10 +76,11 @@ const UserList: React.FC = () => {
 
   return (
     <div className="flex flex-col justify-center items-center w-screen">
-      <div className="mb-5">
+      <div className="mb-5 shadow-md">
         <SegmentedControl
           aria-label="userListFilter"
           onChange={handleFilterChange}
+          sx={{ backgroundColor: "white" }}
         >
           <SegmentedControl.Button defaultSelected>
             Alle

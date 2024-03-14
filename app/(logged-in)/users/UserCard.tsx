@@ -9,7 +9,7 @@ interface User {
 const UserCard = ({ user }: { user: User }) => {
   return (
     <div
-      className="rounded-md bg-white mb-3 p-3 shadow-sm shadow-slate-400 w-2/3 lg:w-1/5 flex"
+      className="rounded-md bg-white mb-3 p-3 shadow-md w-2/3 lg:w-1/5 flex"
       key={user.id}
     >
       <Image

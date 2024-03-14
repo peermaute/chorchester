@@ -23,7 +23,7 @@ export default function RootLayout({
             {children}
             <div className="min-h-24"></div>
             <div className="w-screen flex justify-center fixed bottom-0 bg-sandy">
-              <div className="w-11/12 lg:w-1/2 flex justify-center mb-3 ml-3 mr-3 rounded-lg shadow-sm bg-white shadow-slate-500">
+              <div className="w-11/12 lg:w-1/2 flex justify-center mb-3 ml-3 mr-3 rounded-lg shadow-md bg-white">
                 <Footer />
               </div>
             </div>
