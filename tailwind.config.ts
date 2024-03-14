@@ -17,6 +17,7 @@ const config: Config = {
         pastelPurple: "#c5adc5",
         lightSteelBlue: "#b2b5e0",
         lightBlue: "#759BFA",
+        sandy: "#Efecdf",
       },
     },
   },
