@@ -1,7 +1,7 @@
 "use client";
-import Image from "next/image";
 import { useState } from "react";
 import { SegmentedControl } from "@primer/react";
+import UserCard from "./UserCard";
 
 interface User {
   id: number;
@@ -89,21 +89,7 @@ const UserList: React.FC = () => {
         </SegmentedControl>
       </div>
       {userList.map((user) => (
-        <div
-          className="rounded-md bg-white mb-3 p-3 shadow-sm shadow-slate-400 w-2/3 lg:w-1/4 flex flex-col lg:flex-row justify-center items-center"
-          key={user.id}
-        >
-          <Image
-            src={user.picture}
-            alt={"Profile Picture"}
-            width={200}
-            height={200}
-          />
-          <div className="flex flex-col lg:ml-20 mb-3 lg:mb-0 text-center">
-            <p className="mb-3 text-2xl">{user.name}</p>
-            <p>{user.ensemble}</p>
-          </div>
-        </div>
+        <UserCard user={user} key={user.id} />
       ))}
     </div>
   );
