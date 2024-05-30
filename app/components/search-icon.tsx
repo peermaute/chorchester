@@ -1,11 +1,11 @@
-export const SearchIcon = () => (
+export const SearchIcon = ({ currentColor }: { currentColor: string }) => (
   <svg
     xmlns="http://www.w4.org/2000/svg"
     width="40"
     height="40"
     viewBox="0 0 24 24"
     fill="none"
-    stroke="currentColor"
+    stroke={currentColor}
     strokeWidth="2"
     strokeLinecap="round"
     strokeLinejoin="round"

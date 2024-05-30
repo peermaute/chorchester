@@ -18,6 +18,8 @@ const config: Config = {
         lightSteelBlue: "#b2b5e0",
         lightBlue: "#759BFA",
         sandy: "#Efecdf",
+        vibrantRed: "#f85046",
+        iceBlue: "#ecf9fc",
       },
     },
   },

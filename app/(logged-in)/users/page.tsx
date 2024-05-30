@@ -80,7 +80,7 @@ const UserList: React.FC = () => {
         <SegmentedControl
           aria-label="userListFilter"
           onChange={handleFilterChange}
-          sx={{ backgroundColor: "white" }}
+          sx={{ backgroundColor: "#ecf9fc" }}
         >
           <SegmentedControl.Button defaultSelected>
             Alle
