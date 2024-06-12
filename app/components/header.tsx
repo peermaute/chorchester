@@ -17,6 +17,7 @@ const Header = () => {
           alt={"Profile Picture"}
           width={150}
           height={150}
+          priority={true}
           onClick={() => router.push("/")}
           className="hover:cursor-pointer"
         />
