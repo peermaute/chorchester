@@ -7,7 +7,7 @@ const UserCard = ({ user }: { user: User }) => {
   const router = useRouter();
   return (
     <div
-      className="rounded-md bg-zinc-50 mb-4 p-4 shadow-md w-3/4 xl:w-1/3 2xl:w-1/5 flex"
+      className="rounded-md bg-zinc-50 mb-4 p-4 shadow-md w-3/4 xl:w-1/3 2xl:w-1/5 flex hover:cursor-pointer"
       key={user.id}
       onClick={() => router.push(`users/${user.id}`)}
     >

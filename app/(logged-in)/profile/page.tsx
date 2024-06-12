@@ -70,7 +70,7 @@ const Profile = () => {
             height={200}
           />
         </div>
-        <FormControl sx={{ marginBottom: "10px" }}>
+        <FormControl sx={{ marginBottom: "12px" }}>
           <FormControl.Label>Name</FormControl.Label>
           <TextInput
             value={formData.name}
@@ -79,7 +79,7 @@ const Profile = () => {
             sx={{ width: "100%" }}
           />
         </FormControl>
-        <FormControl sx={{ marginBottom: "10px" }}>
+        <FormControl sx={{ marginBottom: "12px" }}>
           <FormControl.Label>Ensemble</FormControl.Label>
           <Select
             name="ensemble"
@@ -92,7 +92,7 @@ const Profile = () => {
           </Select>
         </FormControl>
 
-        <FormControl sx={{ marginBottom: "10px" }}>
+        <FormControl sx={{ marginBottom: "12px" }}>
           <FormControl.Label>Stimmgruppe</FormControl.Label>
           <Select
             name="stimmgruppe"
@@ -159,8 +159,8 @@ const Profile = () => {
             <Select.Option value="Andere">Andere</Select.Option>
           </Select>
         </FormControl>
-        <FormControl sx={{ marginBottom: "20px" }}>
-          <FormControl.Label>Persönliches</FormControl.Label>
+        <FormControl sx={{ marginBottom: "24px" }}>
+          <FormControl.Label>Personal Info</FormControl.Label>
           <Textarea
             value={formData.personal_info}
             onChange={handlePersonalInfoChange}

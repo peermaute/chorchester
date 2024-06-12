@@ -20,6 +20,7 @@ const config: Config = {
         sandy: "#Efecdf",
         vibrantRed: "#f85046",
         iceBlue: "#ecf9fc",
+        bluePurple: "#4E47C6",
       },
     },
   },
