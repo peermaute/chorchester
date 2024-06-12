@@ -17,7 +17,7 @@ type User = {
   name: string;
   ensemble: string;
   stimmgruppe: string;
-  personalInfo: string;
+  personal_info: string;
 };
 
 const Profile = () => {
@@ -27,14 +27,14 @@ const Profile = () => {
     name: "John Doe",
     ensemble: "Kammerchor",
     stimmgruppe: "Tenor",
-    personalInfo: "John is a great singer.",
+    personal_info: "John is a great singer.",
   };
   const [formData, setFormData] = useState({
     picture: user.picture,
     name: user.name,
     ensemble: user.ensemble,
     stimmgruppe: user.stimmgruppe,
-    personalInfo: user.personalInfo,
+    personal_info: user.personal_info,
   });
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -51,7 +51,7 @@ const Profile = () => {
   const handlePersonalInfoChange = (
     e: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
-    setFormData({ ...formData, personalInfo: e.target.value });
+    setFormData({ ...formData, personal_info: e.target.value });
   };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -162,7 +162,7 @@ const Profile = () => {
         <FormControl sx={{ marginBottom: "20px" }}>
           <FormControl.Label>Persönliches</FormControl.Label>
           <Textarea
-            value={formData.personalInfo}
+            value={formData.personal_info}
             onChange={handlePersonalInfoChange}
             placeholder="Text eingeben"
             sx={{ width: "100%" }}

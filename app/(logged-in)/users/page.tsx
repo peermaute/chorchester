@@ -1,78 +1,36 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SegmentedControl } from "@primer/react";
 import UserCard from "./UserCard";
-
-interface User {
-  id: number;
-  name: string;
-  picture: string;
-  ensemble: string;
-}
-
-const users: User[] = [
-  {
-    id: 1,
-    name: "John Doe",
-    picture: "/person.svg",
-    ensemble: "Kammerchor",
-  },
-  {
-    id: 2,
-    name: "Jane Smith",
-    picture: "/person.svg",
-    ensemble: "Orchester",
-  },
-  {
-    id: 3,
-    name: "Max Mustermann",
-    picture: "/person.svg",
-    ensemble: "Kammerchor",
-  },
-  {
-    id: 4,
-    name: "Maria Musterfrau",
-    picture: "/person.svg",
-    ensemble: "Orchester",
-  },
-  {
-    id: 5,
-    name: "Hans Hansen",
-    picture: "/person.svg",
-    ensemble: "Kammerchor",
-  },
-
-  {
-    id: 6,
-    name: "Anna Anders",
-    picture: "/person.svg",
-    ensemble: "Orchester",
-  },
-  {
-    id: 7,
-    name: "Peter Peterson",
-    picture: "/person.svg",
-    ensemble: "Kammerchor",
-  },
-  {
-    id: 8,
-    name: "Petra Peters",
-    picture: "/person.svg",
-    ensemble: "Orchester",
-  },
-];
+import { getUsers } from "@/app/api/users";
+import { User } from "@/app/types/User";
 
 const UserList: React.FC = () => {
-  const [userList, setUserList] = useState<User[]>(users);
+  const [userList, setUserList] = useState<User[]>([]);
+  const [dbUsers, setDbUsers] = useState<User[]>([]);
   const handleFilterChange = (index: number) => {
     if (index === 0) {
-      setUserList(users);
+      setUserList(dbUsers);
     } else if (index === 1) {
-      setUserList(users.filter((user) => user.ensemble === "Kammerchor"));
+      setUserList(dbUsers.filter((user) => user.ensemble === "Kammerchor"));
     } else {
-      setUserList(users.filter((user) => user.ensemble === "Orchester"));
+      setUserList(dbUsers.filter((user) => user.ensemble === "Orchester"));
     }
   };
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      const dbUsers = await getUsers();
+      dbUsers.sort((userA, userB) => {
+        if (userA.name === "Peer Maute") return -1;
+        if (userB.name === "Peer Maute") return 1;
+        return userA.name.localeCompare(userB.name);
+      });
+      setDbUsers(dbUsers);
+      setUserList(dbUsers);
+    };
+    fetchUsers();
+  }, []);
 
   return (
     <div className="flex flex-col justify-center items-center w-screen">

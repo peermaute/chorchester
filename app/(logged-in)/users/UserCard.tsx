@@ -1,19 +1,18 @@
+"use client";
+import { User } from "@/app/types/User";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
-interface User {
-  id: number;
-  picture: string;
-  name: string;
-  ensemble: string;
-}
 const UserCard = ({ user }: { user: User }) => {
+  const router = useRouter();
   return (
     <div
       className="rounded-md bg-zinc-50 mb-4 p-4 shadow-md w-3/4 xl:w-1/3 2xl:w-1/5 flex"
       key={user.id}
+      onClick={() => router.push(`users/${user.id}`)}
     >
       <Image
-        src={user.picture}
+        src={user.picture ?? "/person.svg"}
         alt={"Profile Picture"}
         width={65}
         height={65}
