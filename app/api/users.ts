@@ -27,7 +27,7 @@ export const getUsersByName = async (substring: string): Promise<User[]> => {
   try {
     const result = await sql`
       SELECT * FROM Users
-      WHERE name LIKE ${"%" + substring + "%"};
+      WHERE name ILIKE ${"%" + substring + "%"};
     `;
     const users: User[] = result.rows as User[];
     return users;
