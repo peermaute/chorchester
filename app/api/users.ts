@@ -23,3 +23,16 @@ export const getUser = async (id: string): Promise<User> => {
     throw new Error("Something went wrong");
   }
 };
+export const getUsersByName = async (substring: string): Promise<User[]> => {
+  try {
+    const result = await sql`
+      SELECT * FROM Users
+      WHERE name LIKE ${"%" + substring + "%"};
+    `;
+    const users: User[] = result.rows as User[];
+    return users;
+  } catch (error) {
+    console.error(error);
+    throw new Error("Something went wrong");
+  }
+};
