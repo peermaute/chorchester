@@ -54,7 +54,7 @@ export default function Page({ params }: { params: { id: string } }) {
             </div>
           </div>
         ) : (
-          <div>Loading...</div>
+          <p className="text-gray-400">Loading...</p>
         )}
       </div>
     </div>

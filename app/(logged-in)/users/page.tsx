@@ -47,6 +47,7 @@ const UserList: React.FC = () => {
           <SegmentedControl.Button>Orchester</SegmentedControl.Button>
         </SegmentedControl>
       </div>
+      {userList.length === 0 && <p className="text-gray-400">Loading...</p>}
       {userList.map((user) => (
         <div className="w-3/4 lg:w-1/3 2xl:w-1/4" key={user.id}>
           <UserCard user={user} />
