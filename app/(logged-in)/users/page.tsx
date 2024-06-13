@@ -48,7 +48,9 @@ const UserList: React.FC = () => {
         </SegmentedControl>
       </div>
       {userList.map((user) => (
-        <UserCard user={user} key={user.id} />
+        <div className="w-3/4 lg:w-1/3 2xl:w-1/4" key={user.id}>
+          <UserCard user={user} />
+        </div>
       ))}
     </div>
   );
