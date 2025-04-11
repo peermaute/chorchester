@@ -15,7 +15,9 @@ export default function UsersPage() {
     if (value === "all") {
       setUserList(dbUsers);
     } else {
-      setUserList(dbUsers.filter((user) => user.ensemble === value));
+      setUserList(
+        dbUsers.filter((user) => user.ensemble.toLowerCase() === value)
+      );
     }
   };
 
@@ -34,12 +36,12 @@ export default function UsersPage() {
         <Tabs
           value={activeTab}
           onValueChange={handleFilterChange}
-          className="w-[300px]"
+          className="w-full flex justify-center"
         >
-          <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="all">All</TabsTrigger>
-            <TabsTrigger value="Kammerchor">Kammerchor</TabsTrigger>
-            <TabsTrigger value="Orchester">Orchester</TabsTrigger>
+          <TabsList className="grid grid-cols-3 min-w-[280px]">
+            <TabsTrigger value="all">Alle</TabsTrigger>
+            <TabsTrigger value="kammerchor">Kammerchor</TabsTrigger>
+            <TabsTrigger value="orchester">Orchester</TabsTrigger>
           </TabsList>
         </Tabs>
       </div>

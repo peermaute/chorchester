@@ -30,8 +30,8 @@ const Search = () => {
 
   return (
     <div className="flex justify-center mt-10">
-      <div className="flex w-4/5 xl:w-1/3 flex-col items-center">
-        <div className="relative flex items-center mb-7 w-4/5">
+      <div className="flex w-11/12 xl:w-2/3 flex-col items-center">
+        <div className="relative flex items-center mb-7 w-11/12">
           <input
             type="text"
             value={input}
@@ -39,7 +39,7 @@ const Search = () => {
             onChange={(event) => setInput(event.target.value)}
             placeholder="Search for User"
             autoFocus
-            className="block w-full rounded-xl border border-gray-300 px-5 py-4 pr-14 tracking-wider text-gray-900 drop-shadow-sm transition placeholder:text-gray-400 hover:drop-shadow-md focus:outline-none focus:border-iceBlue focus:ring-0 focus:drop-shadow-md"
+            className="block w-full rounded-xl border border-muted bg-background px-5 py-4 pr-14 tracking-wider text-foreground drop-shadow-sm transition placeholder:text-muted-foreground/60 hover:drop-shadow-md focus:outline-none focus:border-muted-foreground/40 focus:ring-0 focus:drop-shadow-md"
             onKeyDown={(event) => {
               if (event.key === "Enter") {
                 handleSubmit();
@@ -52,7 +52,7 @@ const Search = () => {
               handleSubmit();
             }}
           >
-            <kbd className="inline-flex items-center rounded border border-gray-200 px-2 pt-1 font-sans text-xs text-gray-400">
+            <kbd className="inline-flex items-center rounded border border-muted px-2 pt-1 font-sans text-xs text-muted-foreground/60">
               ↵
             </kbd>
           </div>
@@ -63,7 +63,9 @@ const Search = () => {
           </div>
         ))}
         {noUserFound && (
-          <p className="text-center text-gray-400">No user found ☹</p>
+          <p className="text-center text-muted-foreground/60">
+            No user found ☹
+          </p>
         )}
       </div>
     </div>
