@@ -3,17 +3,26 @@ import "../globals.css";
 import Footer from "../components/footer";
 import Header from "../components/header";
 import { ThemeProvider } from "@/components/theme-provider";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "Chorchester",
   description: "Portal für Personen der Unimusik Hamburg",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await getServerSession(authOptions);
+
+  if (!session) {
+    redirect("/login");
+  }
+
   return (
     <html lang="de" suppressHydrationWarning>
       <body className="min-h-screen bg-background font-sans antialiased">
