@@ -11,7 +11,12 @@ const Footer = () => {
   const router = useRouter();
   const pathname = usePathname();
 
-  const isActive = (path: string) => pathname === path;
+  const isActive = (path: string) => {
+    // Handle root path
+    if (path === "/" && pathname === "/") return true;
+    // Handle nested paths (e.g., /users/123 should match /users)
+    return pathname.startsWith(path) && path !== "/";
+  };
 
   return (
     <footer className="w-full">
