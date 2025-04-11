@@ -67,6 +67,13 @@ const Profile = () => {
     console.log(values);
   }
 
+  const handleCancel = () => {
+    form.setValue("name", user.name);
+    form.setValue("ensemble", user.ensemble);
+    form.setValue("stimmgruppe", user.stimmgruppe);
+    form.setValue("personal_info", user.personal_info);
+  };
+
   return (
     <div className="flex flex-row justify-center items-center w-full">
       <Form {...form}>
@@ -103,10 +110,7 @@ const Profile = () => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Ensemble</FormLabel>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
+                <Select onValueChange={field.onChange} value={field.value}>
                   <FormControl>
                     <SelectTrigger>
                       <SelectValue placeholder="Select an ensemble" />
@@ -128,10 +132,7 @@ const Profile = () => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Stimmgruppe</FormLabel>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
+                <Select onValueChange={field.onChange} value={field.value}>
                   <FormControl>
                     <SelectTrigger>
                       <SelectValue placeholder="Select a stimmgruppe" />
@@ -219,8 +220,8 @@ const Profile = () => {
           />
 
           <div className="flex justify-between">
-            <Button variant="outline" onClick={() => router.push("/settings")}>
-              Account Settings
+            <Button variant="outline" type="button" onClick={handleCancel}>
+              Cancel
             </Button>
             <Button type="submit">Save</Button>
           </div>

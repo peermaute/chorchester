@@ -29,9 +29,9 @@ const Search = () => {
   };
 
   return (
-    <div className="flex justify-center mt-10">
-      <div className="flex w-11/12 xl:w-2/3 flex-col items-center">
-        <div className="relative flex items-center mb-7 w-11/12">
+    <div className="flex flex-col items-center p-4">
+      <div className="w-full max-w-2xl space-y-4">
+        <div className="relative flex items-center max-w-xs sm:max-w-sm mx-auto w-full">
           <input
             type="text"
             value={input}
@@ -57,16 +57,18 @@ const Search = () => {
             </kbd>
           </div>
         </div>
-        {users.map((user) => (
-          <div className="w-full lg:w-3/4" key={user.id}>
-            <UserCard user={user} />
-          </div>
-        ))}
-        {noUserFound && (
-          <p className="text-center text-muted-foreground/60">
-            No user found ☹
-          </p>
-        )}
+        <div className="grid gap-4">
+          {users.map((user) => (
+            <div className="w-full" key={user.id}>
+              <UserCard user={user} />
+            </div>
+          ))}
+          {noUserFound && (
+            <p className="text-center text-muted-foreground/60">
+              No user found ☹
+            </p>
+          )}
+        </div>
       </div>
     </div>
   );

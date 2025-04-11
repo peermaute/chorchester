@@ -2,6 +2,7 @@
 import { ListIcon } from "./list-icon";
 import { SearchIcon } from "./search-icon";
 import { UserIcon } from "./user-icon";
+import { SettingsIcon } from "./icons/settings-icon";
 import { useRouter, usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -44,6 +45,23 @@ const Footer = () => {
           <SearchIcon
             currentColor={
               isActive("/search")
+                ? "hsl(var(--accent-foreground))"
+                : "hsl(var(--foreground))"
+            }
+          />
+        </Button>
+        <Button
+          variant="ghost"
+          size="icon"
+          className={cn(
+            "h-10 w-10 rounded-full",
+            isActive("/settings") && "bg-accent text-accent-foreground"
+          )}
+          onClick={() => router.push("/settings")}
+        >
+          <SettingsIcon
+            currentColor={
+              isActive("/settings")
                 ? "hsl(var(--accent-foreground))"
                 : "hsl(var(--foreground))"
             }

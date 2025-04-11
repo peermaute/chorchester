@@ -45,7 +45,7 @@ export default function UsersPage() {
           </TabsList>
         </Tabs>
       </div>
-      <div className="grid gap-4">
+      <div className="grid gap-4 max-w-2xl mx-auto">
         {userList.length === 0 && <p className="text-gray-400">Loading...</p>}
         {userList.map((user) => (
           <div className="w-full" key={user.id}>
