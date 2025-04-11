@@ -5,7 +5,7 @@ import Header from "../components/header";
 import { ThemeProvider } from "@/components/theme-provider";
 
 export const metadata: Metadata = {
-  title: "Unimusik",
+  title: "Chorchester",
   description: "Portal für Personen der Unimusik Hamburg",
 };
 

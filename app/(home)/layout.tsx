@@ -3,7 +3,7 @@ import "../globals.css";
 import Header from "../components/header";
 
 export const metadata: Metadata = {
-  title: "Unimusik",
+  title: "Chorchester",
   description: "Portal für Personen der Unimusik Hamburg",
 };
 
