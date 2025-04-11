@@ -1,4 +1,4 @@
-# Unimusik
+# Chorchester
 
 This project is a registry for members of the chambre choir and orchestra of the university of Hamburg. People can create accounts and fill their associated profiles with info.
 
