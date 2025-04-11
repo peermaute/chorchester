@@ -39,7 +39,7 @@ const Search = () => {
             onChange={(event) => setInput(event.target.value)}
             placeholder="Search for User"
             autoFocus
-            className="block w-full rounded-xl border border-muted bg-background px-5 py-4 pr-14 tracking-wider text-foreground drop-shadow-sm transition placeholder:text-muted-foreground/60 hover:drop-shadow-md focus:outline-none focus:border-muted-foreground/40 focus:ring-0 focus:drop-shadow-md"
+            className="block w-full rounded-md border border-muted bg-background px-5 py-4 pr-14 tracking-wider text-foreground drop-shadow-sm transition placeholder:text-muted-foreground/60 hover:drop-shadow-md focus:outline-none focus:border-muted-foreground/40 focus:ring-0 focus:drop-shadow-md"
             onKeyDown={(event) => {
               if (event.key === "Enter") {
                 handleSubmit();
@@ -52,7 +52,7 @@ const Search = () => {
               handleSubmit();
             }}
           >
-            <kbd className="inline-flex items-center rounded border border-muted px-2 pt-1 font-sans text-xs text-muted-foreground/60">
+            <kbd className="inline-flex items-center rounded-md border border-muted px-2 pt-1 font-sans text-xs text-muted-foreground/60">
               ↵
             </kbd>
           </div>
