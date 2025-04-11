@@ -32,6 +32,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { UserIcon } from "@/app/components/user-icon";
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -84,6 +85,11 @@ const Profile = () => {
   return (
     <div className="flex flex-col items-center p-4">
       <div className="w-full max-w-2xl space-y-6">
+        <div className="flex items-center gap-2 pl-4">
+          <UserIcon currentColor="hsl(var(--foreground))" />
+          <h1 className="text-2xl font-semibold">Profile</h1>
+        </div>
+
         <Card>
           <CardHeader>
             <CardTitle>Profile Picture</CardTitle>

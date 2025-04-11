@@ -46,7 +46,11 @@ export default function UsersPage() {
         </Tabs>
       </div>
       <div className="grid gap-4 max-w-2xl mx-auto">
-        {userList.length === 0 && <p className="text-gray-400">Loading...</p>}
+        {userList.length === 0 && (
+          <div className="flex items-center justify-center h-32">
+            <p className="text-gray-400">Loading...</p>
+          </div>
+        )}
         {userList.map((user) => (
           <div className="w-full" key={user.id}>
             <UserCard user={user} />

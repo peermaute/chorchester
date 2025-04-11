@@ -15,7 +15,7 @@ export default function SettingsPage() {
   return (
     <div className="flex flex-col items-center p-4">
       <div className="w-full max-w-2xl space-y-6">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 pl-4">
           <SettingsIcon currentColor="hsl(var(--foreground))" />
           <h1 className="text-2xl font-semibold">Settings</h1>
         </div>
