@@ -10,7 +10,7 @@ const Header = () => {
           className="text-2xl mr-4 font-semibold pb-1 hover:cursor-pointer"
           onClick={() => router.push("/")}
         >
-          Unimusik
+          Chorchester
         </h1>
         <Image
           src={"/unimusik-logo.png"}

@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 import "../globals.css";
 import Footer from "../components/footer";
 import Header from "../components/header";
-import { ThemeProvider, BaseStyles } from "@primer/react";
+import { ThemeProvider } from "@/components/theme-provider";
 
 export const metadata: Metadata = {
-  title: "Unimusik",
+  title: "Chorchester",
   description: "Portal für Personen der Unimusik Hamburg",
 };
 
@@ -15,19 +15,23 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="de">
-      <body className="flex-col bg-white">
-        <ThemeProvider>
-          <BaseStyles>
+    <html lang="de" suppressHydrationWarning>
+      <body className="min-h-screen bg-background font-sans antialiased">
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <div className="relative flex min-h-screen flex-col">
             <Header />
-            {children}
-            <div className="min-h-24"></div>
-            <div className="w-screen flex justify-center fixed bottom-0 bg-white">
-              <div className="w-11/12 lg:w-1/2 flex justify-center mb-3 ml-3 mr-3 rounded-lg shadow-md bg-zinc-50">
+            <main className="flex-1 pb-24">{children}</main>
+            <div className="w-full flex justify-center fixed bottom-0 bg-background">
+              <div className="w-full max-w-[500px] flex justify-center mb-3 ml-3 mr-3 rounded-lg shadow-md bg-card">
                 <Footer />
               </div>
             </div>
-          </BaseStyles>
+          </div>
         </ThemeProvider>
       </body>
     </html>
