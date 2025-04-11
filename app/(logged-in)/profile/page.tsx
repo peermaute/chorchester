@@ -2,15 +2,38 @@
 
 import { FormEvent, useState } from "react";
 import Image from "next/image";
-import {
-  Box,
-  Button,
-  FormControl,
-  Select,
-  TextInput,
-  Textarea,
-} from "@primer/react";
 import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
+
+const formSchema = z.object({
+  name: z.string().min(2, {
+    message: "Name must be at least 2 characters.",
+  }),
+  ensemble: z.string(),
+  stimmgruppe: z.string(),
+  personal_info: z.string(),
+});
 
 type User = {
   picture: string;
@@ -29,154 +52,180 @@ const Profile = () => {
     stimmgruppe: "Tenor",
     personal_info: "John is a great singer.",
   };
-  const [formData, setFormData] = useState({
-    picture: user.picture,
-    name: user.name,
-    ensemble: user.ensemble,
-    stimmgruppe: user.stimmgruppe,
-    personal_info: user.personal_info,
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: user.name,
+      ensemble: user.ensemble,
+      stimmgruppe: user.stimmgruppe,
+      personal_info: user.personal_info,
+    },
   });
 
-  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, name: e.target.value });
-  };
-
-  const handleEnsembleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setFormData({ ...formData, ensemble: e.target.value });
-  };
-  const handleStimmgruppeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setFormData({ ...formData, stimmgruppe: e.target.value });
-  };
-
-  const handlePersonalInfoChange = (
-    e: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    setFormData({ ...formData, personal_info: e.target.value });
-  };
-
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log(formData);
-  };
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    console.log(values);
+  }
 
   return (
-    <div className="flex flex-row justify-center items-center">
-      <Box as="form" onSubmit={handleSubmit}>
-        <div className="flex justify-center items-center">
-          <Image
-            src={user.picture}
-            alt={"Profile Picture"}
-            width={200}
-            height={200}
-          />
-        </div>
-        <FormControl sx={{ marginBottom: "12px" }}>
-          <FormControl.Label>Name</FormControl.Label>
-          <TextInput
-            value={formData.name}
-            onChange={handleNameChange}
-            placeholder="Enter your text"
-            sx={{ width: "100%" }}
-          />
-        </FormControl>
-        <FormControl sx={{ marginBottom: "12px" }}>
-          <FormControl.Label>Ensemble</FormControl.Label>
-          <Select
-            name="ensemble"
-            value={formData.ensemble}
-            onChange={handleEnsembleChange}
-            sx={{ width: "100%" }}
-          >
-            <Select.Option value="Kammerchor">Kammerchor</Select.Option>
-            <Select.Option value="Orchester">Orchester</Select.Option>
-          </Select>
-        </FormControl>
+    <div className="flex flex-row justify-center items-center w-full">
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="space-y-8 w-full max-w-md px-4"
+        >
+          <div className="flex justify-center items-center">
+            <Image
+              src={user.picture}
+              alt={"Profile Picture"}
+              width={200}
+              height={200}
+            />
+          </div>
 
-        <FormControl sx={{ marginBottom: "12px" }}>
-          <FormControl.Label>Stimmgruppe</FormControl.Label>
-          <Select
-            name="stimmgruppe"
-            value={formData.stimmgruppe}
-            onChange={handleStimmgruppeChange}
-            placeholder={"Stimmgruppe"}
-            required
-            sx={{ width: "100%" }}
-          >
-            <Select.Option
-              value="Sopran"
-              disabled={formData.ensemble === "Orchester"}
-            >
-              Sopran
-            </Select.Option>
-            <Select.Option
-              value="Alt"
-              disabled={formData.ensemble === "Orchester"}
-            >
-              Alt
-            </Select.Option>
-            <Select.Option
-              value="Tenor"
-              disabled={formData.ensemble === "Orchester"}
-            >
-              Tenor
-            </Select.Option>
-            <Select.Option
-              value="Bass"
-              disabled={formData.ensemble === "Orchester"}
-            >
-              Bass
-            </Select.Option>
-            <Select.Option
-              value="Streichinstrumente"
-              disabled={formData.ensemble === "Kammerchor"}
-            >
-              Streichinstrumente
-            </Select.Option>
-            <Select.Option
-              value="Holzblaeser"
-              disabled={formData.ensemble === "Kammerchor"}
-            >
-              Holzbläser
-            </Select.Option>
-            <Select.Option
-              value="Blechblaeser"
-              disabled={formData.ensemble === "Kammerchor"}
-            >
-              Blechbläser
-            </Select.Option>
-            <Select.Option
-              value="Schlaginstrumente"
-              disabled={formData.ensemble === "Kammerchor"}
-            >
-              Schlaginstrumente
-            </Select.Option>
-            <Select.Option
-              value="Tasteninstrumente"
-              disabled={formData.ensemble === "Kammerchor"}
-            >
-              Tasteninstrumente
-            </Select.Option>
-            <Select.Option value="Andere">Andere</Select.Option>
-          </Select>
-        </FormControl>
-        <FormControl sx={{ marginBottom: "24px" }}>
-          <FormControl.Label>Personal Info</FormControl.Label>
-          <Textarea
-            value={formData.personal_info}
-            onChange={handlePersonalInfoChange}
-            placeholder="Text eingeben"
-            sx={{ width: "100%" }}
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Name</FormLabel>
+                <FormControl>
+                  <Input placeholder="Enter your name" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
           />
-        </FormControl>
-        <div className="flex justify-between">
-          <Button onClick={() => router.push("/settings")}>
-            Account Settings
-          </Button>
-          <Button type="submit" variant="primary">
-            Save
-          </Button>
-        </div>
-      </Box>
+
+          <FormField
+            control={form.control}
+            name="ensemble"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Ensemble</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select an ensemble" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="Kammerchor">Kammerchor</SelectItem>
+                    <SelectItem value="Orchester">Orchester</SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="stimmgruppe"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Stimmgruppe</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a stimmgruppe" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem
+                      value="Sopran"
+                      disabled={form.watch("ensemble") === "Orchester"}
+                    >
+                      Sopran
+                    </SelectItem>
+                    <SelectItem
+                      value="Alt"
+                      disabled={form.watch("ensemble") === "Orchester"}
+                    >
+                      Alt
+                    </SelectItem>
+                    <SelectItem
+                      value="Tenor"
+                      disabled={form.watch("ensemble") === "Orchester"}
+                    >
+                      Tenor
+                    </SelectItem>
+                    <SelectItem
+                      value="Bass"
+                      disabled={form.watch("ensemble") === "Orchester"}
+                    >
+                      Bass
+                    </SelectItem>
+                    <SelectItem
+                      value="Streichinstrumente"
+                      disabled={form.watch("ensemble") === "Kammerchor"}
+                    >
+                      Streichinstrumente
+                    </SelectItem>
+                    <SelectItem
+                      value="Holzblaeser"
+                      disabled={form.watch("ensemble") === "Kammerchor"}
+                    >
+                      Holzbläser
+                    </SelectItem>
+                    <SelectItem
+                      value="Blechblaeser"
+                      disabled={form.watch("ensemble") === "Kammerchor"}
+                    >
+                      Blechbläser
+                    </SelectItem>
+                    <SelectItem
+                      value="Schlaginstrumente"
+                      disabled={form.watch("ensemble") === "Kammerchor"}
+                    >
+                      Schlaginstrumente
+                    </SelectItem>
+                    <SelectItem
+                      value="Tasteninstrumente"
+                      disabled={form.watch("ensemble") === "Kammerchor"}
+                    >
+                      Tasteninstrumente
+                    </SelectItem>
+                    <SelectItem value="Andere">Andere</SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="personal_info"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Personal Info</FormLabel>
+                <FormControl>
+                  <Textarea
+                    placeholder="Enter your personal information"
+                    className="resize-none"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <div className="flex justify-between">
+            <Button variant="outline" onClick={() => router.push("/settings")}>
+              Account Settings
+            </Button>
+            <Button type="submit">Save</Button>
+          </div>
+        </form>
+      </Form>
     </div>
   );
 };

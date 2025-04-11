@@ -1,8 +1,8 @@
 export const SearchIcon = ({ currentColor }: { currentColor: string }) => (
   <svg
-    xmlns="http://www.w4.org/2000/svg"
-    width="40"
-    height="40"
+    xmlns="http://www.w3.org/2000/svg"
+    width="80"
+    height="80"
     viewBox="0 0 24 24"
     fill="none"
     stroke={currentColor}

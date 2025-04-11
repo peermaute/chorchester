@@ -1,7 +1,9 @@
+import { SettingsIcon } from "@/app/components/icons/settings-icon";
+
 const Settings = () => {
   return (
     <div>
-      <h1>Settings</h1>
+      <SettingsIcon currentColor="#4E47C6" /> <h1>Settings</h1>
     </div>
   );
 };

@@ -39,7 +39,7 @@ const Search = () => {
             onChange={(event) => setInput(event.target.value)}
             placeholder="Search for User"
             autoFocus
-            className="block w-full rounded-xl border border-gray-300 px-5 py-4 pr-14 tracking-wider text-gray-900 drop-shadow-sm transition placeholder:text-gray-400 hover:drop-shadow-md focus:outline-none focus:border-bluePurple focus:ring-0 focus:drop-shadow-md"
+            className="block w-full rounded-xl border border-gray-300 px-5 py-4 pr-14 tracking-wider text-gray-900 drop-shadow-sm transition placeholder:text-gray-400 hover:drop-shadow-md focus:outline-none focus:border-iceBlue focus:ring-0 focus:drop-shadow-md"
             onKeyDown={(event) => {
               if (event.key === "Enter") {
                 handleSubmit();
