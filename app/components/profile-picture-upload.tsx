@@ -48,6 +48,7 @@ export function ProfilePictureUpload({
     try {
       const formData = new FormData();
       formData.append("file", file);
+      formData.append("oldUrl", currentPicture);
 
       const response = await fetch("/api/upload", {
         method: "POST",
@@ -100,7 +101,7 @@ export function ProfilePictureUpload({
                 {isUploading ? "Uploading..." : "Change Picture"}
               </label>
             </Button>
-            {error && <p className="text-sm text-red-500">{error}</p>}
+            {error && <p className="text-sm text-destructive">{error}</p>}
           </div>
         </div>
       </CardContent>
