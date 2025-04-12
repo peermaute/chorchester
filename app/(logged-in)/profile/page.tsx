@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -32,6 +33,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { UserIcon } from "@/app/components/user-icon";
+import { ProfilePictureUpload } from "@/app/components/profile-picture-upload";
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -52,13 +54,13 @@ type User = {
 
 const Profile = () => {
   const router = useRouter();
-  const user: User = {
+  const [user, setUser] = useState<User>({
     picture: "/person.svg",
     name: "John Doe",
     ensemble: "Kammerchor",
     stimmgruppe: "Tenor",
     personal_info: "John is a great singer.",
-  };
+  });
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -81,6 +83,10 @@ const Profile = () => {
     form.setValue("personal_info", user.personal_info);
   };
 
+  const handlePictureUpload = (url: string) => {
+    setUser((prev: User) => ({ ...prev, picture: url }));
+  };
+
   return (
     <div className="flex flex-col items-center p-4">
       <div className="w-full max-w-2xl space-y-6">
@@ -89,36 +95,21 @@ const Profile = () => {
           <h1 className="text-2xl font-semibold">Profile</h1>
         </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Profile Picture</CardTitle>
-            <CardDescription>Update your profile picture</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="flex justify-center items-center">
-              <div className="relative w-48 h-48">
-                <Image
-                  src={user.picture}
-                  alt="Profile Picture"
-                  fill
-                  className="rounded-full object-cover"
-                  priority
-                />
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+        <ProfilePictureUpload
+          currentPicture={user.picture}
+          onUploadSuccess={handlePictureUpload}
+        />
 
         <Card>
           <CardHeader>
-            <CardTitle>Personal Information</CardTitle>
+            <CardTitle>Profile Information</CardTitle>
             <CardDescription>Update your profile information</CardDescription>
           </CardHeader>
           <CardContent>
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
-                className="space-y-6"
+                className="space-y-4"
               >
                 <FormField
                   control={form.control}
@@ -127,7 +118,7 @@ const Profile = () => {
                     <FormItem>
                       <FormLabel>Name</FormLabel>
                       <FormControl>
-                        <Input placeholder="Enter your name" {...field} />
+                        <Input placeholder="Your name" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -255,15 +246,15 @@ const Profile = () => {
                   )}
                 />
 
-                <div className="flex justify-between">
+                <div className="flex justify-between gap-4 sm:justify-end">
                   <Button
-                    variant="outline"
                     type="button"
+                    variant="outline"
                     onClick={handleCancel}
                   >
                     Cancel
                   </Button>
-                  <Button type="submit">Save</Button>
+                  <Button type="submit">Save Changes</Button>
                 </div>
               </form>
             </Form>
