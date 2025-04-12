@@ -113,8 +113,23 @@ const Profile = () => {
     }
   };
 
-  const handlePictureUpload = (url: string) => {
-    setUser((prev) => (prev ? { ...prev, picture: url } : null));
+  const handlePictureUpload = async (url: string) => {
+    if (!session?.user?.email) return;
+
+    try {
+      const updatedUser = await updateUser(session.user.email, {
+        name: user?.name || "",
+        ensemble: user?.ensemble || "",
+        stimmgruppe: user?.stimmgruppe || "",
+        personal_info: user?.personal_info || "",
+        picture: url,
+      });
+      setUser(updatedUser);
+      toast.success("Profile picture updated successfully!");
+    } catch (error) {
+      console.error("Error updating profile picture:", error);
+      toast.error("Failed to update profile picture");
+    }
   };
 
   if (isLoading) {
