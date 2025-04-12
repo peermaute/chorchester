@@ -1,5 +1,6 @@
 "use client";
 
+import { signOut } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import { SettingsIcon } from "@/app/components/icons/settings-icon";
 import { LogOutIcon, Trash2Icon } from "lucide-react";
@@ -71,7 +72,11 @@ export default function SettingsPage() {
           </CardContent>
         </Card>
 
-        <Button variant="outline" className="w-full gap-2">
+        <Button
+          variant="outline"
+          className="w-full gap-2"
+          onClick={() => signOut({ callbackUrl: "/" })}
+        >
           <LogOutIcon className="h-4 w-4" />
           Log Out
         </Button>
