@@ -34,9 +34,10 @@ import {
 } from "@/components/ui/card";
 import { UserIcon } from "@/app/components/user-icon";
 import { ProfilePictureUpload } from "@/app/components/profile-picture-upload";
-import { getUserByEmail } from "@/app/api/users";
+import { getUserByEmail, updateUser } from "@/app/api/users";
 import { useSession } from "next-auth/react";
 import { User } from "@/app/types/User";
+import { toast } from "sonner";
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -85,8 +86,20 @@ const Profile = () => {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    if (!session?.user?.email) return;
+
+    try {
+      const updatedUser = await updateUser(session.user.email, {
+        ...values,
+        picture: user?.picture,
+      });
+      setUser(updatedUser);
+      toast.success("Profile updated successfully!");
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      toast.error("Failed to update profile");
+    }
   }
 
   const handleCancel = () => {

@@ -35,6 +35,36 @@ export const getUserByEmail = async (email: string): Promise<User> => {
   }
 };
 
+export const updateUser = async (
+  email: string,
+  data: {
+    name: string;
+    ensemble: string;
+    stimmgruppe?: string;
+    personal_info?: string;
+    picture?: string;
+  }
+): Promise<User> => {
+  try {
+    const result = await sql`
+      UPDATE Users 
+      SET 
+        name = ${data.name},
+        ensemble = ${data.ensemble},
+        stimmgruppe = ${data.stimmgruppe || null},
+        personal_info = ${data.personal_info || null},
+        picture = ${data.picture || null}
+      WHERE email = ${email}
+      RETURNING *
+    `;
+    const users: User[] = result.rows as User[];
+    return users[0];
+  } catch (error) {
+    console.error(error);
+    throw new Error("Failed to update user");
+  }
+};
+
 export const getUsersByName = async (substring: string): Promise<User[]> => {
   try {
     const result = await sql`
