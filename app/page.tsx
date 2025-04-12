@@ -27,7 +27,7 @@ export default async function Home() {
         </CardHeader>
         <CardContent className="space-y-4">
           <p className="text-center text-muted-foreground">
-            Don't wait for tomorrow - join today
+            Don&apos;t wait for tomorrow - join today
           </p>
           <Link href="/signin" className="block">
             <Button className="w-full">Sign In</Button>
