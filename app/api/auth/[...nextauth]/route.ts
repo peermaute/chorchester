@@ -1,6 +1,6 @@
 import NextAuth from "next-auth";
 import Google from "next-auth/providers/google";
-import { DefaultSession } from "next-auth";
+import { DefaultSession, NextAuthOptions } from "next-auth";
 import { sql } from "@vercel/postgres";
 
 declare module "next-auth" {
@@ -11,7 +11,7 @@ declare module "next-auth" {
   }
 }
 
-const handler = NextAuth({
+export const authOptions: NextAuthOptions = {
   providers: [
     Google({
       clientId: process.env.GOOGLE_CLIENT_ID!,
@@ -22,7 +22,7 @@ const handler = NextAuth({
     signIn: "/signin",
   },
   callbacks: {
-    async signIn({ user, account, profile }) {
+    async signIn({ user, account }) {
       if (account?.provider === "google") {
         try {
           // Check if user exists
@@ -53,6 +53,8 @@ const handler = NextAuth({
     },
   },
   secret: process.env.NEXTAUTH_SECRET,
-});
+};
+
+const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };

@@ -3,7 +3,7 @@
 import { signOut } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import { SettingsIcon } from "@/app/components/icons/settings-icon";
-import { LogOutIcon, Trash2Icon } from "lucide-react";
+import { LogOutIcon, Trash2Icon, LockIcon } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -27,24 +27,28 @@ export default function SettingsPage() {
             <CardDescription>Manage your account settings</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="flex items-center justify-between">
-              <div>
+            <div className="flex items-center justify-between gap-4">
+              <div className="flex-1">
                 <p className="font-medium">Email</p>
                 <p className="text-sm text-muted-foreground">
-                  user@example.com
+                  Cannot be changed when signed in with a third-party provider
                 </p>
               </div>
-              <Button variant="outline">Change</Button>
+              <Button variant="outline" disabled>
+                <LockIcon className="h-4 w-4" />
+              </Button>
             </div>
             <div className="h-[1px] w-full bg-border" />
-            <div className="flex items-center justify-between">
-              <div>
+            <div className="flex items-center justify-between gap-4">
+              <div className="flex-1">
                 <p className="font-medium">Password</p>
                 <p className="text-sm text-muted-foreground">
-                  Last changed 3 months ago
+                  Managed by your third-party provider
                 </p>
               </div>
-              <Button variant="outline">Change</Button>
+              <Button variant="outline" disabled>
+                <LockIcon className="h-4 w-4" />
+              </Button>
             </div>
           </CardContent>
         </Card>
@@ -57,8 +61,8 @@ export default function SettingsPage() {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="flex items-center justify-between">
-              <div>
+            <div className="flex items-center justify-between gap-4">
+              <div className="flex-1">
                 <p className="font-medium">Delete Account</p>
                 <p className="text-sm text-muted-foreground">
                   Permanently delete your account and all data

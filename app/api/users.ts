@@ -1,6 +1,8 @@
 "use server";
 import { sql } from "@vercel/postgres";
 import { User } from "../types/User";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../api/auth/[...nextauth]/route";
 
 export const getUsers = async (): Promise<User[]> => {
   try {
@@ -14,9 +16,23 @@ export const getUsers = async (): Promise<User[]> => {
 };
 
 export const getUser = async (id: string): Promise<User> => {
+  // Get the current session
+  const session = await getServerSession(authOptions);
+
+  // Check if user is authenticated
+  if (!session?.user?.email) {
+    throw new Error("Not authenticated");
+  }
+
   try {
     const result = await sql`SELECT * FROM Users WHERE id = ${id};`;
     const users: User[] = result.rows as User[];
+
+    // Check if the requested user exists
+    if (users.length === 0) {
+      throw new Error("User not found");
+    }
+
     return users[0];
   } catch (error) {
     console.error(error);
@@ -25,9 +41,28 @@ export const getUser = async (id: string): Promise<User> => {
 };
 
 export const getUserByEmail = async (email: string): Promise<User> => {
+  // Get the current session
+  const session = await getServerSession(authOptions);
+
+  // Check if user is authenticated
+  if (!session?.user?.email) {
+    throw new Error("Not authenticated");
+  }
+
+  // Check if the authenticated user is trying to access their own data
+  if (session.user.email !== email) {
+    throw new Error("Not authorized to access this user's data");
+  }
+
   try {
     const result = await sql`SELECT * FROM Users WHERE email = ${email};`;
     const users: User[] = result.rows as User[];
+
+    // Check if the requested user exists
+    if (users.length === 0) {
+      throw new Error("User not found");
+    }
+
     return users[0];
   } catch (error) {
     console.error(error);
@@ -45,6 +80,19 @@ export const updateUser = async (
     picture?: string;
   }
 ): Promise<User> => {
+  // Get the current session
+  const session = await getServerSession(authOptions);
+
+  // Check if user is authenticated
+  if (!session?.user?.email) {
+    throw new Error("Not authenticated");
+  }
+
+  // Check if the authenticated user is trying to update their own data
+  if (session.user.email !== email) {
+    throw new Error("Not authorized to update this user's data");
+  }
+
   try {
     const result = await sql`
       UPDATE Users 
