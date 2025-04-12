@@ -10,6 +10,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import Image from "next/image";
+import unimusikLogo from "@/public/unimusik-logo.png";
 
 export default function SignIn() {
   return (
@@ -31,7 +32,7 @@ export default function SignIn() {
             </Button>
             <div className="scale-75">
               <Image
-                src={"/unimusik-logo.png"}
+                src={unimusikLogo}
                 alt={"Unimusik Logo"}
                 width={150}
                 height={150}

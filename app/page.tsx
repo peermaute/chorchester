@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/card";
 import Link from "next/link";
 import Image from "next/image";
+import unimusikLogo from "@/public/unimusik-logo.png";
 
 export default async function Home() {
   const session = await getServerSession();
@@ -35,7 +36,7 @@ export default async function Home() {
           <div className="flex justify-center pt-4">
             <div className="scale-75">
               <Image
-                src={"/unimusik-logo.png"}
+                src={unimusikLogo}
                 alt={"Unimusik Logo"}
                 width={150}
                 height={150}

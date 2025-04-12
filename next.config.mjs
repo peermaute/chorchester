@@ -11,6 +11,7 @@ const nextConfig = {
         hostname: "*.public.blob.vercel-storage.com",
       },
     ],
+    unoptimized: true, // This will help with static exports
   },
 };
 
