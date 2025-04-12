@@ -1,6 +1,7 @@
 import NextAuth from "next-auth";
 import Google from "next-auth/providers/google";
 import { DefaultSession } from "next-auth";
+import { sql } from "@vercel/postgres";
 
 declare module "next-auth" {
   interface Session {
@@ -21,6 +22,28 @@ const handler = NextAuth({
     signIn: "/signin",
   },
   callbacks: {
+    async signIn({ user, account, profile }) {
+      if (account?.provider === "google") {
+        try {
+          // Check if user exists
+          const result = await sql`
+            SELECT id FROM Users WHERE email = ${user.email}
+          `;
+
+          if (result.rows.length === 0) {
+            // Create new user only on first sign-in
+            await sql`
+              INSERT INTO Users (name, email, picture)
+              VALUES (${user.name}, ${user.email}, ${user.image})
+            `;
+          }
+        } catch (error) {
+          console.error("Error saving user to database:", error);
+          return false;
+        }
+      }
+      return true;
+    },
     async session({ session, token }) {
       if (session.user && token.sub) {
         session.user.id = token.sub;
