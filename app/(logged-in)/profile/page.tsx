@@ -54,6 +54,16 @@ const Profile = () => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: "",
+      ensemble: "",
+      stimmgruppe: "",
+      personal_info: "",
+    },
+  });
+
   useEffect(() => {
     const loadUserData = async () => {
       if (session?.user?.email) {
@@ -74,17 +84,7 @@ const Profile = () => {
     };
 
     loadUserData();
-  }, [session]);
-
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: "",
-      ensemble: "",
-      stimmgruppe: "",
-      personal_info: "",
-    },
-  });
+  }, [session, form]);
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     if (!session?.user?.email) return;

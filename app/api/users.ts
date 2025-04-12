@@ -2,7 +2,7 @@
 import { sql } from "@vercel/postgres";
 import { User } from "../types/User";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../api/auth/[...nextauth]/route";
+import { authOptions } from "../api/auth/options";
 import { del } from "@vercel/blob";
 
 export const getUsers = async (): Promise<User[]> => {
