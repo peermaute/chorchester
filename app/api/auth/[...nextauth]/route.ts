@@ -44,9 +44,10 @@ const handler = NextAuth({
       }
       return true;
     },
-    async session({ session, token }) {
-      if (session.user && token.sub) {
-        session.user.id = token.sub;
+    async session({ session }) {
+      if (session.user) {
+        // Use email as the user ID
+        session.user.id = session.user.email!;
       }
       return session;
     },

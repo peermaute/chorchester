@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -34,6 +34,9 @@ import {
 } from "@/components/ui/card";
 import { UserIcon } from "@/app/components/user-icon";
 import { ProfilePictureUpload } from "@/app/components/profile-picture-upload";
+import { getUserByEmail } from "@/app/api/users";
+import { useSession } from "next-auth/react";
+import { User } from "@/app/types/User";
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -44,31 +47,41 @@ const formSchema = z.object({
   personal_info: z.string(),
 });
 
-type User = {
-  picture: string;
-  name: string;
-  ensemble: string;
-  stimmgruppe: string;
-  personal_info: string;
-};
-
 const Profile = () => {
   const router = useRouter();
-  const [user, setUser] = useState<User>({
-    picture: "/person.svg",
-    name: "John Doe",
-    ensemble: "Kammerchor",
-    stimmgruppe: "Tenor",
-    personal_info: "John is a great singer.",
-  });
+  const { data: session } = useSession();
+  const [user, setUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const loadUserData = async () => {
+      if (session?.user?.email) {
+        try {
+          const userData = await getUserByEmail(session.user.email);
+          setUser(userData);
+          form.reset({
+            name: userData.name,
+            ensemble: userData.ensemble,
+            stimmgruppe: userData.stimmgruppe || "",
+            personal_info: userData.personal_info || "",
+          });
+        } catch (error) {
+          console.error("Error loading user data:", error);
+        }
+      }
+      setIsLoading(false);
+    };
+
+    loadUserData();
+  }, [session]);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: user.name,
-      ensemble: user.ensemble,
-      stimmgruppe: user.stimmgruppe,
-      personal_info: user.personal_info,
+      name: "",
+      ensemble: "",
+      stimmgruppe: "",
+      personal_info: "",
     },
   });
 
@@ -77,15 +90,35 @@ const Profile = () => {
   }
 
   const handleCancel = () => {
-    form.setValue("name", user.name);
-    form.setValue("ensemble", user.ensemble);
-    form.setValue("stimmgruppe", user.stimmgruppe);
-    form.setValue("personal_info", user.personal_info);
+    if (user) {
+      form.reset({
+        name: user.name,
+        ensemble: user.ensemble,
+        stimmgruppe: user.stimmgruppe || "",
+        personal_info: user.personal_info || "",
+      });
+    }
   };
 
   const handlePictureUpload = (url: string) => {
-    setUser((prev: User) => ({ ...prev, picture: url }));
+    setUser((prev) => (prev ? { ...prev, picture: url } : null));
   };
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <p className="text-gray-400">Loading...</p>
+      </div>
+    );
+  }
+
+  if (!user) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <p className="text-gray-400">User not found</p>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col items-center p-4">
@@ -124,7 +157,6 @@ const Profile = () => {
                     </FormItem>
                   )}
                 />
-
                 <FormField
                   control={form.control}
                   name="ensemble"
@@ -133,11 +165,11 @@ const Profile = () => {
                       <FormLabel>Ensemble</FormLabel>
                       <Select
                         onValueChange={field.onChange}
-                        value={field.value}
+                        defaultValue={field.value}
                       >
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder="Select an ensemble" />
+                            <SelectValue placeholder="Select your ensemble" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -149,7 +181,6 @@ const Profile = () => {
                     </FormItem>
                   )}
                 />
-
                 <FormField
                   control={form.control}
                   name="stimmgruppe"
@@ -158,76 +189,24 @@ const Profile = () => {
                       <FormLabel>Stimmgruppe</FormLabel>
                       <Select
                         onValueChange={field.onChange}
-                        value={field.value}
+                        defaultValue={field.value}
                       >
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder="Select a stimmgruppe" />
+                            <SelectValue placeholder="Select your voice group" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          <SelectItem
-                            value="Sopran"
-                            disabled={form.watch("ensemble") === "Orchester"}
-                          >
-                            Sopran
-                          </SelectItem>
-                          <SelectItem
-                            value="Alt"
-                            disabled={form.watch("ensemble") === "Orchester"}
-                          >
-                            Alt
-                          </SelectItem>
-                          <SelectItem
-                            value="Tenor"
-                            disabled={form.watch("ensemble") === "Orchester"}
-                          >
-                            Tenor
-                          </SelectItem>
-                          <SelectItem
-                            value="Bass"
-                            disabled={form.watch("ensemble") === "Orchester"}
-                          >
-                            Bass
-                          </SelectItem>
-                          <SelectItem
-                            value="Streichinstrumente"
-                            disabled={form.watch("ensemble") === "Kammerchor"}
-                          >
-                            Streichinstrumente
-                          </SelectItem>
-                          <SelectItem
-                            value="Holzblaeser"
-                            disabled={form.watch("ensemble") === "Kammerchor"}
-                          >
-                            Holzbläser
-                          </SelectItem>
-                          <SelectItem
-                            value="Blechblaeser"
-                            disabled={form.watch("ensemble") === "Kammerchor"}
-                          >
-                            Blechbläser
-                          </SelectItem>
-                          <SelectItem
-                            value="Schlaginstrumente"
-                            disabled={form.watch("ensemble") === "Kammerchor"}
-                          >
-                            Schlaginstrumente
-                          </SelectItem>
-                          <SelectItem
-                            value="Tasteninstrumente"
-                            disabled={form.watch("ensemble") === "Kammerchor"}
-                          >
-                            Tasteninstrumente
-                          </SelectItem>
-                          <SelectItem value="Andere">Andere</SelectItem>
+                          <SelectItem value="Sopran">Sopran</SelectItem>
+                          <SelectItem value="Alt">Alt</SelectItem>
+                          <SelectItem value="Tenor">Tenor</SelectItem>
+                          <SelectItem value="Bass">Bass</SelectItem>
                         </SelectContent>
                       </Select>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-
                 <FormField
                   control={form.control}
                   name="personal_info"
@@ -236,7 +215,7 @@ const Profile = () => {
                       <FormLabel>Personal Info</FormLabel>
                       <FormControl>
                         <Textarea
-                          placeholder="Enter your personal information"
+                          placeholder="Tell us about yourself"
                           className="resize-none"
                           {...field}
                         />

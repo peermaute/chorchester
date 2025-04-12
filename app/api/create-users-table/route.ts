@@ -6,7 +6,7 @@ export async function GET(request: Request) {
     const result = await sql`CREATE TABLE Users (
         id SERIAL PRIMARY KEY, 
         name varchar(255), 
-        email varchar(255),
+        email varchar(255) UNIQUE,
         picture varchar(255),
         ensemble varchar(255), 
         stimmgruppe varchar(255), 
