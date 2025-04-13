@@ -40,15 +40,16 @@ export const config = {
   matcher: [
     /*
      * Match all request paths except for the ones starting with:
-     * - api/auth (auth endpoints)
+     * - api (API routes)
      * - _next/static (static files)
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
      * - public folder
      * - root route (/)
-     * - signin route (/signin)
-     * - terms route (/terms)
+     * - signin (sign in page)
+     * - register (registration page)
+     * - impressum (legal information page)
      */
-    "/((?!api/auth|_next/static|_next/image|favicon.ico|public|$|signin|terms).*)",
+    "/((?!api|_next/static|_next/image|favicon.ico|public|$|signin|register|impressum).*)",
   ],
 };

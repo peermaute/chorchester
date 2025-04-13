@@ -48,6 +48,14 @@ export default async function Home() {
           </div>
         </CardContent>
       </Card>
+      <div className="absolute bottom-4 w-full text-center">
+        <Link
+          href="/impressum"
+          className="text-sm text-muted-foreground hover:text-foreground"
+        >
+          Impressum
+        </Link>
+      </div>
     </div>
   );
 }
