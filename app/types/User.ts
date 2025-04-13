@@ -1,8 +1,10 @@
 export interface User {
-  id: number;
+  id: string;
   name: string;
-  picture: string;
+  email: string;
+  picture?: string;
   ensemble: string;
   stimmgruppe?: string;
   personal_info?: string;
+  terms_accepted: boolean;
 }

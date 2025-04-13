@@ -23,12 +23,14 @@ export default async function Home() {
     <div className="flex min-h-screen items-center justify-center p-4">
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle>Welcome to Chorchester</CardTitle>
-          <CardDescription>Your choir and orchestra companion</CardDescription>
+          <CardTitle>Willkommen bei Chorchester</CardTitle>
+          <CardDescription>
+            <p>Viele Leute, viele Namen, viele Gesichter...</p>
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <p className="text-center text-muted-foreground">
-            Don&apos;t wait for tomorrow - join today
+            Je mehr dabei sind, desto besser!
           </p>
           <Link href="/signin" className="block">
             <Button className="w-full">Sign In</Button>

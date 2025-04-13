@@ -1,8 +1,32 @@
 import { withAuth } from "next-auth/middleware";
 import { NextResponse } from "next/server";
+import { sql } from "@vercel/postgres";
 
 export default withAuth(
-  function middleware(req) {
+  async function middleware(req) {
+    const session = req.nextauth.token;
+
+    if (session?.email) {
+      try {
+        const result = await sql`
+          SELECT terms_accepted FROM Users WHERE email = ${session.email}
+        `;
+
+        const user = result.rows[0];
+
+        // If user exists and hasn't accepted terms, redirect to terms page
+        if (
+          user &&
+          !user.terms_accepted &&
+          !req.nextUrl.pathname.startsWith("/terms")
+        ) {
+          return NextResponse.redirect(new URL("/terms", req.url));
+        }
+      } catch (error) {
+        console.error("Error checking terms acceptance:", error);
+      }
+    }
+
     return NextResponse.next();
   },
   {
@@ -23,7 +47,8 @@ export const config = {
      * - public folder
      * - root route (/)
      * - signin route (/signin)
+     * - terms route (/terms)
      */
-    "/((?!api/auth|_next/static|_next/image|favicon.ico|public|$|signin).*)",
+    "/((?!api/auth|_next/static|_next/image|favicon.ico|public|$|signin|terms).*)",
   ],
 };
