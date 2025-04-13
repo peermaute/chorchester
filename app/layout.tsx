@@ -26,7 +26,18 @@ export default function RootLayout({
       <body className={inter.className} suppressHydrationWarning>
         <Providers>
           {children}
-          <Toaster />
+          <Toaster
+            position="top-center"
+            richColors
+            className="md:scale-125"
+            toastOptions={{
+              className: "md:min-w-[400px]",
+              style: {
+                fontSize: "1rem",
+                padding: "1rem",
+              },
+            }}
+          />
           <CookieBanner />
           <CookieDeclinedBanner />
         </Providers>
