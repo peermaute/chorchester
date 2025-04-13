@@ -11,6 +11,10 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Chorchester",
   description: "Your choir and orchestra companion",
+  icons: {
+    icon: "/unimusik-logo.png",
+    apple: "/unimusik-logo.png",
+  },
 };
 
 export default function RootLayout({
@@ -22,6 +26,8 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/unimusik-logo.png" />
+        <link rel="apple-touch-icon" href="/unimusik-logo.png" />
       </head>
       <body className={inter.className} suppressHydrationWarning>
         <Providers>
