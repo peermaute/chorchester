@@ -11,8 +11,20 @@ import {
 } from "@/components/ui/card";
 import Image from "next/image";
 import unimusikLogo from "@/public/unimusik-logo.png";
+import { useCookieConsent } from "@/app/context/cookie-consent-context";
+import { toast } from "sonner";
 
 export default function SignIn() {
+  const { hasConsent } = useCookieConsent();
+
+  const handleSignIn = () => {
+    if (!hasConsent) {
+      toast.error("Please accept the cookie consent to sign in");
+      return;
+    }
+    signIn("google", { callbackUrl: "/users" });
+  };
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-background">
       <div className="w-full max-w-md px-4">
@@ -24,10 +36,7 @@ export default function SignIn() {
             </CardDescription>
           </CardHeader>
           <CardContent className="flex flex-col items-center">
-            <Button
-              className="w-full mb-6"
-              onClick={() => signIn("google", { callbackUrl: "/users" })}
-            >
+            <Button className="w-full mb-6" onClick={handleSignIn}>
               Sign in with Google
             </Button>
             <div className="scale-75">
