@@ -48,6 +48,26 @@ const formSchema = z.object({
   personal_info: z.string(),
 });
 
+const voiceGroups = ["Sopran", "Alt", "Tenor", "Bass"];
+
+const instrumentGroups = [
+  "Geige",
+  "Bratsche",
+  "Cello",
+  "Kontrabass",
+  "Flöte",
+  "Oboe",
+  "Klarinette",
+  "Fagott",
+  "Horn",
+  "Trompete",
+  "Posaune",
+  "Tuba",
+  "Schlagwerk",
+  "Harfe",
+  "Weitere",
+];
+
 const Profile = () => {
   const router = useRouter();
   const { data: session } = useSession();
@@ -63,6 +83,8 @@ const Profile = () => {
       personal_info: "",
     },
   });
+
+  const selectedEnsemble = form.watch("ensemble");
 
   useEffect(() => {
     const loadUserData = async () => {
@@ -156,21 +178,29 @@ const Profile = () => {
           <h1 className="text-2xl font-semibold">Profile</h1>
         </div>
 
-        <ProfilePictureUpload
-          currentPicture={user.picture}
-          onUploadSuccess={handlePictureUpload}
-        />
+        <Card>
+          <CardHeader>
+            <CardTitle>Profile Picture</CardTitle>
+            <CardDescription>Update your profile picture</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <ProfilePictureUpload
+              currentPicture={user.picture || ""}
+              onUploadSuccess={handlePictureUpload}
+            />
+          </CardContent>
+        </Card>
 
         <Card>
           <CardHeader>
-            <CardTitle>Profile Information</CardTitle>
-            <CardDescription>Update your profile information</CardDescription>
+            <CardTitle>User Information</CardTitle>
+            <CardDescription>Update your personal information</CardDescription>
           </CardHeader>
           <CardContent>
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
-                className="space-y-4"
+                className="space-y-6"
               >
                 <FormField
                   control={form.control}
@@ -214,21 +244,35 @@ const Profile = () => {
                   name="stimmgruppe"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Stimmgruppe</FormLabel>
+                      <FormLabel>
+                        {selectedEnsemble === "Kammerchor"
+                          ? "Stimmgruppe"
+                          : "Instrumentengruppe"}
+                      </FormLabel>
                       <Select
                         onValueChange={field.onChange}
                         defaultValue={field.value}
                       >
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder="Select your voice group" />
+                            <SelectValue
+                              placeholder={`Select your ${
+                                selectedEnsemble === "Kammerchor"
+                                  ? "voice group"
+                                  : "instrument group"
+                              }`}
+                            />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          <SelectItem value="Sopran">Sopran</SelectItem>
-                          <SelectItem value="Alt">Alt</SelectItem>
-                          <SelectItem value="Tenor">Tenor</SelectItem>
-                          <SelectItem value="Bass">Bass</SelectItem>
+                          {(selectedEnsemble === "Kammerchor"
+                            ? voiceGroups
+                            : instrumentGroups
+                          ).map((group) => (
+                            <SelectItem key={group} value={group}>
+                              {group}
+                            </SelectItem>
+                          ))}
                         </SelectContent>
                       </Select>
                       <FormMessage />
@@ -252,8 +296,7 @@ const Profile = () => {
                     </FormItem>
                   )}
                 />
-
-                <div className="flex justify-between gap-4 sm:justify-end">
+                <div className="flex justify-end gap-2">
                   <Button
                     type="button"
                     variant="outline"

@@ -70,41 +70,31 @@ export function ProfilePictureUpload({
   };
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Profile Picture</CardTitle>
-        <CardDescription>
-          Update your profile picture (max {MAX_FILE_SIZE_MB}MB)
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <div className="flex flex-col items-center gap-4">
-          <div className="relative w-48 h-48 rounded-full overflow-hidden">
-            <Image
-              src={currentPicture}
-              alt="Profile picture"
-              fill
-              className="object-cover"
-            />
-          </div>
+    <div className="flex flex-col items-center gap-4">
+      <div className="relative w-48 h-48 rounded-full overflow-hidden">
+        <Image
+          src={currentPicture}
+          alt="Profile picture"
+          fill
+          className="object-cover"
+        />
+      </div>
 
-          <div className="flex flex-col items-center gap-2">
-            <Button variant="default" asChild>
-              <label className="cursor-pointer">
-                <input
-                  type="file"
-                  className="hidden"
-                  accept="image/*"
-                  onChange={handleFileChange}
-                  disabled={isUploading}
-                />
-                {isUploading ? "Uploading..." : "Change Picture"}
-              </label>
-            </Button>
-            {error && <p className="text-sm text-destructive">{error}</p>}
-          </div>
-        </div>
-      </CardContent>
-    </Card>
+      <div className="flex flex-col items-center gap-2">
+        <Button variant="default" asChild>
+          <label className="cursor-pointer">
+            <input
+              type="file"
+              className="hidden"
+              accept="image/*"
+              onChange={handleFileChange}
+              disabled={isUploading}
+            />
+            {isUploading ? "Uploading..." : "Change Picture"}
+          </label>
+        </Button>
+        {error && <p className="text-sm text-destructive">{error}</p>}
+      </div>
+    </div>
   );
 }
