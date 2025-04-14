@@ -35,7 +35,7 @@ export function CookieConsentProvider({
     initialConsent ?? null
   );
   const [hasDeclined, setHasDeclined] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const pathname = usePathname();
 
   useEffect(() => {
@@ -46,6 +46,7 @@ export function CookieConsentProvider({
     } else if (consent === "false") {
       setHasConsent(false);
     }
+    setIsLoading(false);
   }, []);
 
   const setConsent = (consent: boolean) => {
@@ -53,9 +54,10 @@ export function CookieConsentProvider({
     if (consent) {
       setCookie(CONSENT_COOKIE_NAME, "true", {
         maxAge: CONSENT_COOKIE_EXPIRY_DAYS * 24 * 60 * 60,
+        path: "/",
       });
     } else {
-      deleteCookie(CONSENT_COOKIE_NAME);
+      deleteCookie(CONSENT_COOKIE_NAME, { path: "/" });
       // Only sign out and redirect if we're not on the landing page
       if (pathname !== "/") {
         signOut({ callbackUrl: "/" });

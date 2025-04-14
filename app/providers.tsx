@@ -6,7 +6,7 @@ import { CookieConsentProvider } from "@/app/context/cookie-consent-context";
 import { getCookie } from "cookies-next";
 
 export function Providers({ children }: { children: React.ReactNode }) {
-  const initialConsent = getCookie("cookie_consent") === "true" ? true : false;
+  const initialConsent = getCookie("cookie_consent") === "true" ? true : null;
 
   return (
     <CookieConsentProvider initialConsent={initialConsent}>
