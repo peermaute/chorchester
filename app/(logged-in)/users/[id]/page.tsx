@@ -16,7 +16,7 @@ const UserDetailSkeleton = () => (
         <Skeleton className="h-12 w-48" />
       </div>
       <div className="flex justify-center">
-        <Skeleton className="h-[200px] w-[200px] rounded-xl" />
+        <Skeleton className="h-[200px] w-[200px] rounded-full" />
       </div>
       <div>
         <div className="flex items-center mb-1">
@@ -71,13 +71,14 @@ export default function Page({ params }: { params: { id: string } }) {
             <CardContent className="pt-6 *:mb-6">
               <div className="text-3xl text-center">{user?.name}</div>
               <div className="flex justify-center">
-                <Image
-                  src={user?.picture ?? "/person.svg"}
-                  alt={"Profile Picture"}
-                  width={200}
-                  height={200}
-                  className="rounded-xl shadow-md"
-                />
+                <div className="relative w-48 h-48 rounded-full overflow-hidden">
+                  <Image
+                    src={user?.picture ?? "/person.svg"}
+                    alt={"Profile Picture"}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
               </div>
               <div>
                 <div className="flex items-center mb-1">
