@@ -37,7 +37,7 @@ const Search = () => {
             value={input}
             tabIndex={1}
             onChange={(event) => setInput(event.target.value)}
-            placeholder="Search for User"
+            placeholder="Nach User suchen"
             autoFocus
             className="block w-full rounded-md border border-muted bg-background px-5 py-4 pr-14 tracking-wider text-foreground drop-shadow-sm transition placeholder:text-muted-foreground/60 hover:drop-shadow-md focus:outline-none focus:border-muted-foreground/40 focus:ring-0 focus:drop-shadow-md"
             onKeyDown={(event) => {
