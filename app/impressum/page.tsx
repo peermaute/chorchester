@@ -35,8 +35,12 @@ export default function ImpressumPage() {
 
           <div className="pt-6">
             <Link href="/">
-              <Button variant="outline" className="w-full">
-                ← Zurück zur Startseite
+              <Button
+                variant="outline"
+                className="w-full flex items-center justify-center gap-2"
+              >
+                <span className="relative -top-[1px]">←</span>
+                <span>Zurück zur Startseite</span>
               </Button>
             </Link>
           </div>
