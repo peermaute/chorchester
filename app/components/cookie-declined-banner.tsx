@@ -26,18 +26,21 @@ export function CookieDeclinedBanner() {
       <Card className="mx-4 w-full max-w-md p-6">
         <div className="space-y-4">
           <div>
-            <h2 className="text-lg font-semibold">Cookies Required</h2>
+            <h2 className="text-lg font-semibold">Cookies erforderlich</h2>
             <p className="text-sm text-muted-foreground">
-              This website requires functional cookies to operate. Without
-              accepting cookies, you won&apos;t be able to use any features of
-              the website, including signing in.
+              Diese Website benötigt Cookies für die grundlegende
+              Funktionalität. Ohne Cookies ist die Nutzung der Website nicht
+              möglich. Du kannst dich nicht anmelden und keine Funktionen
+              nutzen.
             </p>
           </div>
           <div className="flex justify-end gap-2">
             <Button variant="outline" onClick={handleGoToLanding}>
-              Go to Landing Page
+              Zur Startseite
             </Button>
-            <Button onClick={() => setConsent(true)}>Accept Cookies</Button>
+            <Button onClick={() => setConsent(true)}>
+              Cookies akzeptieren
+            </Button>
           </div>
         </div>
       </Card>

@@ -23,8 +23,15 @@ export function CookieBanner() {
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex-1 text-center sm:text-left">
             <p className="text-sm text-gray-600">
-              We use cookies to enhance your experience. By continuing to visit
-              this site you agree to our use of cookies.
+              <span className="font-semibold">Cookies</span>
+              <br />
+              Diese Website verwendet ausschließlich technisch notwendige
+              Cookies, um grundlegende Funktionen bereitzustellen.
+              <br />
+              Es findet kein Tracking statt und es werden keine Daten zu
+              Werbezwecken verwendet.
+              <br />
+              Bitte stimme der Nutzung dieser Cookies zu.
             </p>
           </div>
           <div className="flex items-center gap-4">
@@ -35,14 +42,14 @@ export function CookieBanner() {
                 setConsent(false);
               }}
             >
-              Decline
+              Ablehnen
             </Button>
             <Button
               onClick={() => {
                 setConsent(true);
               }}
             >
-              Accept
+              Akzeptieren
             </Button>
           </div>
         </div>
