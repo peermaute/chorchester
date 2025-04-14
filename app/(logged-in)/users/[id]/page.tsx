@@ -90,7 +90,11 @@ export default function Page({ params }: { params: { id: string } }) {
               <div>
                 <div className="flex items-center mb-1">
                   <MusicIcon currentColor="#4E47C6" />
-                  <h2 className="text-lg ml-2">Stimmgruppe</h2>
+                  <h2 className="text-lg ml-2">
+                    {user?.ensemble === "Orchester"
+                      ? "Instrumentengruppe"
+                      : "Stimmgruppe"}
+                  </h2>
                 </div>
                 <div className="text-lg text-gray-500">{user?.stimmgruppe}</div>
               </div>
