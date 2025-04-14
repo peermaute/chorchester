@@ -32,13 +32,15 @@ export function ProfilePictureUpload({
 
     // Validate file type
     if (!file.type.startsWith("image/")) {
-      setError("Please upload an image file");
+      setError("Bitte lade eine Bilddatei hoch");
       return;
     }
 
     // Validate file size
     if (file.size > MAX_FILE_SIZE) {
-      setError(`File size should be less than ${MAX_FILE_SIZE_MB}MB`);
+      setError(
+        `Die Dateigröße sollte weniger als ${MAX_FILE_SIZE_MB}MB betragen`
+      );
       return;
     }
 
@@ -57,13 +59,13 @@ export function ProfilePictureUpload({
 
       if (!response.ok) {
         const data = await response.json();
-        throw new Error(data.error || "Upload failed");
+        throw new Error(data.error || "Upload fehlgeschlagen");
       }
 
       const data = await response.json();
       onUploadSuccess?.(data.url);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Upload failed");
+      setError(err instanceof Error ? err.message : "Upload fehlgeschlagen");
     } finally {
       setIsUploading(false);
     }
@@ -90,7 +92,7 @@ export function ProfilePictureUpload({
               onChange={handleFileChange}
               disabled={isUploading}
             />
-            {isUploading ? "Uploading..." : "Change Picture"}
+            {isUploading ? "Wird hochgeladen..." : "Bild ändern"}
           </label>
         </Button>
         {error && <p className="text-sm text-destructive">{error}</p>}

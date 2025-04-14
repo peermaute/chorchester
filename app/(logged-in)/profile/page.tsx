@@ -231,9 +231,9 @@ const Profile = () => {
   if (error) {
     return (
       <div className="flex flex-col items-center justify-center h-[60vh] space-y-4">
-        <p className="text-destructive">Error: {error}</p>
+        <p className="text-destructive">Fehler: {error}</p>
         <Button variant="outline" onClick={() => router.push("/")}>
-          Return to Home
+          Zurück zur Startseite
         </Button>
       </div>
     );
@@ -242,9 +242,9 @@ const Profile = () => {
   if (!user) {
     return (
       <div className="flex flex-col items-center justify-center h-[60vh] space-y-4">
-        <p className="text-muted-foreground">No user profile found</p>
+        <p className="text-muted-foreground">Kein Benutzerprofil gefunden</p>
         <Button variant="outline" onClick={() => router.push("/")}>
-          Return to Home
+          Zurück zur Startseite
         </Button>
       </div>
     );
@@ -255,13 +255,13 @@ const Profile = () => {
       <div className="w-full max-w-2xl space-y-6">
         <div className="flex items-center gap-2 pl-4">
           <UserIcon currentColor="hsl(var(--foreground))" />
-          <h1 className="text-2xl font-semibold">Profile</h1>
+          <h1 className="text-2xl font-semibold">Profil</h1>
         </div>
 
         <Card>
           <CardHeader>
-            <CardTitle>Profile Picture</CardTitle>
-            <CardDescription>Update your profile picture</CardDescription>
+            <CardTitle>Profilbild</CardTitle>
+            <CardDescription>Aktualisiere dein Profilbild</CardDescription>
           </CardHeader>
           <CardContent>
             <ProfilePictureUpload
@@ -273,8 +273,10 @@ const Profile = () => {
 
         <Card>
           <CardHeader>
-            <CardTitle>User Information</CardTitle>
-            <CardDescription>Update your personal information</CardDescription>
+            <CardTitle>Benutzerinformationen</CardTitle>
+            <CardDescription>
+              Aktualisiere deine persönlichen Informationen
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <Form {...form}>
@@ -289,7 +291,7 @@ const Profile = () => {
                     <FormItem>
                       <FormLabel>Name</FormLabel>
                       <FormControl>
-                        <Input placeholder="Your name" {...field} />
+                        <Input placeholder="Dein Name" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -307,7 +309,7 @@ const Profile = () => {
                       >
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder="Select your ensemble" />
+                            <SelectValue placeholder="Wähle dein Ensemble" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -336,10 +338,10 @@ const Profile = () => {
                         <FormControl>
                           <SelectTrigger>
                             <SelectValue
-                              placeholder={`Select your ${
+                              placeholder={`Wähle deine ${
                                 selectedEnsemble === "Kammerchor"
-                                  ? "voice group"
-                                  : "instrument group"
+                                  ? "Stimmgruppe"
+                                  : "Instrumentengruppe"
                               }`}
                             />
                           </SelectTrigger>
@@ -364,11 +366,11 @@ const Profile = () => {
                   name="personal_info"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Personal Info</FormLabel>
+                      <FormLabel>Persönliches</FormLabel>
                       <FormControl>
                         <div className="relative">
                           <Textarea
-                            placeholder="Tell us about yourself"
+                            placeholder="Erzähl uns etwas über dich"
                             className="resize-none pb-6"
                             {...field}
                           />
@@ -382,23 +384,15 @@ const Profile = () => {
                     </FormItem>
                   )}
                 />
-                <div className="flex justify-end gap-2">
+                <div className="flex flex-col xs:flex-row justify-end gap-2">
                   <Button
                     type="button"
                     variant="outline"
                     onClick={handleCancel}
                   >
-                    Cancel
+                    Abbrechen
                   </Button>
-                  <Button type="submit">Save Changes</Button>
-                </div>
-                <div className="flex justify-end">
-                  <Link
-                    href="mailto:support@unimusik.de"
-                    className="text-xs text-muted-foreground hover:text-foreground"
-                  >
-                    Need help? Contact support
-                  </Link>
+                  <Button type="submit">Änderungen speichern</Button>
                 </div>
               </form>
             </Form>
