@@ -34,7 +34,7 @@ export default async function Home() {
             Je mehr dabei sind, desto besser!
           </p>
           <Link href="/signin" className="block">
-            <Button className="w-full">Sign In</Button>
+            <Button className="w-full">Anmelden</Button>
           </Link>
           <div className="flex justify-center pt-4">
             <div className="scale-75">
