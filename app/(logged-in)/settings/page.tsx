@@ -203,7 +203,7 @@ export default function SettingsPage() {
           onClick={() => signOut({ callbackUrl: "/" })}
         >
           <LogOutIcon className="h-4 w-4" />
-          Sign Out
+          Abmelden
         </Button>
       </div>
 
