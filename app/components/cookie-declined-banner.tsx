@@ -7,12 +7,15 @@ import { useRouter, usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
 
 export function CookieDeclinedBanner() {
-  const { hasConsent, setConsent, isLoading } = useCookieConsent();
+  const { hasConsent, setConsent, hasDeclined, isLoading } = useCookieConsent();
   const router = useRouter();
   const pathname = usePathname();
 
-  // Don't show on landing page, if consent is given, or while loading
-  if (hasConsent || pathname === "/" || isLoading) return null;
+  // Don't show if consent is given or while loading
+  if (hasConsent || isLoading) return null;
+
+  // Only show if cookies have been declined
+  if (!hasDeclined) return null;
 
   const handleGoToLanding = () => {
     signOut({ callbackUrl: "/" });
