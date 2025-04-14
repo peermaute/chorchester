@@ -38,6 +38,7 @@ import { getUserByEmail, updateUser } from "@/app/api/users";
 import { useSession } from "next-auth/react";
 import { User } from "@/app/types/User";
 import { toast } from "sonner";
+import { Skeleton } from "../../components/ui/skeleton";
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -70,9 +71,10 @@ const instrumentGroups = [
 
 const Profile = () => {
   const router = useRouter();
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -88,25 +90,42 @@ const Profile = () => {
 
   useEffect(() => {
     const loadUserData = async () => {
-      if (session?.user?.email) {
-        try {
-          const userData = await getUserByEmail(session.user.email);
-          setUser(userData);
-          form.reset({
-            name: userData.name,
-            ensemble: userData.ensemble,
-            stimmgruppe: userData.stimmgruppe || "",
-            personal_info: userData.personal_info || "",
-          });
-        } catch (error) {
-          console.error("Error loading user data:", error);
-        }
+      if (status === "loading") {
+        return;
       }
-      setIsLoading(false);
+
+      if (status === "unauthenticated") {
+        setIsLoading(false);
+        setError("Please sign in to view your profile");
+        return;
+      }
+
+      if (!session?.user?.email) {
+        setIsLoading(false);
+        setError("No session found");
+        return;
+      }
+
+      try {
+        const userData = await getUserByEmail(session.user.email);
+        setUser(userData);
+        form.reset({
+          name: userData.name,
+          ensemble: userData.ensemble,
+          stimmgruppe: userData.stimmgruppe || "",
+          personal_info: userData.personal_info || "",
+        });
+        setError(null);
+      } catch (error) {
+        console.error("Error loading user data:", error);
+        setError("Failed to load user data");
+      } finally {
+        setIsLoading(false);
+      }
     };
 
     loadUserData();
-  }, [session, form]);
+  }, [session, status, form]);
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     if (!session?.user?.email) return;
@@ -156,16 +175,66 @@ const Profile = () => {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center h-screen">
-        <p className="text-gray-400">Loading...</p>
+      <div className="flex flex-col items-center p-4">
+        <div className="w-full max-w-2xl space-y-6">
+          <div className="flex items-center gap-2 pl-4">
+            <Skeleton className="h-8 w-8 rounded-full" />
+            <Skeleton className="h-8 w-24" />
+          </div>
+
+          <Card>
+            <CardHeader>
+              <Skeleton className="h-6 w-32" />
+              <Skeleton className="h-4 w-48" />
+            </CardHeader>
+            <CardContent>
+              <Skeleton className="h-32 w-32 rounded-full mx-auto" />
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <Skeleton className="h-6 w-40" />
+              <Skeleton className="h-4 w-56" />
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="space-y-2">
+                <Skeleton className="h-4 w-16" />
+                <Skeleton className="h-10 w-full" />
+              </div>
+              <div className="space-y-2">
+                <Skeleton className="h-4 w-20" />
+                <Skeleton className="h-10 w-full" />
+              </div>
+              <div className="space-y-2">
+                <Skeleton className="h-4 w-24" />
+                <Skeleton className="h-10 w-full" />
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex flex-col items-center justify-center h-[60vh] space-y-4">
+        <p className="text-destructive">Error: {error}</p>
+        <Button variant="outline" onClick={() => router.push("/")}>
+          Return to Home
+        </Button>
       </div>
     );
   }
 
   if (!user) {
     return (
-      <div className="flex items-center justify-center h-screen">
-        <p className="text-gray-400">User not found</p>
+      <div className="flex flex-col items-center justify-center h-[60vh] space-y-4">
+        <p className="text-muted-foreground">No user profile found</p>
+        <Button variant="outline" onClick={() => router.push("/")}>
+          Return to Home
+        </Button>
       </div>
     );
   }
