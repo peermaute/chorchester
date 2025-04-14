@@ -12,6 +12,11 @@ export function CookieBanner() {
     return null;
   }
 
+  // Don't render anything until we know the consent state
+  if (hasConsent === null) {
+    return null;
+  }
+
   return (
     <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 shadow-lg z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

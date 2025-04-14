@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useEffect, useState } from "react";
 import { signOut } from "next-auth/react";
-import { getCookie, setCookie, deleteCookie } from "@/app/lib/cookies";
+import { getCookie, setCookie, deleteCookie } from "cookies-next";
 import { usePathname } from "next/navigation";
 
 interface CookieConsentContextType {
@@ -26,12 +26,16 @@ const CONSENT_COOKIE_EXPIRY_DAYS = 365; // 1 year
 
 export function CookieConsentProvider({
   children,
+  initialConsent,
 }: {
   children: React.ReactNode;
+  initialConsent?: boolean | null;
 }) {
-  const [hasConsent, setHasConsent] = useState<boolean | null>(null);
+  const [hasConsent, setHasConsent] = useState<boolean | null>(
+    initialConsent ?? null
+  );
   const [hasDeclined, setHasDeclined] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const pathname = usePathname();
 
   useEffect(() => {
@@ -42,13 +46,14 @@ export function CookieConsentProvider({
     } else if (consent === "false") {
       setHasConsent(false);
     }
-    setIsLoading(false);
   }, []);
 
   const setConsent = (consent: boolean) => {
     setHasConsent(consent);
     if (consent) {
-      setCookie(CONSENT_COOKIE_NAME, "true", CONSENT_COOKIE_EXPIRY_DAYS);
+      setCookie(CONSENT_COOKIE_NAME, "true", {
+        maxAge: CONSENT_COOKIE_EXPIRY_DAYS * 24 * 60 * 60,
+      });
     } else {
       deleteCookie(CONSENT_COOKIE_NAME);
       // Only sign out and redirect if we're not on the landing page
