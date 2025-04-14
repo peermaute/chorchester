@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/card";
 import Link from "next/link";
 import Image from "next/image";
-import unimusikLogo from "@/public/unimusik-logo.png";
+import unimusikLogo from "@/public/unimusik-logo.jpeg";
 
 export default async function Home() {
   const session = await getServerSession();

@@ -12,8 +12,8 @@ export const metadata: Metadata = {
   title: "Chorchester",
   description: "Your choir and orchestra companion",
   icons: {
-    icon: "/unimusik-logo.png",
-    apple: "/unimusik-logo.png",
+    icon: "/unimusik-logo.jpeg",
+    apple: "/unimusik-logo.jpeg",
   },
 };
 
@@ -26,8 +26,8 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/unimusik-logo.png" />
-        <link rel="apple-touch-icon" href="/unimusik-logo.png" />
+        <link rel="icon" href="/unimusik-logo.jpeg" />
+        <link rel="apple-touch-icon" href="/unimusik-logo.jpeg" />
       </head>
       <body className={inter.className} suppressHydrationWarning>
         <Providers>

@@ -10,13 +10,15 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import Image from "next/image";
-import unimusikLogo from "@/public/unimusik-logo.png";
+import unimusikLogo from "@/public/unimusik-logo.jpeg";
 import { useCookieConsent } from "@/app/context/cookie-consent-context";
 import { toast } from "sonner";
 import Link from "next/link";
+import { useState } from "react";
 
 export default function SignIn() {
   const { hasConsent } = useCookieConsent();
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
 
   const handleSignIn = () => {
     if (!hasConsent) {
@@ -47,6 +49,12 @@ export default function SignIn() {
                 width={150}
                 height={150}
                 priority={true}
+                loading="eager"
+                quality={100}
+                className={`transition-opacity duration-300 ${
+                  isImageLoaded ? "opacity-100" : "opacity-0"
+                }`}
+                onLoadingComplete={() => setIsImageLoaded(true)}
               />
             </div>
           </CardContent>
