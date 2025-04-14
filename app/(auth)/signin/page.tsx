@@ -23,7 +23,9 @@ export default function SignIn() {
 
   const handleSignIn = () => {
     if (!hasConsent) {
-      toast.error("Please accept the cookie consent to sign in");
+      toast.error(
+        "Bitte akzeptiere die Cookie-Einwilligung, um dich anzumelden"
+      );
       return;
     }
     signIn("google", { callbackUrl: "/users" });
@@ -34,14 +36,14 @@ export default function SignIn() {
       <div className="w-full max-w-md px-4">
         <Card>
           <CardHeader className="items-center">
-            <CardTitle className="text-2xl font-bold">Sign In</CardTitle>
+            <CardTitle className="text-2xl font-bold">Anmelden</CardTitle>
             <CardDescription className="text-base">
-              Choose your sign in method
+              Wähle deine Anmeldemethode
             </CardDescription>
           </CardHeader>
           <CardContent className="flex flex-col items-center">
             <Button className="w-full mb-6" onClick={handleSignIn}>
-              Sign in with Google
+              Mit Google anmelden
             </Button>
             <div className="scale-75">
               <Image
