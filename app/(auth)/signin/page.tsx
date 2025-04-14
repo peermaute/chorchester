@@ -15,6 +15,7 @@ import { useCookieConsent } from "@/app/context/cookie-consent-context";
 import { toast } from "sonner";
 import Link from "next/link";
 import { useState } from "react";
+import { GithubIcon, FileText, Mail } from "lucide-react";
 
 export default function SignIn() {
   const { hasConsent } = useCookieConsent();
@@ -61,12 +62,31 @@ export default function SignIn() {
         </Card>
       </div>
       <div className="absolute bottom-4 w-full text-center">
-        <Link
-          href="/impressum"
-          className="text-sm text-muted-foreground hover:text-foreground"
-        >
-          Impressum
-        </Link>
+        <div className="flex justify-center gap-8">
+          <Link
+            href="/impressum"
+            className="text-sm text-muted-foreground hover:text-foreground flex items-center gap-1.5 px-2 py-1 rounded-md hover:bg-muted/50 transition-colors"
+          >
+            <FileText className="h-4 w-4" />
+            Impressum
+          </Link>
+          <Link
+            href="mailto:peermaute@gmail.com"
+            className="text-sm text-muted-foreground hover:text-foreground flex items-center gap-1.5 px-2 py-1 rounded-md hover:bg-muted/50 transition-colors"
+          >
+            <Mail className="h-4 w-4" />
+            Support
+          </Link>
+          <Link
+            href="https://github.com/peermaute/unimusik"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm text-muted-foreground hover:text-foreground flex items-center gap-1.5 px-2 py-1 rounded-md hover:bg-muted/50 transition-colors"
+          >
+            <GithubIcon className="h-4 w-4" />
+            GitHub
+          </Link>
+        </div>
       </div>
     </div>
   );
