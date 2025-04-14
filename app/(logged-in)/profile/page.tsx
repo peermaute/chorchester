@@ -40,13 +40,23 @@ import { User } from "@/app/types/User";
 import { toast } from "sonner";
 import { Skeleton } from "../../components/ui/skeleton";
 
+const MAX_PERSONAL_INFO_LENGTH = 1000;
+const MAX_NAME_LENGTH = 255;
+
 const formSchema = z.object({
-  name: z.string().min(2, {
-    message: "Name must be at least 2 characters.",
-  }),
+  name: z
+    .string()
+    .min(2, {
+      message: "Name must be at least 2 characters.",
+    })
+    .max(MAX_NAME_LENGTH, {
+      message: `Name must be at most ${MAX_NAME_LENGTH} characters.`,
+    }),
   ensemble: z.string(),
   stimmgruppe: z.string(),
-  personal_info: z.string(),
+  personal_info: z.string().max(MAX_PERSONAL_INFO_LENGTH, {
+    message: `Personal info must be at most ${MAX_PERSONAL_INFO_LENGTH} characters.`,
+  }),
 });
 
 const voiceGroups = ["Sopran", "Alt", "Tenor", "Bass"];
@@ -355,11 +365,17 @@ const Profile = () => {
                     <FormItem>
                       <FormLabel>Personal Info</FormLabel>
                       <FormControl>
-                        <Textarea
-                          placeholder="Tell us about yourself"
-                          className="resize-none"
-                          {...field}
-                        />
+                        <div className="relative">
+                          <Textarea
+                            placeholder="Tell us about yourself"
+                            className="resize-none pb-6"
+                            {...field}
+                          />
+                          <div className="absolute bottom-1 right-1 text-[10px] text-muted-foreground/50 bg-background/80 px-1 rounded">
+                            {field.value?.length || 0}/
+                            {MAX_PERSONAL_INFO_LENGTH}
+                          </div>
+                        </div>
                       </FormControl>
                       <FormMessage />
                     </FormItem>
