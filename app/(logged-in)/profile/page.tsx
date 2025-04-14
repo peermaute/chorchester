@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -390,6 +391,14 @@ const Profile = () => {
                     Cancel
                   </Button>
                   <Button type="submit">Save Changes</Button>
+                </div>
+                <div className="flex justify-end">
+                  <Link
+                    href="mailto:support@unimusik.de"
+                    className="text-xs text-muted-foreground hover:text-foreground"
+                  >
+                    Need help? Contact support
+                  </Link>
                 </div>
               </form>
             </Form>

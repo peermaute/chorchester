@@ -3,7 +3,14 @@
 import { signOut, useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import { SettingsIcon } from "@/app/components/icons/settings-icon";
-import { LogOutIcon, Trash2Icon, LockIcon } from "lucide-react";
+import {
+  LogOutIcon,
+  Trash2Icon,
+  LockIcon,
+  HelpCircleIcon,
+  MailIcon,
+  MessageSquareIcon,
+} from "lucide-react";
 import {
   Card,
   CardContent,
@@ -15,11 +22,32 @@ import { deleteUser } from "@/app/api/users";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import Link from "next/link";
 
 export default function SettingsPage() {
   const { data: session } = useSession();
   const router = useRouter();
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [copiedEmail, setCopiedEmail] = useState(false);
+  const [copiedPhone, setCopiedPhone] = useState(false);
+  const supportPhone =
+    process.env.NEXT_PUBLIC_SUPPORT_PHONE || "+4917632795851";
+
+  const handleCopy = async (text: string, type: "email" | "phone") => {
+    try {
+      await navigator.clipboard.writeText(text);
+      if (type === "email") {
+        setCopiedEmail(true);
+        setTimeout(() => setCopiedEmail(false), 2000);
+      } else {
+        setCopiedPhone(true);
+        setTimeout(() => setCopiedPhone(false), 2000);
+      }
+    } catch (err) {
+      // Silently fail if clipboard access is denied
+      console.error("Failed to copy to clipboard:", err);
+    }
+  };
 
   const handleDeleteAccount = async () => {
     if (!session?.user?.email) return;
@@ -71,6 +99,71 @@ export default function SettingsPage() {
               <Button variant="outline" disabled>
                 <LockIcon className="h-4 w-4" />
               </Button>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Support</CardTitle>
+            <CardDescription>Get help with your account</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            <div className="space-y-4">
+              <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2">
+                    <MailIcon className="h-4 w-4 text-muted-foreground" />
+                    <p className="font-medium">Email Support</p>
+                  </div>
+                  <p className="text-sm text-muted-foreground">
+                    Send us an email and we'll get back to you as soon as
+                    possible
+                  </p>
+                  <div className="flex items-center gap-2 text-sm">
+                    <span className="text-muted-foreground">Email:</span>
+                    <span className="font-medium">peermaute@gmail.com</span>
+                  </div>
+                </div>
+                <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+                  <Button
+                    variant="outline"
+                    className="gap-2 w-full sm:w-auto"
+                    onClick={() => handleCopy("peermaute@gmail.com", "email")}
+                  >
+                    <MailIcon className="h-4 w-4" />
+                    {copiedEmail ? "Copied!" : "Copy Email"}
+                  </Button>
+                </div>
+              </div>
+            </div>
+            <div className="h-[1px] w-full bg-border" />
+            <div className="space-y-4">
+              <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2">
+                    <MessageSquareIcon className="h-4 w-4 text-muted-foreground" />
+                    <p className="font-medium">Text Support</p>
+                  </div>
+                  <p className="text-sm text-muted-foreground">
+                    Send us a text message for quick assistance
+                  </p>
+                  <div className="flex items-center gap-2 text-sm">
+                    <span className="text-muted-foreground">Phone:</span>
+                    <span className="font-medium">{supportPhone}</span>
+                  </div>
+                </div>
+                <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+                  <Button
+                    variant="outline"
+                    className="gap-2 w-full sm:w-auto"
+                    onClick={() => handleCopy(supportPhone, "phone")}
+                  >
+                    <MessageSquareIcon className="h-4 w-4" />
+                    {copiedPhone ? "Copied!" : "Copy Phone"}
+                  </Button>
+                </div>
+              </div>
             </div>
           </CardContent>
         </Card>
