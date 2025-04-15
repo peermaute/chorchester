@@ -11,7 +11,7 @@ import {
 import Link from "next/link";
 import Image from "next/image";
 import unimusikLogo from "@/public/unimusik-logo.jpeg";
-import { GithubIcon, FileText, Mail } from "lucide-react";
+import { FooterLinks } from "@/app/components/footer-links";
 
 export default async function Home() {
   const session = await getServerSession();
@@ -44,38 +44,14 @@ export default async function Home() {
                 width={150}
                 height={150}
                 priority={true}
+                loading="eager"
+                quality={100}
               />
             </div>
           </div>
         </CardContent>
       </Card>
-      <div className="absolute bottom-4 w-full text-center">
-        <div className="flex justify-center gap-8">
-          <Link
-            href="/impressum"
-            className="text-sm text-muted-foreground hover:text-foreground flex items-center gap-1.5 px-2 py-1 rounded-md hover:bg-muted/50 transition-colors"
-          >
-            <FileText className="h-4 w-4" />
-            Impressum
-          </Link>
-          <Link
-            href="mailto:peermaute@gmail.com"
-            className="text-sm text-muted-foreground hover:text-foreground flex items-center gap-1.5 px-2 py-1 rounded-md hover:bg-muted/50 transition-colors"
-          >
-            <Mail className="h-4 w-4" />
-            Support
-          </Link>
-          <Link
-            href="https://github.com/peermaute/unimusik"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-sm text-muted-foreground hover:text-foreground flex items-center gap-1.5 px-2 py-1 rounded-md hover:bg-muted/50 transition-colors"
-          >
-            <GithubIcon className="h-4 w-4" />
-            GitHub
-          </Link>
-        </div>
-      </div>
+      <FooterLinks />
     </div>
   );
 }
