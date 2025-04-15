@@ -48,10 +48,16 @@ export default function SignIn() {
               Mit Google anmelden
             </Button>
             <Button
-              className="w-full mb-6 bg-black hover:bg-black/90"
+              className="w-full mb-4 bg-black hover:bg-black/90"
               onClick={() => handleSignIn("github")}
             >
               Mit GitHub anmelden
+            </Button>
+            <Button
+              className="w-full mb-6 bg-[#0077B5] hover:bg-[#0077B5]/90"
+              onClick={() => handleSignIn("linkedin")}
+            >
+              Mit LinkedIn anmelden
             </Button>
             <div className="scale-75">
               <Image
