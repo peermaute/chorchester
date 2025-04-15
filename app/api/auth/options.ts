@@ -6,6 +6,7 @@ import { sql } from "@vercel/postgres";
 import { Resend } from "resend";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { PrismaClient } from "@prisma/client";
+import LinkedIn from "next-auth/providers/linkedin";
 
 const prisma = new PrismaClient();
 const resend = process.env.RESEND_API_KEY
@@ -31,6 +32,14 @@ export const authOptions: NextAuthOptions = {
   },
   providers: [
     Email({
+      server: {
+        host: process.env.EMAIL_SERVER_HOST,
+        port: Number(process.env.EMAIL_SERVER_PORT),
+        auth: {
+          user: process.env.EMAIL_SERVER_USER,
+          pass: process.env.EMAIL_SERVER_PASSWORD,
+        },
+      },
       from: process.env.EMAIL_FROM,
       maxAge: 24 * 60 * 60, // 24 hours
       sendVerificationRequest: async ({ identifier: email, url }) => {
@@ -73,7 +82,12 @@ export const authOptions: NextAuthOptions = {
       clientId: process.env.GITHUB_CLIENT_ID!,
       clientSecret: process.env.GITHUB_CLIENT_SECRET!,
     }),
+    LinkedIn({
+      clientId: process.env.LINKEDIN_CLIENT_ID!,
+      clientSecret: process.env.LINKEDIN_CLIENT_SECRET!,
+    }),
   ],
+  debug: process.env.NODE_ENV === "development",
   pages: {
     signIn: "/signin",
     error: "/signin",
@@ -197,5 +211,4 @@ export const authOptions: NextAuthOptions = {
     async session() {},
   },
   secret: process.env.NEXTAUTH_SECRET,
-  debug: process.env.NODE_ENV === "development",
 };

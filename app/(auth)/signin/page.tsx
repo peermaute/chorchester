@@ -1,6 +1,6 @@
 "use client";
 
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -19,6 +19,7 @@ import { Input } from "@/components/ui/input";
 import { useSearchParams } from "next/navigation";
 
 function SignInContent() {
+  const { data: session, status } = useSession();
   const { hasConsent } = useCookieConsent();
   const [isImageLoaded, setIsImageLoaded] = useState(false);
   const [email, setEmail] = useState("");
@@ -29,11 +30,19 @@ function SignInContent() {
   const verificationRequest = searchParams.get("verificationRequest");
 
   useEffect(() => {
+    if (status === "authenticated") {
+      window.location.href = callbackUrl;
+    }
+  }, [status, callbackUrl]);
+
+  useEffect(() => {
     if (error) {
       toast.error("Fehler bei der Anmeldung. Bitte versuche es erneut.");
     }
     if (verificationRequest) {
-      toast.success("Überprüfe deine E-Mails für den Anmeldelink!");
+      toast.success("Überprüfe deine E-Mails für den Anmeldelink!", {
+        duration: 5000,
+      });
     }
   }, [error, verificationRequest]);
 
@@ -55,10 +64,21 @@ function SignInContent() {
       );
       return;
     }
+    if (isLoading) return;
     setIsLoading(true);
     try {
-      await signIn("email", { email, callbackUrl });
-      toast.success("Überprüfe deine E-Mails für den Anmeldelink!");
+      const result = await signIn("email", {
+        email,
+        redirect: false,
+      });
+
+      if (result?.error) {
+        toast.error("Fehler beim Senden der E-Mail");
+      } else {
+        toast.success("Überprüfe deine E-Mails für den Anmeldelink!", {
+          duration: 5000,
+        });
+      }
     } catch (error) {
       toast.error("Fehler beim Senden der E-Mail");
     } finally {
@@ -77,25 +97,6 @@ function SignInContent() {
             </CardDescription>
           </CardHeader>
           <CardContent className="flex flex-col items-center">
-            <form onSubmit={handleEmailSignIn} className="w-full space-y-4">
-              <div className="space-y-2">
-                <Input
-                  type="email"
-                  placeholder="E-Mail"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                />
-                <Button type="submit" className="w-full" disabled={isLoading}>
-                  {isLoading ? "Senden..." : "Mit E-Mail anmelden"}
-                </Button>
-              </div>
-            </form>
-            <div className="my-4 flex w-full items-center">
-              <div className="flex-1 h-[1px] bg-border" />
-              <span className="mx-4 text-sm text-muted-foreground">oder</span>
-              <div className="flex-1 h-[1px] bg-border" />
-            </div>
             <Button
               className="w-full mb-4 bg-red-600 hover:bg-red-700"
               onClick={() => handleSignIn("google")}
@@ -108,7 +109,33 @@ function SignInContent() {
             >
               Mit GitHub anmelden
             </Button>
-            <div className="scale-75">
+
+            <div className="my-4 flex w-full items-center">
+              <div className="flex-1 h-[1px] bg-border" />
+              <span className="mx-4 text-sm text-muted-foreground">oder</span>
+              <div className="flex-1 h-[1px] bg-border" />
+            </div>
+
+            <form onSubmit={handleEmailSignIn} className="w-full space-y-4">
+              <div className="space-y-2">
+                <Input
+                  type="email"
+                  placeholder="E-Mail"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+                <Button
+                  type="submit"
+                  className="w-full bg-white text-black hover:bg-gray-100"
+                  disabled={isLoading}
+                >
+                  {isLoading ? "Senden..." : "Mit E-Mail anmelden"}
+                </Button>
+              </div>
+            </form>
+
+            <div className="scale-75 mt-12">
               <Image
                 src={unimusikLogo}
                 alt={"Unimusik Logo"}
