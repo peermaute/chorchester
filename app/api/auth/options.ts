@@ -1,4 +1,5 @@
 import Google from "next-auth/providers/google";
+import Github from "next-auth/providers/github";
 import { DefaultSession, NextAuthOptions } from "next-auth";
 import { sql } from "@vercel/postgres";
 
@@ -16,13 +17,17 @@ export const authOptions: NextAuthOptions = {
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     }),
+    Github({
+      clientId: process.env.GITHUB_CLIENT_ID!,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET!,
+    }),
   ],
   pages: {
     signIn: "/signin",
   },
   callbacks: {
     async signIn({ user, account }) {
-      if (account?.provider === "google") {
+      if (account?.provider === "google" || account?.provider === "github") {
         try {
           // Check if user exists
           const result = await sql`

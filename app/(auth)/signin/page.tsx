@@ -21,14 +21,14 @@ export default function SignIn() {
   const { hasConsent } = useCookieConsent();
   const [isImageLoaded, setIsImageLoaded] = useState(false);
 
-  const handleSignIn = () => {
+  const handleSignIn = (provider: string) => {
     if (!hasConsent) {
       toast.error(
         "Bitte akzeptiere die Cookie-Einwilligung, um dich anzumelden"
       );
       return;
     }
-    signIn("google", { callbackUrl: "/users" });
+    signIn(provider, { callbackUrl: "/users" });
   };
 
   return (
@@ -42,8 +42,19 @@ export default function SignIn() {
             </CardDescription>
           </CardHeader>
           <CardContent className="flex flex-col items-center">
-            <Button className="w-full mb-6" onClick={handleSignIn}>
+            <Button
+              className="w-full mb-4"
+              onClick={() => handleSignIn("google")}
+            >
               Mit Google anmelden
+            </Button>
+            <Button
+              variant="outline"
+              className="w-full mb-6"
+              onClick={() => handleSignIn("github")}
+            >
+              <GithubIcon className="mr-2 h-4 w-4" />
+              Mit GitHub anmelden
             </Button>
             <div className="scale-75">
               <Image
