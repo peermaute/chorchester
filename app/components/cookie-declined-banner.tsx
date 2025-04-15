@@ -7,15 +7,24 @@ import { useRouter, usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
 
 export function CookieDeclinedBanner() {
-  const { hasConsent, setConsent, hasDeclined, isLoading } = useCookieConsent();
+  const { hasConsent, setConsent, hasDeclined, isLoading, isPublicPage } =
+    useCookieConsent();
   const router = useRouter();
   const pathname = usePathname();
 
-  // Don't show if consent is given or while loading
+  // Don't show if:
+  // - consent is given
+  // - still loading
   if (hasConsent || isLoading) return null;
 
-  // Only show if cookies have been declined
-  if (!hasDeclined) return null;
+  // On public pages, only show if cookies have been declined
+  if (isPublicPage && !hasDeclined) return null;
+
+  // On non-public pages, always show if consent hasn't been given
+  if (!isPublicPage && !hasDeclined) {
+    // Set declined state to true for non-public pages
+    localStorage.setItem("cookieDeclined", "true");
+  }
 
   const handleGoToLanding = () => {
     signOut({ callbackUrl: "/" });

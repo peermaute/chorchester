@@ -4,11 +4,21 @@ import { Button } from "@/components/ui/button";
 import { useCookieConsent } from "@/app/context/cookie-consent-context";
 
 export function CookieBanner() {
-  const { hasConsent, setConsent, hasDeclined, setDeclined, isLoading } =
-    useCookieConsent();
+  const {
+    hasConsent,
+    setConsent,
+    hasDeclined,
+    setDeclined,
+    isLoading,
+    isPublicPage,
+  } = useCookieConsent();
 
-  // Don't show if consent is given or if cookies have been declined
-  if (hasConsent === true || hasDeclined || isLoading) {
+  // Don't show if:
+  // - consent is given
+  // - cookies have been declined
+  // - we're not on a public page
+  // - still loading
+  if (hasConsent === true || hasDeclined || !isPublicPage || isLoading) {
     return null;
   }
 

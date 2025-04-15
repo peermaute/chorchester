@@ -11,6 +11,7 @@ interface CookieConsentContextType {
   hasDeclined: boolean;
   setDeclined: (declined: boolean) => void;
   isLoading: boolean;
+  isPublicPage: boolean;
 }
 
 const CookieConsentContext = createContext<CookieConsentContextType>({
@@ -19,10 +20,13 @@ const CookieConsentContext = createContext<CookieConsentContextType>({
   hasDeclined: false,
   setDeclined: () => {},
   isLoading: true,
+  isPublicPage: false,
 });
 
 const CONSENT_COOKIE_NAME = "cookie_consent";
 const CONSENT_COOKIE_EXPIRY_DAYS = 365; // 1 year
+
+const PUBLIC_PAGES = ["/", "/impressum", "/signin"];
 
 export function CookieConsentProvider({
   children,
@@ -37,6 +41,8 @@ export function CookieConsentProvider({
   const [hasDeclined, setHasDeclined] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState(true);
   const pathname = usePathname();
+
+  const isPublicPage = PUBLIC_PAGES.includes(pathname);
 
   useEffect(() => {
     // Check for existing consent cookie
@@ -58,8 +64,8 @@ export function CookieConsentProvider({
       });
     } else {
       deleteCookie(CONSENT_COOKIE_NAME, { path: "/" });
-      // Only sign out and redirect if we're not on the landing page
-      if (pathname !== "/") {
+      // Only sign out and redirect if we're not on a public page
+      if (!isPublicPage) {
         signOut({ callbackUrl: "/" });
       }
     }
@@ -72,7 +78,14 @@ export function CookieConsentProvider({
 
   return (
     <CookieConsentContext.Provider
-      value={{ hasConsent, setConsent, hasDeclined, setDeclined, isLoading }}
+      value={{
+        hasConsent,
+        setConsent,
+        hasDeclined,
+        setDeclined,
+        isLoading,
+        isPublicPage,
+      }}
     >
       {children}
     </CookieConsentContext.Provider>
