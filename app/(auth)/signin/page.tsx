@@ -15,7 +15,7 @@ import { useCookieConsent } from "@/app/context/cookie-consent-context";
 import { toast } from "sonner";
 import Link from "next/link";
 import { useState } from "react";
-import { GithubIcon, FileText, Mail } from "lucide-react";
+import { FileText, Mail, GithubIcon } from "lucide-react";
 
 export default function SignIn() {
   const { hasConsent } = useCookieConsent();
@@ -43,17 +43,15 @@ export default function SignIn() {
           </CardHeader>
           <CardContent className="flex flex-col items-center">
             <Button
-              className="w-full mb-4"
+              className="w-full mb-4 bg-red-600 hover:bg-red-700"
               onClick={() => handleSignIn("google")}
             >
               Mit Google anmelden
             </Button>
             <Button
-              variant="outline"
-              className="w-full mb-6"
+              className="w-full mb-6 bg-black hover:bg-black/90"
               onClick={() => handleSignIn("github")}
             >
-              <GithubIcon className="mr-2 h-4 w-4" />
               Mit GitHub anmelden
             </Button>
             <div className="scale-75">
