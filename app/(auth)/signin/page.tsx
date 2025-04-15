@@ -13,12 +13,12 @@ import Image from "next/image";
 import unimusikLogo from "@/public/unimusik-logo.jpeg";
 import { useCookieConsent } from "@/app/context/cookie-consent-context";
 import { toast } from "sonner";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { FooterLinks } from "@/app/components/footer-links";
 import { Input } from "@/components/ui/input";
 import { useSearchParams } from "next/navigation";
 
-export default function SignIn() {
+function SignInContent() {
   const { hasConsent } = useCookieConsent();
   const [isImageLoaded, setIsImageLoaded] = useState(false);
   const [email, setEmail] = useState("");
@@ -128,5 +128,13 @@ export default function SignIn() {
       </div>
       <FooterLinks />
     </div>
+  );
+}
+
+export default function SignIn() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <SignInContent />
+    </Suspense>
   );
 }

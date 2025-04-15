@@ -8,7 +8,9 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
-const resend = new Resend(process.env.RESEND_API_KEY!);
+const resend = process.env.RESEND_API_KEY
+  ? new Resend(process.env.RESEND_API_KEY)
+  : null;
 
 declare module "next-auth" {
   interface Session {
@@ -31,16 +33,13 @@ export const authOptions: NextAuthOptions = {
     Email({
       from: process.env.EMAIL_FROM,
       maxAge: 24 * 60 * 60, // 24 hours
-      generateVerificationToken: async () => {
-        const token = Math.random().toString(36).slice(2);
-        console.log("Generated verification token:", token);
-        return token;
-      },
-      sendVerificationRequest: async ({ identifier: email, url, token }) => {
-        console.log("Starting email verification process for:", email);
-        console.log("Verification URL:", url);
+      sendVerificationRequest: async ({ identifier: email, url }) => {
+        if (!resend) {
+          console.error("Resend API key is not configured");
+          throw new Error("Email service is not configured");
+        }
+
         try {
-          console.log("Sending email via Resend...");
           const { error } = await resend.emails.send({
             from: process.env.EMAIL_FROM!,
             to: email,
@@ -57,24 +56,11 @@ export const authOptions: NextAuthOptions = {
           });
 
           if (error) {
-            console.error("Resend error:", error);
+            console.error("Failed to send verification email:", error);
             throw new Error("Failed to send verification email");
           }
-
-          console.log(
-            "Email sent successfully, creating verification token..."
-          );
-          // Store the verification token
-          await prisma.verificationToken.create({
-            data: {
-              identifier: email,
-              token: token,
-              expires: new Date(Date.now() + 24 * 60 * 60 * 1000), // 24 hours from now
-            },
-          });
-          console.log("Verification token created successfully");
         } catch (error) {
-          console.error("Error in sendVerificationRequest:", error);
+          console.error("Error in email verification process:", error);
           throw error;
         }
       },
@@ -94,29 +80,22 @@ export const authOptions: NextAuthOptions = {
     verifyRequest: "/signin",
   },
   callbacks: {
-    async signIn({ user, account }) {
-      console.log("SignIn callback triggered for:", user.email);
-      console.log("Account details:", account);
-
+    async signIn({ user, account, profile }) {
       if (account?.provider === "email") {
         try {
-          console.log("Processing email sign in...");
           const existingUser = await prisma.user.findUnique({
             where: { email: user.email! },
+            include: { accounts: true },
           });
 
           if (!existingUser) {
-            console.log("Creating new user...");
-            const newUser = await prisma.user.create({
+            await prisma.user.create({
               data: {
                 name: user.name,
                 email: user.email!,
                 terms_accepted: false,
               },
             });
-            console.log("New user created successfully:", newUser);
-          } else {
-            console.log("Existing user found:", existingUser);
           }
           return true;
         } catch (error) {
@@ -129,77 +108,93 @@ export const authOptions: NextAuthOptions = {
         try {
           const existingUser = await prisma.user.findUnique({
             where: { email: user.email! },
+            include: { accounts: true },
           });
 
-          if (!existingUser) {
-            await prisma.user.create({
-              data: {
-                name: user.name,
-                email: user.email!,
-                picture: user.image,
-                terms_accepted: false,
-              },
-            });
+          if (existingUser) {
+            // If the user exists but doesn't have this OAuth account linked, link it
+            if (
+              !existingUser.accounts.some(
+                (acc) => acc.provider === account.provider
+              )
+            ) {
+              await prisma.account.create({
+                data: {
+                  userId: existingUser.id,
+                  type: account.type,
+                  provider: account.provider,
+                  providerAccountId: account.providerAccountId,
+                  access_token: account.access_token,
+                  expires_at: account.expires_at,
+                  token_type: account.token_type,
+                  scope: account.scope,
+                  id_token: account.id_token,
+                },
+              });
+            }
             return true;
           }
+
+          // If no user exists, create a new one
+          const newUser = await prisma.user.create({
+            data: {
+              name: user.name,
+              email: user.email!,
+              picture: user.image,
+              terms_accepted: false,
+            },
+          });
+
+          // Create the OAuth account link
+          await prisma.account.create({
+            data: {
+              userId: newUser.id,
+              type: account.type,
+              provider: account.provider,
+              providerAccountId: account.providerAccountId,
+              access_token: account.access_token,
+              expires_at: account.expires_at,
+              token_type: account.token_type,
+              scope: account.scope,
+              id_token: account.id_token,
+            },
+          });
+
+          return true;
         } catch (error) {
-          console.error("Error saving user to database:", error);
+          console.error("Error handling OAuth sign in:", error);
           return false;
         }
       }
       return true;
     },
     async session({ session, token }) {
-      console.log("Session callback triggered with token:", token);
       if (session.user) {
         session.user.id = token.sub!;
       }
       return session;
     },
     async jwt({ token, user }) {
-      console.log("JWT callback triggered with user:", user);
       if (user) {
         token.sub = user.id;
       }
       return token;
     },
     async redirect({ url, baseUrl }) {
-      console.log("Redirect callback triggered:", { url, baseUrl });
-
-      // If the URL is relative, prepend the base URL
       if (url.startsWith("/")) {
-        const redirectUrl = `${baseUrl}${url}`;
-        console.log("Redirecting to:", redirectUrl);
-        return redirectUrl;
-      }
-
-      // If the URL is absolute but on the same origin, allow it
-      if (new URL(url).origin === baseUrl) {
-        console.log("Redirecting to same origin URL:", url);
+        return `${baseUrl}${url}`;
+      } else if (new URL(url).origin === baseUrl) {
         return url;
       }
-
-      // Default to the base URL
-      console.log("Redirecting to base URL:", baseUrl);
       return baseUrl;
     },
   },
   events: {
-    async signIn(message) {
-      console.log("SignIn event triggered:", message);
-    },
-    async signOut(message) {
-      console.log("SignOut event triggered:", message);
-    },
-    async createUser(message) {
-      console.log("CreateUser event triggered:", message);
-    },
-    async linkAccount(message) {
-      console.log("LinkAccount event triggered:", message);
-    },
-    async session(message) {
-      console.log("Session event triggered:", message);
-    },
+    async signIn() {},
+    async signOut() {},
+    async createUser() {},
+    async linkAccount() {},
+    async session() {},
   },
   secret: process.env.NEXTAUTH_SECRET,
   debug: process.env.NODE_ENV === "development",
