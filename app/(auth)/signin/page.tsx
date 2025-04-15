@@ -1,6 +1,6 @@
 "use client";
 
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -13,12 +13,38 @@ import Image from "next/image";
 import unimusikLogo from "@/public/unimusik-logo.jpeg";
 import { useCookieConsent } from "@/app/context/cookie-consent-context";
 import { toast } from "sonner";
-import { useState } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { FooterLinks } from "@/app/components/footer-links";
+import { Input } from "@/components/ui/input";
+import { useSearchParams } from "next/navigation";
 
-export default function SignIn() {
+function SignInContent() {
+  const { data: session, status } = useSession();
   const { hasConsent } = useCookieConsent();
   const [isImageLoaded, setIsImageLoaded] = useState(false);
+  const [email, setEmail] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl") || "/users";
+  const error = searchParams.get("error");
+  const verificationRequest = searchParams.get("verificationRequest");
+
+  useEffect(() => {
+    if (status === "authenticated") {
+      window.location.href = callbackUrl;
+    }
+  }, [status, callbackUrl]);
+
+  useEffect(() => {
+    if (error) {
+      toast.error("Fehler bei der Anmeldung. Bitte versuche es erneut.");
+    }
+    if (verificationRequest) {
+      toast.success("Überprüfe deine E-Mails für den Anmeldelink!", {
+        duration: 5000,
+      });
+    }
+  }, [error, verificationRequest]);
 
   const handleSignIn = (provider: string) => {
     if (!hasConsent) {
@@ -27,7 +53,37 @@ export default function SignIn() {
       );
       return;
     }
-    signIn(provider, { callbackUrl: "/users" });
+    signIn(provider, { callbackUrl });
+  };
+
+  const handleEmailSignIn = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!hasConsent) {
+      toast.error(
+        "Bitte akzeptiere die Cookie-Einwilligung, um dich anzumelden"
+      );
+      return;
+    }
+    if (isLoading) return;
+    setIsLoading(true);
+    try {
+      const result = await signIn("email", {
+        email,
+        redirect: false,
+      });
+
+      if (result?.error) {
+        toast.error("Fehler beim Senden der E-Mail");
+      } else {
+        toast.success("Überprüfe deine E-Mails für den Anmeldelink!", {
+          duration: 5000,
+        });
+      }
+    } catch (error) {
+      toast.error("Fehler beim Senden der E-Mail");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -53,7 +109,33 @@ export default function SignIn() {
             >
               Mit GitHub anmelden
             </Button>
-            <div className="scale-75">
+
+            <div className="my-4 flex w-full items-center">
+              <div className="flex-1 h-[1px] bg-border" />
+              <span className="mx-4 text-sm text-muted-foreground">oder</span>
+              <div className="flex-1 h-[1px] bg-border" />
+            </div>
+
+            <form onSubmit={handleEmailSignIn} className="w-full space-y-4">
+              <div className="space-y-2">
+                <Input
+                  type="email"
+                  placeholder="E-Mail"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+                <Button
+                  type="submit"
+                  className="w-full bg-white text-black hover:bg-gray-100"
+                  disabled={isLoading}
+                >
+                  {isLoading ? "Senden..." : "Mit E-Mail anmelden"}
+                </Button>
+              </div>
+            </form>
+
+            <div className="scale-75 mt-12">
               <Image
                 src={unimusikLogo}
                 alt={"Unimusik Logo"}
@@ -73,5 +155,13 @@ export default function SignIn() {
       </div>
       <FooterLinks />
     </div>
+  );
+}
+
+export default function SignIn() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <SignInContent />
+    </Suspense>
   );
 }
