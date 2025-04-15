@@ -6,6 +6,8 @@ import { cn } from "@/lib/utils";
 
 const UserCard = ({ user }: { user: User }) => {
   const router = useRouter();
+  const isBothEnsembles = user.ensemble === "Kammerchor & Orchester";
+
   return (
     <div
       className={cn(
@@ -34,10 +36,20 @@ const UserCard = ({ user }: { user: User }) => {
             <span className="text-sm text-muted-foreground truncate">
               {user.ensemble}
             </span>
-            {user.stimmgruppe && (
+            {user.stimmgruppe && !isBothEnsembles && (
               <>
                 <span className="text-muted-foreground text-xs">•</span>
                 <span className="text-sm text-muted-foreground truncate">
+                  {user.stimmgruppe}
+                </span>
+              </>
+            )}
+            {user.stimmgruppe && isBothEnsembles && (
+              <>
+                <span className="text-muted-foreground text-xs hidden sm:block">
+                  •
+                </span>
+                <span className="text-sm text-muted-foreground truncate hidden sm:block">
                   {user.stimmgruppe}
                 </span>
               </>

@@ -98,6 +98,7 @@ const Profile = () => {
   });
 
   const selectedEnsemble = form.watch("ensemble");
+  const isBothEnsembles = selectedEnsemble === "Kammerchor & Orchester";
 
   useEffect(() => {
     const loadUserData = async () => {
@@ -309,12 +310,15 @@ const Profile = () => {
                       >
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder="Wähle dein Ensemble" />
+                            <SelectValue placeholder="Select ensemble" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
                           <SelectItem value="Kammerchor">Kammerchor</SelectItem>
                           <SelectItem value="Orchester">Orchester</SelectItem>
+                          <SelectItem value="Kammerchor & Orchester">
+                            Kammerchor & Orchester
+                          </SelectItem>
                         </SelectContent>
                       </Select>
                       <FormMessage />
@@ -327,9 +331,11 @@ const Profile = () => {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>
-                        {selectedEnsemble === "Kammerchor"
-                          ? "Stimmgruppe"
-                          : "Instrumentengruppe"}
+                        {isBothEnsembles
+                          ? "Stimmgruppe/Instrumentengruppe"
+                          : selectedEnsemble === "Orchester"
+                          ? "Instrumentengruppe"
+                          : "Stimmgruppe"}
                       </FormLabel>
                       <Select
                         onValueChange={field.onChange}
@@ -337,24 +343,36 @@ const Profile = () => {
                       >
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue
-                              placeholder={`Wähle deine ${
-                                selectedEnsemble === "Kammerchor"
-                                  ? "Stimmgruppe"
-                                  : "Instrumentengruppe"
-                              }`}
-                            />
+                            <SelectValue placeholder="Select group" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          {(selectedEnsemble === "Kammerchor"
-                            ? voiceGroups
-                            : instrumentGroups
-                          ).map((group) => (
-                            <SelectItem key={group} value={group}>
-                              {group}
-                            </SelectItem>
-                          ))}
+                          {isBothEnsembles ? (
+                            <>
+                              {voiceGroups.map((group) => (
+                                <SelectItem key={group} value={group}>
+                                  {group}
+                                </SelectItem>
+                              ))}
+                              {instrumentGroups.map((group) => (
+                                <SelectItem key={group} value={group}>
+                                  {group}
+                                </SelectItem>
+                              ))}
+                            </>
+                          ) : selectedEnsemble === "Orchester" ? (
+                            instrumentGroups.map((group) => (
+                              <SelectItem key={group} value={group}>
+                                {group}
+                              </SelectItem>
+                            ))
+                          ) : (
+                            voiceGroups.map((group) => (
+                              <SelectItem key={group} value={group}>
+                                {group}
+                              </SelectItem>
+                            ))
+                          )}
                         </SelectContent>
                       </Select>
                       <FormMessage />
