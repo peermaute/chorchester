@@ -5,6 +5,7 @@ export interface User {
   picture?: string;
   ensemble: string;
   stimmgruppe?: string;
+  instrumentengruppe?: string;
   personal_info?: string;
   terms_accepted: boolean;
 }

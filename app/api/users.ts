@@ -77,6 +77,7 @@ export const updateUser = async (
     name: string;
     ensemble: string;
     stimmgruppe?: string;
+    instrumentengruppe?: string;
     personal_info?: string;
     picture?: string;
   }
@@ -101,6 +102,7 @@ export const updateUser = async (
         name = ${data.name},
         ensemble = ${data.ensemble},
         stimmgruppe = ${data.stimmgruppe || null},
+        instrumentengruppe = ${data.instrumentengruppe || null},
         personal_info = ${data.personal_info || null},
         picture = ${data.picture || null}
       WHERE email = ${email}

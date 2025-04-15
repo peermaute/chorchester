@@ -52,6 +52,16 @@ const UserCard = ({ user }: { user: User }) => {
                 <span className="text-sm text-muted-foreground truncate hidden sm:block">
                   {user.stimmgruppe}
                 </span>
+                {user.instrumentengruppe && (
+                  <>
+                    <span className="text-muted-foreground text-xs hidden sm:block">
+                      •
+                    </span>
+                    <span className="text-sm text-muted-foreground truncate hidden sm:block">
+                      {user.instrumentengruppe}
+                    </span>
+                  </>
+                )}
               </>
             )}
           </div>

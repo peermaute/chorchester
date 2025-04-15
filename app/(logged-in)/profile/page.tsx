@@ -54,7 +54,8 @@ const formSchema = z.object({
       message: `Name must be at most ${MAX_NAME_LENGTH} characters.`,
     }),
   ensemble: z.string(),
-  stimmgruppe: z.string(),
+  stimmgruppe: z.string().optional(),
+  instrumentengruppe: z.string().optional(),
   personal_info: z.string().max(MAX_PERSONAL_INFO_LENGTH, {
     message: `Personal info must be at most ${MAX_PERSONAL_INFO_LENGTH} characters.`,
   }),
@@ -93,11 +94,18 @@ const Profile = () => {
       name: "",
       ensemble: "",
       stimmgruppe: "",
+      instrumentengruppe: "",
       personal_info: "",
     },
   });
 
   const selectedEnsemble = form.watch("ensemble");
+  const showStimmgruppe =
+    selectedEnsemble === "Kammerchor" ||
+    selectedEnsemble === "Kammerchor & Orchester";
+  const showInstrumentengruppe =
+    selectedEnsemble === "Orchester" ||
+    selectedEnsemble === "Kammerchor & Orchester";
   const isBothEnsembles = selectedEnsemble === "Kammerchor & Orchester";
 
   useEffect(() => {
@@ -125,6 +133,7 @@ const Profile = () => {
           name: userData.name,
           ensemble: userData.ensemble,
           stimmgruppe: userData.stimmgruppe || "",
+          instrumentengruppe: userData.instrumentengruppe || "",
           personal_info: userData.personal_info || "",
         });
         setError(null);
@@ -161,6 +170,7 @@ const Profile = () => {
         name: user.name,
         ensemble: user.ensemble,
         stimmgruppe: user.stimmgruppe || "",
+        instrumentengruppe: user.instrumentengruppe || "",
         personal_info: user.personal_info || "",
       });
     }
@@ -174,6 +184,7 @@ const Profile = () => {
         name: user?.name || "",
         ensemble: user?.ensemble || "",
         stimmgruppe: user?.stimmgruppe || "",
+        instrumentengruppe: user?.instrumentengruppe || "",
         personal_info: user?.personal_info || "",
         picture: url,
       });
@@ -325,60 +336,70 @@ const Profile = () => {
                     </FormItem>
                   )}
                 />
-                <FormField
-                  control={form.control}
-                  name="stimmgruppe"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>
-                        {isBothEnsembles
-                          ? "Stimmgruppe/Instrumentengruppe"
-                          : selectedEnsemble === "Orchester"
-                          ? "Instrumentengruppe"
-                          : "Stimmgruppe"}
-                      </FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select group" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {isBothEnsembles ? (
-                            <>
-                              {voiceGroups.map((group) => (
-                                <SelectItem key={group} value={group}>
-                                  {group}
-                                </SelectItem>
-                              ))}
-                              {instrumentGroups.map((group) => (
-                                <SelectItem key={group} value={group}>
-                                  {group}
-                                </SelectItem>
-                              ))}
-                            </>
-                          ) : selectedEnsemble === "Orchester" ? (
-                            instrumentGroups.map((group) => (
+                {showStimmgruppe && (
+                  <FormField
+                    control={form.control}
+                    name="stimmgruppe"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Stimmgruppe</FormLabel>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select voice group" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            {voiceGroups.map((group) => (
                               <SelectItem key={group} value={group}>
                                 {group}
                               </SelectItem>
-                            ))
-                          ) : (
-                            voiceGroups.map((group) => (
+                            ))}
+                            {isBothEnsembles && (
+                              <SelectItem value="Dirigent">Dirigent</SelectItem>
+                            )}
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                )}
+                {showInstrumentengruppe && (
+                  <FormField
+                    control={form.control}
+                    name="instrumentengruppe"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Instrumentengruppe</FormLabel>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select instrument group" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            {instrumentGroups.map((group) => (
                               <SelectItem key={group} value={group}>
                                 {group}
                               </SelectItem>
-                            ))
-                          )}
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                            ))}
+                            {isBothEnsembles && (
+                              <SelectItem value="Dirigent">Dirigent</SelectItem>
+                            )}
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                )}
                 <FormField
                   control={form.control}
                   name="personal_info"
