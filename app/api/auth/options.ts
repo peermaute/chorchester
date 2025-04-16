@@ -77,6 +77,14 @@ export const authOptions: NextAuthOptions = {
     Google({
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+      profile(profile) {
+        return {
+          id: profile.sub,
+          name: profile.name,
+          email: profile.email,
+          image: profile.picture?.replace("s96-c", "s400-c"), // Use higher resolution version
+        };
+      },
     }),
     Github({
       clientId: process.env.GITHUB_CLIENT_ID!,
@@ -129,7 +137,7 @@ export const authOptions: NextAuthOptions = {
             // If the user exists but doesn't have this OAuth account linked, link it
             if (
               !existingUser.accounts.some(
-                (acc) => acc.provider === account.provider
+                (acc: { provider: string }) => acc.provider === account.provider
               )
             ) {
               await prisma.account.create({
