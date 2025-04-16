@@ -17,6 +17,7 @@ import { useState, useEffect, Suspense } from "react";
 import { FooterLinks } from "@/app/components/footer-links";
 import { Input } from "@/components/ui/input";
 import { useSearchParams } from "next/navigation";
+import Link from "next/link";
 
 function SignInContent() {
   const { data: session, status } = useSession();
@@ -91,9 +92,11 @@ function SignInContent() {
       <div className="w-full max-w-md px-4">
         <Card>
           <CardHeader className="items-center">
-            <CardTitle className="text-2xl font-bold">Anmelden</CardTitle>
-            <CardDescription className="text-base">
+            <CardTitle className="text-2xl font-bold">
               Wähle deine Anmeldemethode
+            </CardTitle>
+            <CardDescription>
+              Melde dich mit deinem bevorzugten Konto an
             </CardDescription>
           </CardHeader>
           <CardContent className="flex flex-col items-center">
@@ -134,6 +137,13 @@ function SignInContent() {
                 </Button>
               </div>
             </form>
+
+            <Link
+              href="/terms/full?from=signin"
+              className="text-sm text-muted-foreground hover:text-foreground mt-4 block underline-offset-4 hover:underline"
+            >
+              Datenschutzerklärung
+            </Link>
 
             <div className="scale-75 mt-12">
               <Image

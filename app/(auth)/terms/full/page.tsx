@@ -11,19 +11,30 @@ import {
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function FullTermsPage() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const fromSignin = searchParams.get("from") === "signin";
+
+  const handleBack = () => {
+    if (fromSignin) {
+      router.push("/signin");
+    } else {
+      router.push("/terms");
+    }
+  };
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-background p-4">
       <div className="w-full max-w-3xl">
         <Card>
           <CardHeader>
             <div className="flex items-center gap-2">
-              <Link href="/terms">
-                <Button variant="ghost" size="icon">
-                  <ArrowLeft className="h-4 w-4" />
-                </Button>
-              </Link>
+              <Button variant="ghost" size="icon" onClick={handleBack}>
+                <ArrowLeft className="h-4 w-4" />
+              </Button>
               <div>
                 <CardTitle className="text-2xl font-bold">
                   Datenschutzerklärung

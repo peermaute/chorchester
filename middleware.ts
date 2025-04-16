@@ -6,6 +6,11 @@ export default withAuth(
   async function middleware(req) {
     const session = req.nextauth.token;
 
+    // Allow access to terms pages without authentication
+    if (req.nextUrl.pathname.startsWith("/terms")) {
+      return NextResponse.next();
+    }
+
     if (session?.email) {
       try {
         const result = await sql`
@@ -49,7 +54,8 @@ export const config = {
      * - signin (sign in page)
      * - register (registration page)
      * - impressum (legal information page)
+     * - terms (terms and privacy policy pages)
      */
-    "/((?!api|_next/static|_next/image|favicon.ico|public|$|signin|register|impressum).*)",
+    "/((?!api|_next/static|_next/image|favicon.ico|public|$|signin|register|impressum|terms).*)",
   ],
 };
