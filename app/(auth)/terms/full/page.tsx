@@ -12,8 +12,9 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 
-export default function FullTermsPage() {
+function TermsContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const fromSignin = searchParams.get("from") === "signin";
@@ -220,5 +221,13 @@ export default function FullTermsPage() {
         </Card>
       </div>
     </div>
+  );
+}
+
+export default function FullTermsPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <TermsContent />
+    </Suspense>
   );
 }
