@@ -82,20 +82,8 @@ export default function SettingsPage() {
               <div className="flex-1">
                 <p className="font-medium">E-Mail</p>
                 <p className="text-sm text-muted-foreground">
-                  Kann nicht geändert werden, wenn du dich mit einem
-                  Drittanbieter angemeldet hast
-                </p>
-              </div>
-              <Button variant="outline" disabled>
-                <LockIcon className="h-4 w-4" />
-              </Button>
-            </div>
-            <div className="h-[1px] w-full bg-border" />
-            <div className="flex items-center justify-between gap-4">
-              <div className="flex-1">
-                <p className="font-medium">Passwort</p>
-                <p className="text-sm text-muted-foreground">
-                  Wird von deinem Drittanbieter verwaltet
+                  Diese Option ist aktuell noch nicht verfügbar. Melde dich
+                  dafür gerne über die Support-Möglichkeiten bei mir.
                 </p>
               </div>
               <Button variant="outline" disabled>
@@ -120,7 +108,7 @@ export default function SettingsPage() {
                   </div>
                   <p className="text-sm text-muted-foreground">
                     Schreib mir eine E-Mail und ich melde mich so schnell wie
-                    möglich
+                    möglich.
                   </p>
                   <div className="flex items-center gap-2 text-sm">
                     <span className="text-muted-foreground">E-Mail:</span>
@@ -148,7 +136,7 @@ export default function SettingsPage() {
                     <p className="font-medium">SMS Support</p>
                   </div>
                   <p className="text-sm text-muted-foreground">
-                    Alternativ kannst du mir auch eine Nachricht schreiben
+                    Alternativ kannst du mir auch eine Nachricht schreiben.
                   </p>
                   <div className="flex items-center gap-2 text-sm">
                     <span className="text-muted-foreground">Telefon:</span>
@@ -182,7 +170,7 @@ export default function SettingsPage() {
               <div className="flex-1">
                 <p className="font-medium">Konto löschen</p>
                 <p className="text-sm text-muted-foreground">
-                  Lösche dein Konto und alle zugehörigen Daten dauerhaft
+                  Lösche dein Konto und alle zugehörigen Daten dauerhaft.
                 </p>
               </div>
               <Button
