@@ -136,6 +136,9 @@ export function ProfilePictureUpload({
 
       if (!response.ok) {
         const data = await response.json();
+        if (response.status === 429) {
+          throw new Error("Zu viele Uploads. Bitte versuche es später erneut.");
+        }
         throw new Error(data.error || "Upload fehlgeschlagen");
       }
 

@@ -2,9 +2,50 @@ import { put, del } from "@vercel/blob";
 import { NextRequest, NextResponse } from "next/server";
 
 const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2MB
+const MAX_UPLOADS_PER_HOUR = 10; // Maximum uploads per hour per IP
+const IS_DEVELOPMENT = process.env.NODE_ENV === "development";
+
+// Simple in-memory rate limiter
+const uploadCounts = new Map<string, { count: number; resetTime: number }>();
+
+function isRateLimited(ip: string): boolean {
+  // Disable rate limiting in development
+  if (IS_DEVELOPMENT) return false;
+
+  const now = Date.now();
+  const userData = uploadCounts.get(ip);
+
+  if (!userData) {
+    uploadCounts.set(ip, { count: 1, resetTime: now + 3600000 }); // 1 hour
+    return false;
+  }
+
+  if (now > userData.resetTime) {
+    uploadCounts.set(ip, { count: 1, resetTime: now + 3600000 });
+    return false;
+  }
+
+  if (userData.count >= MAX_UPLOADS_PER_HOUR) {
+    return true;
+  }
+
+  uploadCounts.set(ip, { ...userData, count: userData.count + 1 });
+  return false;
+}
 
 export async function POST(req: NextRequest) {
   try {
+    // Get client IP for rate limiting
+    const ip = req.ip || req.headers.get("x-forwarded-for") || "unknown";
+
+    // Check rate limit
+    if (isRateLimited(ip)) {
+      return NextResponse.json(
+        { error: "Too many uploads. Please try again later." },
+        { status: 429 }
+      );
+    }
+
     const formData = await req.formData();
     const file = formData.get("file") as File;
     const oldUrl = formData.get("oldUrl") as string;
