@@ -88,82 +88,86 @@ function SignInContent() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="w-full max-w-md px-4">
-        <Card>
-          <CardHeader className="items-center">
-            <CardTitle className="text-2xl font-bold">
-              Wähle deine Anmeldemethode
-            </CardTitle>
-            <CardDescription>
-              Melde dich mit deinem bevorzugten Konto an
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="flex flex-col items-center">
-            <Button
-              className="w-full mb-4 bg-red-600 hover:bg-red-700"
-              onClick={() => handleSignIn("google")}
-            >
-              Mit Google anmelden
-            </Button>
-            <Button
-              className="w-full mb-6 bg-black hover:bg-black/90"
-              onClick={() => handleSignIn("github")}
-            >
-              Mit GitHub anmelden
-            </Button>
+    <div className="flex min-h-screen flex-col items-center justify-between bg-background py-8">
+      <div className="flex-1 flex items-center justify-center w-full px-4 sm:px-6">
+        <div className="w-full max-w-md">
+          <Card>
+            <CardHeader className="items-center">
+              <CardTitle className="text-2xl font-bold">
+                Wähle deine Anmeldemethode
+              </CardTitle>
+              <CardDescription>
+                Melde dich mit deinem bevorzugten Konto an
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="flex flex-col items-center">
+              <Button
+                className="w-full mb-4 bg-red-600 hover:bg-red-700"
+                onClick={() => handleSignIn("google")}
+              >
+                Mit Google anmelden
+              </Button>
+              <Button
+                className="w-full mb-6 bg-black hover:bg-black/90"
+                onClick={() => handleSignIn("github")}
+              >
+                Mit GitHub anmelden
+              </Button>
 
-            <div className="my-4 flex w-full items-center">
-              <div className="flex-1 h-[1px] bg-border" />
-              <span className="mx-4 text-sm text-muted-foreground">oder</span>
-              <div className="flex-1 h-[1px] bg-border" />
-            </div>
-
-            <form onSubmit={handleEmailSignIn} className="w-full space-y-4">
-              <div className="space-y-2">
-                <Input
-                  type="email"
-                  placeholder="E-Mail"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                />
-                <Button
-                  type="submit"
-                  className="w-full bg-white text-black hover:bg-gray-100"
-                  disabled={isLoading}
-                >
-                  {isLoading ? "Senden..." : "Mit E-Mail anmelden"}
-                </Button>
+              <div className="my-4 flex w-full items-center">
+                <div className="flex-1 h-[1px] bg-border" />
+                <span className="mx-4 text-sm text-muted-foreground">oder</span>
+                <div className="flex-1 h-[1px] bg-border" />
               </div>
-            </form>
 
-            <Link
-              href="/terms/full?from=signin"
-              className="text-sm text-muted-foreground hover:text-foreground mt-4 block underline-offset-4 hover:underline"
-            >
-              Datenschutzerklärung
-            </Link>
+              <form onSubmit={handleEmailSignIn} className="w-full space-y-4">
+                <div className="space-y-2">
+                  <Input
+                    type="email"
+                    placeholder="E-Mail"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                  />
+                  <Button
+                    type="submit"
+                    className="w-full bg-white text-black hover:bg-gray-100"
+                    disabled={isLoading}
+                  >
+                    {isLoading ? "Senden..." : "Mit E-Mail anmelden"}
+                  </Button>
+                </div>
+              </form>
 
-            <div className="scale-75 mt-12">
-              <Image
-                src={unimusikLogo}
-                alt={"Unimusik Logo"}
-                width={150}
-                height={150}
-                priority={true}
-                loading="eager"
-                quality={100}
-                className={`transition-opacity duration-300 ${
-                  isImageLoaded ? "opacity-100" : "opacity-0"
-                }`}
-                onLoadingComplete={() => setIsImageLoaded(true)}
-              />
-            </div>
-          </CardContent>
-        </Card>
+              <Link
+                href="/terms/full?from=signin"
+                className="text-sm text-muted-foreground hover:text-foreground mt-4 block underline-offset-4 hover:underline"
+              >
+                Datenschutzerklärung
+              </Link>
+
+              <div className="scale-75 pt-4">
+                <Image
+                  src={unimusikLogo}
+                  alt={"Unimusik Logo"}
+                  width={150}
+                  height={150}
+                  priority={true}
+                  loading="eager"
+                  quality={100}
+                  className={`transition-opacity duration-300 ${
+                    isImageLoaded ? "opacity-100" : "opacity-0"
+                  }`}
+                  onLoadingComplete={() => setIsImageLoaded(true)}
+                />
+              </div>
+            </CardContent>
+          </Card>
+        </div>
       </div>
-      <FooterLinks />
+      <div className="w-full mt-8">
+        <FooterLinks />
+      </div>
     </div>
   );
 }
