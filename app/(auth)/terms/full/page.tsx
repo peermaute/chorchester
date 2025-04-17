@@ -76,8 +76,8 @@ function TermsContent() {
 
               <h3 className="font-semibold mt-8">1. Zweck der Website</h3>
               <p>
-                Diese Website dient der Vernetzung von Mitgliedern eines Chores
-                und eines Orchesters. Sie ermöglicht es Nutzer*innen, ein
+                Diese Website dient der Vernetzung von Mitglieder*innen eines
+                Chores und eines Orchesters. Sie ermöglicht es Nutzer*innen, ein
                 persönliches Profil anzulegen und die Profile anderer
                 registrierter Personen einzusehen. Die Registrierung ist
                 öffentlich zugänglich. Eine kommerzielle Nutzung der Daten
@@ -90,8 +90,8 @@ function TermsContent() {
               <p>
                 Im Rahmen der Registrierung und Nutzung der Website werden
                 personenbezogene Daten verarbeitet, die für die Anmeldung,
-                Verwaltung und Darstellung von Benutzerprofilen erforderlich
-                sind. Dazu gehören insbesondere:
+                Verwaltung und Darstellung von User-Profilen erforderlich sind.
+                Dazu gehören insbesondere:
               </p>
               <ul className="list-disc pl-6 mt-2">
                 <li>E-Mail-Adresse zur Authentifizierung</li>
@@ -104,8 +104,8 @@ function TermsContent() {
                 Die Verarbeitung dieser Daten dient folgenden Zwecken:
               </p>
               <ul className="list-disc pl-6 mt-2">
-                <li>Erstellung und Anzeige von Benutzerprofilen</li>
-                <li>Verwaltung des Benutzerkontos</li>
+                <li>Erstellung und Anzeige von User-Profilen</li>
+                <li>Verwaltung des User-Kontos</li>
                 <li>
                   technische Bereitstellung, Sicherheit und Weiterentwicklung
                   der Website
@@ -175,7 +175,7 @@ function TermsContent() {
 
               <h3 className="font-semibold mt-8">6. Speicherdauer</h3>
               <p>
-                Ihre Daten werden so lange gespeichert, wie Ihr Benutzerkonto
+                Ihre Daten werden so lange gespeichert, wie Ihr User-Konto
                 besteht. Sie können Ihr Konto jederzeit löschen lassen; in
                 diesem Fall werden alle zugehörigen Daten zeitnah entfernt,
                 sofern keine gesetzlichen Aufbewahrungspflichten bestehen.
