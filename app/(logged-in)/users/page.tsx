@@ -49,8 +49,14 @@ export default function UsersPage() {
     const fetchUsers = async () => {
       try {
         const users = await getUsers();
-        setDbUsers(users);
-        setUserList(users);
+        // Sort users with peermaute@gmail.com at the top, then alphabetically by name
+        const sortedUsers = users.sort((a, b) => {
+          if (a.email === "peermaute@gmail.com") return -1;
+          if (b.email === "peermaute@gmail.com") return 1;
+          return a.name.localeCompare(b.name);
+        });
+        setDbUsers(sortedUsers);
+        setUserList(sortedUsers);
       } catch (error) {
         console.error("Error fetching users:", error);
       } finally {
