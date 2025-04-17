@@ -38,7 +38,7 @@ export default function UsersPage() {
       setUserList(
         dbUsers.filter(
           (user) =>
-            user.ensemble.toLowerCase() === value ||
+            user.ensemble?.toLowerCase() === value ||
             user.ensemble === "Kammerchor & Orchester"
         )
       );
