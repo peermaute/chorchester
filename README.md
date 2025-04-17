@@ -11,7 +11,5 @@ This is not intended to be a social network. It basically is just a way to provi
 - Typescript
 - Nextjs
 - Vercel Postgres
-
-Solutions likely to be used:
-
-- Firebase Auth
+- Vercel Blob
+- NextAuth
