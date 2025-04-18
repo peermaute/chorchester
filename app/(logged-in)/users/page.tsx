@@ -83,7 +83,7 @@ export default function UsersPage() {
           </TabsList>
         </Tabs>
       </div>
-      <div className="grid gap-6 max-w-2xl mx-auto">
+      <div className="grid gap-6 max-w-7xl mx-auto grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
         {isLoading ? (
           <>
             <UserCardSkeleton />
@@ -91,17 +91,17 @@ export default function UsersPage() {
             <UserCardSkeleton />
           </>
         ) : userList.length === 0 ? (
-          <div className="flex items-center justify-center h-32">
+          <div className="flex items-center justify-center h-32 col-span-full">
             <p className="text-muted-foreground">No users found</p>
           </div>
         ) : (
           userList.map((user) => (
             <div
-              className="w-full cursor-pointer"
+              className="w-full max-w-[400px] mx-auto md:max-w-none cursor-pointer"
               key={user.id}
               onClick={() => router.push(`/users/${user.id}`)}
             >
-              <UserCard user={user} className="h-[300px]" showDetails={true} />
+              <UserCard user={user} className="h-[350px]" showDetails={true} />
             </div>
           ))
         )}
