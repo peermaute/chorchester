@@ -17,27 +17,46 @@ const UserDetailSkeleton = () => (
         <Skeleton className="h-8 w-48 mb-2" />
       </div>
     </div>
-    <div className="space-y-4 md:space-y-6">
-      <div>
-        <div className="flex items-center gap-2 mb-1">
-          <div className="w-5 h-5 md:w-6 md:h-6 rounded-full bg-muted" />
+    <div className="space-y-8 px-4 md:px-6">
+      <div className="space-y-2">
+        <div className="flex items-center gap-3">
+          <div className="w-5 h-5 md:w-6 md:h-6 rounded-full bg-muted shrink-0" />
           <Skeleton className="h-6 w-24" />
         </div>
-        <Skeleton className="h-6 w-32" />
-      </div>
-      <div>
-        <div className="flex items-center gap-2 mb-1">
-          <div className="w-5 h-5 md:w-6 md:h-6 rounded-full bg-muted" />
+        <div className="flex gap-3">
+          <div className="w-5 h-5 md:w-6 md:h-6 shrink-0" />
           <Skeleton className="h-6 w-32" />
         </div>
-        <Skeleton className="h-6 w-32" />
       </div>
-      <div>
-        <div className="flex items-center gap-2 mb-1">
-          <div className="w-5 h-5 md:w-6 md:h-6 rounded-full bg-muted" />
+      <div className="space-y-2">
+        <div className="flex items-center gap-3">
+          <div className="w-5 h-5 md:w-6 md:h-6 rounded-full bg-muted shrink-0" />
           <Skeleton className="h-6 w-32" />
         </div>
-        <Skeleton className="h-24 w-full" />
+        <div className="flex gap-3">
+          <div className="w-5 h-5 md:w-6 md:h-6 shrink-0" />
+          <Skeleton className="h-6 w-32" />
+        </div>
+      </div>
+      <div className="space-y-2">
+        <div className="flex items-center gap-3">
+          <div className="w-5 h-5 md:w-6 md:h-6 rounded-full bg-muted shrink-0" />
+          <Skeleton className="h-6 w-32" />
+        </div>
+        <div className="flex gap-3">
+          <div className="w-5 h-5 md:w-6 md:h-6 shrink-0" />
+          <Skeleton className="h-6 w-32" />
+        </div>
+      </div>
+      <div className="space-y-2">
+        <div className="flex items-center gap-3">
+          <div className="w-5 h-5 md:w-6 md:h-6 rounded-full bg-muted shrink-0" />
+          <Skeleton className="h-6 w-32" />
+        </div>
+        <div className="flex gap-3">
+          <div className="w-5 h-5 md:w-6 md:h-6 shrink-0" />
+          <Skeleton className="h-24 w-full" />
+        </div>
       </div>
     </div>
   </div>
@@ -85,55 +104,76 @@ export default function Page({ params }: { params: { id: string } }) {
                 </div>
               </CardContent>
             </Card>
-            <div className="space-y-4 md:space-y-6">
-              <div>
-                <div className="flex items-center gap-2 mb-1">
-                  <div className="w-5 h-5 md:w-6 md:h-6">
-                    <GroupIcon currentColor="hsl(var(--accent-foreground))" />
+            <div className="space-y-8 px-4 md:px-6">
+              <div className="space-y-2">
+                <div className="flex items-center gap-3">
+                  <div className="w-5 h-5 md:w-6 md:h-6 text-muted-foreground shrink-0">
+                    <GroupIcon currentColor="hsl(var(--muted-foreground))" />
                   </div>
-                  <h2 className="text-lg md:text-xl">Ensemble</h2>
+                  <h2 className="text-lg md:text-xl font-medium">Ensemble</h2>
                 </div>
-                <div className="text-lg md:text-xl text-muted-foreground">
-                  {user?.ensemble}
+                <div className="flex gap-3">
+                  <div className="w-5 h-5 md:w-6 md:h-6 shrink-0" />
+                  <p className="text-lg md:text-xl text-muted-foreground">
+                    {user?.ensemble}
+                  </p>
                 </div>
               </div>
+
               {(user?.ensemble === "Kammerchor" ||
                 user?.ensemble === "Kammerchor & Orchester") && (
-                <div>
-                  <div className="flex items-center gap-2 mb-1">
-                    <div className="w-5 h-5 md:w-6 md:h-6">
-                      <MusicIcon currentColor="hsl(var(--accent-foreground))" />
+                <div className="space-y-2">
+                  <div className="flex items-center gap-3">
+                    <div className="w-5 h-5 md:w-6 md:h-6 text-muted-foreground shrink-0">
+                      <MusicIcon currentColor="hsl(var(--muted-foreground))" />
                     </div>
-                    <h2 className="text-lg md:text-xl">Stimmgruppe</h2>
+                    <h2 className="text-lg md:text-xl font-medium">
+                      Stimmgruppe
+                    </h2>
                   </div>
-                  <div className="text-lg md:text-xl text-muted-foreground">
-                    {user?.stimmgruppe}
+                  <div className="flex gap-3">
+                    <div className="w-5 h-5 md:w-6 md:h-6 shrink-0" />
+                    <p className="text-lg md:text-xl text-muted-foreground">
+                      {user?.stimmgruppe}
+                    </p>
                   </div>
                 </div>
               )}
+
               {(user?.ensemble === "Orchester" ||
                 user?.ensemble === "Kammerchor & Orchester") && (
-                <div>
-                  <div className="flex items-center gap-2 mb-1">
-                    <div className="w-5 h-5 md:w-6 md:h-6">
-                      <MusicIcon currentColor="hsl(var(--accent-foreground))" />
+                <div className="space-y-2">
+                  <div className="flex items-center gap-3">
+                    <div className="w-5 h-5 md:w-6 md:h-6 text-muted-foreground shrink-0">
+                      <MusicIcon currentColor="hsl(var(--muted-foreground))" />
                     </div>
-                    <h2 className="text-lg md:text-xl">Instrumentengruppe</h2>
+                    <h2 className="text-lg md:text-xl font-medium">
+                      Instrumentengruppe
+                    </h2>
                   </div>
-                  <div className="text-lg md:text-xl text-muted-foreground">
-                    {user?.instrumentengruppe}
+                  <div className="flex gap-3">
+                    <div className="w-5 h-5 md:w-6 md:h-6 shrink-0" />
+                    <p className="text-lg md:text-xl text-muted-foreground">
+                      {user?.instrumentengruppe}
+                    </p>
                   </div>
                 </div>
               )}
-              <div>
-                <div className="flex items-center gap-2 mb-1">
-                  <div className="w-5 h-5 md:w-6 md:h-6">
-                    <InfoIcon currentColor="hsl(var(--accent-foreground))" />
+
+              <div className="space-y-2">
+                <div className="flex items-center gap-3">
+                  <div className="w-5 h-5 md:w-6 md:h-6 text-muted-foreground shrink-0">
+                    <InfoIcon currentColor="hsl(var(--muted-foreground))" />
                   </div>
-                  <h2 className="text-lg md:text-xl">Persönliches</h2>
+                  <h2 className="text-lg md:text-xl font-medium">
+                    Persönliches
+                  </h2>
                 </div>
-                <div className="text-lg md:text-xl text-muted-foreground">
-                  {user?.personal_info}
+                <div className="flex gap-3">
+                  <div className="w-5 h-5 md:w-6 md:h-6 shrink-0" />
+                  <p className="text-lg md:text-xl text-muted-foreground">
+                    {user?.personal_info}
+                  </p>
                 </div>
               </div>
             </div>
