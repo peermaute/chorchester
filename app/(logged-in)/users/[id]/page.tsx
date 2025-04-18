@@ -10,37 +10,31 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 
 const UserDetailSkeleton = () => (
-  <Card className="w-full border-0 shadow-none">
-    <CardContent className="pt-6 *:mb-6">
-      <div className="flex justify-center">
-        <Skeleton className="h-12 w-48" />
+  <div className="w-full max-w-[400px] mx-auto md:max-w-none space-y-4">
+    <div className="rounded-lg bg-card shadow-sm h-[350px] overflow-hidden">
+      <Skeleton className="h-full w-full" />
+      <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent">
+        <Skeleton className="h-8 w-48 mb-2" />
       </div>
-      <div className="flex justify-center">
-        <Skeleton className="h-[200px] w-[200px] rounded-full" />
-      </div>
-      <div>
-        <div className="flex items-center mb-1">
-          <GroupIcon currentColor="#4E47C6" />
-          <Skeleton className="h-6 w-24 ml-2" />
-        </div>
+    </div>
+    <div className="space-y-4">
+      <div className="flex items-center gap-2">
+        <GroupIcon currentColor="#4E47C6" />
         <Skeleton className="h-6 w-32" />
       </div>
-      <div>
-        <div className="flex items-center mb-1">
-          <MusicIcon currentColor="#4E47C6" />
-          <Skeleton className="h-6 w-32 ml-2" />
-        </div>
-        <Skeleton className="h-6 w-40" />
+      <Skeleton className="h-6 w-48" />
+      <div className="flex items-center gap-2">
+        <MusicIcon currentColor="#4E47C6" />
+        <Skeleton className="h-6 w-32" />
       </div>
-      <div>
-        <div className="flex items-center mb-1">
-          <InfoIcon currentColor="#4E47C6" />
-          <Skeleton className="h-6 w-32 ml-2" />
-        </div>
-        <Skeleton className="h-24 w-full" />
+      <Skeleton className="h-6 w-48" />
+      <div className="flex items-center gap-2">
+        <InfoIcon currentColor="#4E47C6" />
+        <Skeleton className="h-6 w-32" />
       </div>
-    </CardContent>
-  </Card>
+      <Skeleton className="h-24 w-full" />
+    </div>
+  </div>
 );
 
 export default function Page({ params }: { params: { id: string } }) {
@@ -62,39 +56,51 @@ export default function Page({ params }: { params: { id: string } }) {
   }, [params.id]);
 
   return (
-    <div className="flex justify-center">
-      <div className="flex justify-center items-center w-3/4 lg:w-1/4">
+    <div className="flex justify-center mt-8 p-4">
+      <div className="w-full max-w-[350px] md:max-w-[400px] lg:max-w-[450px] mx-auto space-y-4">
         {isLoading ? (
           <UserDetailSkeleton />
         ) : user ? (
-          <Card className="w-full border-0 shadow-none">
-            <CardContent className="pt-6 *:mb-6">
-              <div className="text-3xl text-center">{user?.name}</div>
-              <div className="flex justify-center">
-                <div className="relative w-48 h-48 rounded-full overflow-hidden">
+          <>
+            <Card className="w-full border-0 shadow-none rounded-xl overflow-hidden">
+              <CardContent className="p-0 h-[400px] md:h-[400px] lg:h-[450px] relative">
+                <div className="relative h-full w-full">
                   <Image
                     src={user?.picture ?? "/person.svg"}
-                    alt={"Profile Picture"}
+                    alt={user?.name ?? "Profile Picture"}
                     fill
                     className="object-cover"
                   />
+                  <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 lg:p-10 bg-gradient-to-t from-black/80 to-transparent">
+                    <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white">
+                      {user?.name}
+                    </h2>
+                  </div>
                 </div>
-              </div>
+              </CardContent>
+            </Card>
+            <div className="space-y-4 md:space-y-6">
               <div>
-                <div className="flex items-center mb-1">
-                  <GroupIcon currentColor="#4E47C6" />
-                  <h2 className="text-lg ml-2">Ensemble</h2>
+                <div className="flex items-center gap-2 mb-1">
+                  <div className="w-5 h-5 md:w-6 md:h-6">
+                    <GroupIcon currentColor="#4E47C6" />
+                  </div>
+                  <h2 className="text-lg md:text-xl">Ensemble</h2>
                 </div>
-                <div className="text-lg text-gray-500">{user?.ensemble}</div>
+                <div className="text-lg md:text-xl text-muted-foreground">
+                  {user?.ensemble}
+                </div>
               </div>
               {(user?.ensemble === "Kammerchor" ||
                 user?.ensemble === "Kammerchor & Orchester") && (
                 <div>
-                  <div className="flex items-center mb-1">
-                    <MusicIcon currentColor="#4E47C6" />
-                    <h2 className="text-lg ml-2">Stimmgruppe</h2>
+                  <div className="flex items-center gap-2 mb-1">
+                    <div className="w-5 h-5 md:w-6 md:h-6">
+                      <MusicIcon currentColor="#4E47C6" />
+                    </div>
+                    <h2 className="text-lg md:text-xl">Stimmgruppe</h2>
                   </div>
-                  <div className="text-lg text-gray-500">
+                  <div className="text-lg md:text-xl text-muted-foreground">
                     {user?.stimmgruppe}
                   </div>
                 </div>
@@ -102,28 +108,32 @@ export default function Page({ params }: { params: { id: string } }) {
               {(user?.ensemble === "Orchester" ||
                 user?.ensemble === "Kammerchor & Orchester") && (
                 <div>
-                  <div className="flex items-center mb-1">
-                    <MusicIcon currentColor="#4E47C6" />
-                    <h2 className="text-lg ml-2">Instrumentengruppe</h2>
+                  <div className="flex items-center gap-2 mb-1">
+                    <div className="w-5 h-5 md:w-6 md:h-6">
+                      <MusicIcon currentColor="#4E47C6" />
+                    </div>
+                    <h2 className="text-lg md:text-xl">Instrumentengruppe</h2>
                   </div>
-                  <div className="text-lg text-gray-500">
+                  <div className="text-lg md:text-xl text-muted-foreground">
                     {user?.instrumentengruppe}
                   </div>
                 </div>
               )}
               <div>
-                <div className="flex items-center mb-1">
-                  <InfoIcon currentColor="#4E47C6" />
-                  <h2 className="text-lg ml-2">Persönliches</h2>
+                <div className="flex items-center gap-2 mb-1">
+                  <div className="w-5 h-5 md:w-6 md:h-6">
+                    <InfoIcon currentColor="#4E47C6" />
+                  </div>
+                  <h2 className="text-lg md:text-xl">Persönliches</h2>
                 </div>
-                <div className="text-lg text-gray-500">
+                <div className="text-lg md:text-xl text-muted-foreground">
                   {user?.personal_info}
                 </div>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </>
         ) : (
-          <p className="text-muted-foreground">User not found</p>
+          <div className="text-muted-foreground">User not found</div>
         )}
       </div>
     </div>
