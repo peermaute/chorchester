@@ -20,27 +20,21 @@ const UserDetailSkeleton = () => (
     <div className="space-y-4 md:space-y-6">
       <div>
         <div className="flex items-center gap-2 mb-1">
-          <div className="w-5 h-5 md:w-6 md:h-6">
-            <GroupIcon currentColor="#4E47C6" />
-          </div>
+          <div className="w-5 h-5 md:w-6 md:h-6 rounded-full bg-muted" />
           <Skeleton className="h-6 w-24" />
         </div>
         <Skeleton className="h-6 w-32" />
       </div>
       <div>
         <div className="flex items-center gap-2 mb-1">
-          <div className="w-5 h-5 md:w-6 md:h-6">
-            <MusicIcon currentColor="#4E47C6" />
-          </div>
+          <div className="w-5 h-5 md:w-6 md:h-6 rounded-full bg-muted" />
           <Skeleton className="h-6 w-32" />
         </div>
         <Skeleton className="h-6 w-32" />
       </div>
       <div>
         <div className="flex items-center gap-2 mb-1">
-          <div className="w-5 h-5 md:w-6 md:h-6">
-            <InfoIcon currentColor="#4E47C6" />
-          </div>
+          <div className="w-5 h-5 md:w-6 md:h-6 rounded-full bg-muted" />
           <Skeleton className="h-6 w-32" />
         </div>
         <Skeleton className="h-24 w-full" />
@@ -95,7 +89,7 @@ export default function Page({ params }: { params: { id: string } }) {
               <div>
                 <div className="flex items-center gap-2 mb-1">
                   <div className="w-5 h-5 md:w-6 md:h-6">
-                    <GroupIcon currentColor="#4E47C6" />
+                    <GroupIcon currentColor="hsl(var(--accent-foreground))" />
                   </div>
                   <h2 className="text-lg md:text-xl">Ensemble</h2>
                 </div>
@@ -108,7 +102,7 @@ export default function Page({ params }: { params: { id: string } }) {
                 <div>
                   <div className="flex items-center gap-2 mb-1">
                     <div className="w-5 h-5 md:w-6 md:h-6">
-                      <MusicIcon currentColor="#4E47C6" />
+                      <MusicIcon currentColor="hsl(var(--accent-foreground))" />
                     </div>
                     <h2 className="text-lg md:text-xl">Stimmgruppe</h2>
                   </div>
@@ -122,7 +116,7 @@ export default function Page({ params }: { params: { id: string } }) {
                 <div>
                   <div className="flex items-center gap-2 mb-1">
                     <div className="w-5 h-5 md:w-6 md:h-6">
-                      <MusicIcon currentColor="#4E47C6" />
+                      <MusicIcon currentColor="hsl(var(--accent-foreground))" />
                     </div>
                     <h2 className="text-lg md:text-xl">Instrumentengruppe</h2>
                   </div>
@@ -134,7 +128,7 @@ export default function Page({ params }: { params: { id: string } }) {
               <div>
                 <div className="flex items-center gap-2 mb-1">
                   <div className="w-5 h-5 md:w-6 md:h-6">
-                    <InfoIcon currentColor="#4E47C6" />
+                    <InfoIcon currentColor="hsl(var(--accent-foreground))" />
                   </div>
                   <h2 className="text-lg md:text-xl">Persönliches</h2>
                 </div>
