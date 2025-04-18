@@ -50,14 +50,14 @@ export default function UsersPage() {
         setIsLoading(true);
         const { users: fetchedUsers, total } = await getUsers(page, limit);
         setUsers((prevUsers) => {
-          // Only add users that aren't already in the list
           const newUsers = fetchedUsers.filter(
             (newUser) =>
               !prevUsers.some((prevUser) => prevUser.id === newUser.id)
           );
-          return [...prevUsers, ...newUsers];
+          const updatedUsers = [...prevUsers, ...newUsers];
+          setHasMore(updatedUsers.length < total);
+          return updatedUsers;
         });
-        setHasMore(users.length + fetchedUsers.length < total);
       } catch (error) {
         console.error("Error fetching users:", error);
       } finally {
@@ -66,7 +66,7 @@ export default function UsersPage() {
     };
 
     fetchUsers();
-  }, [page]);
+  }, [page, limit]);
 
   if (page === 1 && isLoading) {
     return (

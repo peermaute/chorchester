@@ -31,7 +31,7 @@ export default function UserCardsPage() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const fetchedUsers = await getUsers();
+        const { users: fetchedUsers } = await getUsers();
         // Sort users alphabetically by name
         const sortedUsers = fetchedUsers.sort((a, b) =>
           a.name.localeCompare(b.name)
