@@ -8,18 +8,12 @@ import UserCard from "@/app/components/UserCard";
 import { useRouter } from "next/navigation";
 
 const UserCardSkeleton = () => (
-  <div className="rounded-lg bg-card p-4 shadow-sm">
-    <div className="flex items-center gap-4">
-      <div className="flex-shrink-0">
-        <Skeleton className="h-14 w-14 rounded-full" />
-      </div>
-      <div className="flex flex-col min-w-0 flex-1 space-y-2">
+  <div className="w-full max-w-[400px] mx-auto md:max-w-none">
+    <div className="rounded-lg bg-card shadow-sm h-[350px] overflow-hidden">
+      <Skeleton className="h-full w-full" />
+      <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent">
+        <Skeleton className="h-8 w-48 mb-2" />
         <Skeleton className="h-5 w-32" />
-        <div className="flex items-center gap-1.5">
-          <Skeleton className="h-4 w-20" />
-          <Skeleton className="h-4 w-4 rounded-full" />
-          <Skeleton className="h-4 w-16" />
-        </div>
       </div>
     </div>
   </div>
