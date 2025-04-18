@@ -10,29 +10,41 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 
 const UserDetailSkeleton = () => (
-  <div className="w-full max-w-[400px] mx-auto md:max-w-none space-y-4">
-    <div className="rounded-lg bg-card shadow-sm h-[350px] overflow-hidden">
+  <div className="w-full max-w-[350px] md:max-w-[400px] lg:max-w-[450px] mx-auto space-y-4">
+    <div className="rounded-lg bg-card shadow-sm h-[400px] md:h-[400px] lg:h-[450px] overflow-hidden">
       <Skeleton className="h-full w-full" />
-      <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent">
+      <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 lg:p-10 bg-gradient-to-t from-black/80 to-transparent">
         <Skeleton className="h-8 w-48 mb-2" />
       </div>
     </div>
-    <div className="space-y-4">
-      <div className="flex items-center gap-2">
-        <GroupIcon currentColor="#4E47C6" />
+    <div className="space-y-4 md:space-y-6">
+      <div>
+        <div className="flex items-center gap-2 mb-1">
+          <div className="w-5 h-5 md:w-6 md:h-6">
+            <GroupIcon currentColor="#4E47C6" />
+          </div>
+          <Skeleton className="h-6 w-24" />
+        </div>
         <Skeleton className="h-6 w-32" />
       </div>
-      <Skeleton className="h-6 w-48" />
-      <div className="flex items-center gap-2">
-        <MusicIcon currentColor="#4E47C6" />
+      <div>
+        <div className="flex items-center gap-2 mb-1">
+          <div className="w-5 h-5 md:w-6 md:h-6">
+            <MusicIcon currentColor="#4E47C6" />
+          </div>
+          <Skeleton className="h-6 w-32" />
+        </div>
         <Skeleton className="h-6 w-32" />
       </div>
-      <Skeleton className="h-6 w-48" />
-      <div className="flex items-center gap-2">
-        <InfoIcon currentColor="#4E47C6" />
-        <Skeleton className="h-6 w-32" />
+      <div>
+        <div className="flex items-center gap-2 mb-1">
+          <div className="w-5 h-5 md:w-6 md:h-6">
+            <InfoIcon currentColor="#4E47C6" />
+          </div>
+          <Skeleton className="h-6 w-32" />
+        </div>
+        <Skeleton className="h-24 w-full" />
       </div>
-      <Skeleton className="h-24 w-full" />
     </div>
   </div>
 );
