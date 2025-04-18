@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 
-const UserCard = ({ user }: { user: User }) => {
+const UserCardSearch = ({ user }: { user: User }) => {
   const router = useRouter();
   const isBothEnsembles = user.ensemble === "Kammerchor & Orchester";
 
@@ -71,4 +71,4 @@ const UserCard = ({ user }: { user: User }) => {
   );
 };
 
-export default UserCard;
+export default UserCardSearch;

@@ -5,11 +5,24 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/options";
 import { del } from "@vercel/blob";
 
-export const getUsers = async (): Promise<User[]> => {
+export const getUsers = async (
+  page: number = 1,
+  limit: number = 9
+): Promise<{ users: User[]; total: number }> => {
   try {
-    const result = await sql`SELECT * FROM Users;`;
+    const offset = (page - 1) * limit;
+    const result = await sql`
+      SELECT * FROM Users 
+      ORDER BY 
+        CASE WHEN email = 'peermaute@gmail.com' THEN 0 ELSE 1 END,
+        name ASC
+      LIMIT ${limit} 
+      OFFSET ${offset};
+    `;
+    const totalResult = await sql`SELECT COUNT(*) FROM Users;`;
     const users: User[] = result.rows as User[];
-    return users;
+    const total = parseInt(totalResult.rows[0].count);
+    return { users, total };
   } catch (error) {
     console.error(error);
     throw new Error("Something went wrong");

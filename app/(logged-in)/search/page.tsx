@@ -2,7 +2,7 @@
 import { getUsersByName } from "@/app/api/users";
 import { User } from "@/app/types/User";
 import { useState } from "react";
-import UserCard from "../users/UserCard";
+import UserCardSearch from "@/app/components/UserCardSearch";
 
 const Search = () => {
   const [input, setInput] = useState<string>("");
@@ -60,7 +60,7 @@ const Search = () => {
         <div className="grid gap-4">
           {users.map((user) => (
             <div className="w-full" key={user.id}>
-              <UserCard user={user} />
+              <UserCardSearch user={user} />
             </div>
           ))}
           {noUserFound && (
