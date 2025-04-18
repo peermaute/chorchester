@@ -1,10 +1,11 @@
 "use client";
 import { useEffect, useState } from "react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import UserCard from "./UserCard";
 import { getUsers } from "@/app/api/users";
 import { User } from "@/app/types/User";
 import { Skeleton } from "@/app/components/ui/skeleton";
+import UserCard from "@/app/components/UserCard";
+import { useRouter } from "next/navigation";
 
 const UserCardSkeleton = () => (
   <div className="rounded-lg bg-card p-4 shadow-sm">
@@ -25,6 +26,7 @@ const UserCardSkeleton = () => (
 );
 
 export default function UsersPage() {
+  const router = useRouter();
   const [userList, setUserList] = useState<User[]>([]);
   const [dbUsers, setDbUsers] = useState<User[]>([]);
   const [activeTab, setActiveTab] = useState("all");
@@ -67,7 +69,7 @@ export default function UsersPage() {
   }, []);
 
   return (
-    <div className="space-y-4 p-4">
+    <div className="space-y-4 p-6">
       <div className="flex flex-col gap-4 items-center">
         <Tabs
           value={activeTab}
@@ -81,7 +83,7 @@ export default function UsersPage() {
           </TabsList>
         </Tabs>
       </div>
-      <div className="grid gap-4 max-w-2xl mx-auto">
+      <div className="grid gap-6 max-w-2xl mx-auto">
         {isLoading ? (
           <>
             <UserCardSkeleton />
@@ -94,8 +96,12 @@ export default function UsersPage() {
           </div>
         ) : (
           userList.map((user) => (
-            <div className="w-full" key={user.id}>
-              <UserCard user={user} />
+            <div
+              className="w-full cursor-pointer"
+              key={user.id}
+              onClick={() => router.push(`/users/${user.id}`)}
+            >
+              <UserCard user={user} className="h-[300px]" showDetails={true} />
             </div>
           ))
         )}

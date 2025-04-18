@@ -2,17 +2,14 @@
 import { useEffect, useState, useRef } from "react";
 import { getUsers } from "@/app/api/users";
 import { User } from "@/app/types/User";
-import { Card, CardContent } from "@/components/ui/card";
-import Image from "next/image";
 import { Skeleton } from "@/app/components/ui/skeleton";
 import { cn } from "@/lib/utils";
+import UserCard from "@/app/components/UserCard";
 
 const UserCardSkeleton = () => (
-  <Card className="w-[60vh] aspect-[3/4] border-0 shadow-none rounded-xl">
-    <CardContent className="p-0 h-full">
-      <Skeleton className="h-full w-full rounded-xl" />
-    </CardContent>
-  </Card>
+  <div className="w-[60vh] aspect-[3/4] rounded-xl overflow-hidden">
+    <Skeleton className="h-full w-full rounded-xl" />
+  </div>
 );
 
 export default function UserCardsPage() {
@@ -153,31 +150,7 @@ export default function UserCardsPage() {
                 : "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
             }}
           >
-            <Card className="w-full h-full border-0 shadow-none rounded-xl">
-              <CardContent className="p-0 h-full relative">
-                <div className="relative h-full w-full rounded-xl overflow-hidden">
-                  <Image
-                    src={user.picture ?? "/person.svg"}
-                    alt={user.name}
-                    fill
-                    className="object-cover"
-                    priority={index === currentScrollIndex}
-                  />
-                  <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent">
-                    <h2 className="text-2xl font-bold text-white mb-2">
-                      {user.name}
-                    </h2>
-                    <p className="text-white/80">{user.ensemble}</p>
-                    {user.stimmgruppe && (
-                      <p className="text-white/80">{user.stimmgruppe}</p>
-                    )}
-                    {user.instrumentengruppe && (
-                      <p className="text-white/80">{user.instrumentengruppe}</p>
-                    )}
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+            <UserCard user={user} className="h-full" />
           </div>
         ))}
       </div>
