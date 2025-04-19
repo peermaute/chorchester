@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { Navigation } from "./navigation";
 import { navigationItems } from "@/lib/config/navigation";
-import { layoutConfig } from "@/lib/config/layout";
+import { theme } from "@/lib/config/theme";
 
 export const Header = () => {
   const router = useRouter();
@@ -13,14 +13,14 @@ export const Header = () => {
 
   return (
     <header
-      className={`w-full bg-background border-b ${layoutConfig.border.default} ${layoutConfig.height.header}`}
+      className={`w-full ${theme.colors.background.primary} border-b ${theme.colors.border.default} ${theme.layout.header.height}`}
     >
       <div
-        className={`${layoutConfig.maxWidth} mx-auto ${layoutConfig.padding.x} h-full`}
+        className={`${theme.spacing.container.maxWidth} mx-auto ${theme.spacing.container.padding} h-full`}
       >
         <div className="flex justify-between items-center h-full">
           <div
-            className="flex items-center space-x-4 transition-transform duration-300 hover:scale-[1.02] active:scale-[0.98]"
+            className={`flex items-center ${theme.spacing.elements.medium} ${theme.transitions.hover}`}
             onClick={() => router.push("/")}
           >
             <div className="w-[70px] h-[70px] relative">
@@ -38,9 +38,7 @@ export const Header = () => {
                 onLoadingComplete={() => setIsImageLoaded(true)}
               />
             </div>
-            <h1 className="text-xl font-extrabold text-foreground hover:cursor-pointer font-sans uppercase tracking-tight">
-              Chorchester
-            </h1>
+            <h1 className={theme.typography.heading.h1}>Chorchester</h1>
           </div>
           <Navigation
             items={navigationItems}

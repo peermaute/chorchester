@@ -40,4 +40,9 @@ export const theme = {
     default: "transition-all duration-300",
     hover: "hover:scale-[1.02] active:scale-[0.98]",
   },
+  layout: {
+    header: {
+      height: "h-[78px]",
+    },
+  },
 } as const;
