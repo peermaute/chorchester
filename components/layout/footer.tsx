@@ -2,29 +2,7 @@
 
 import { Navigation } from "./navigation";
 import { FooterLinks } from "@/components/ui/footer-links";
-import {
-  ListIcon,
-  MusicIcon,
-  UserIcon,
-} from "@/components/ui/icons/custom-icons";
-
-const navigationItems = [
-  {
-    path: "/",
-    icon: <ListIcon className="h-5 w-5" />,
-    label: "Home",
-  },
-  {
-    path: "/songs",
-    icon: <MusicIcon className="h-5 w-5" />,
-    label: "Songs",
-  },
-  {
-    path: "/profile",
-    icon: <UserIcon className="h-5 w-5" />,
-    label: "Profile",
-  },
-];
+import { navigationItems } from "@/lib/config/navigation";
 
 export const Footer = () => {
   return (

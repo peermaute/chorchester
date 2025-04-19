@@ -4,14 +4,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useState } from "react";
 import { Navigation } from "./navigation";
-
-const navigationItems = [
-  {
-    path: "/",
-    icon: null,
-    label: "Home",
-  },
-];
+import { navigationItems } from "@/lib/config/navigation";
 
 export const Header = () => {
   const router = useRouter();
