@@ -18,6 +18,7 @@ import { FooterLinks } from "@/app/components/footer-links";
 import { Input } from "@/components/ui/input";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
+import { Mail } from "lucide-react";
 
 function SignInContent() {
   const { data: session, status } = useSession();
@@ -102,16 +103,30 @@ function SignInContent() {
             </CardHeader>
             <CardContent className="flex flex-col items-center">
               <Button
-                className="w-full mb-4 bg-red-600 hover:bg-red-700"
+                className="w-full mb-4 bg-white hover:bg-gray-100 text-gray-700 border border-gray-300 flex items-center justify-center gap-3"
                 onClick={() => handleSignIn("google")}
               >
-                Mit Google anmelden
+                <Image
+                  src="/signin-assets/google.svg"
+                  alt="Google"
+                  width={24}
+                  height={24}
+                  className="w-6 h-6 flex-shrink-0"
+                />
+                <span>Mit Google anmelden</span>
               </Button>
               <Button
-                className="w-full mb-6 bg-black hover:bg-black/90"
+                className="w-full mb-6 bg-black hover:bg-black/90 flex items-center justify-center gap-3"
                 onClick={() => handleSignIn("github")}
               >
-                Mit GitHub anmelden
+                <Image
+                  src="/signin-assets/github-icon.svg"
+                  alt="GitHub Logo"
+                  width={24}
+                  height={24}
+                  className="w-6 h-6 flex-shrink-0"
+                />
+                <span>Mit GitHub anmelden</span>
               </Button>
 
               <div className="my-4 flex w-full items-center">
@@ -131,10 +146,13 @@ function SignInContent() {
                   />
                   <Button
                     type="submit"
-                    className="w-full bg-white text-black hover:bg-gray-100"
+                    className="w-full bg-white text-black hover:bg-gray-100 flex items-center justify-center gap-3"
                     disabled={isLoading}
                   >
-                    {isLoading ? "Senden..." : "Mit E-Mail anmelden"}
+                    <Mail className="w-6 h-6 flex-shrink-0" />
+                    <span>
+                      {isLoading ? "Senden..." : "Mit E-Mail anmelden"}
+                    </span>
                   </Button>
                 </div>
               </form>
