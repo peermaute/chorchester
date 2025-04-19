@@ -1,37 +1,32 @@
 "use client";
 
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { NavigationItem } from "@/types/navigation";
-import { User } from "@/app/types/User";
+import { useNavigation } from "@/lib/context/navigation-context";
+import { theme } from "@/lib/config/theme";
 
 interface NavigationProps {
   items: NavigationItem[];
-  user?: User | null;
   className?: string;
   variant?: "mobile" | "desktop";
 }
 
 export const Navigation = ({
   items,
-  user,
   className,
   variant = "mobile",
 }: NavigationProps) => {
   const router = useRouter();
-  const pathname = usePathname();
-
-  const isActive = (path: string) => {
-    if (path === "/" && pathname === "/") return true;
-    return pathname.startsWith(path) && path !== "/";
-  };
+  const { user, isActive } = useNavigation();
 
   return (
     <nav
       className={cn(
-        "flex items-center gap-4",
+        "flex items-center",
         variant === "mobile" ? "justify-around" : "justify-end",
+        theme.spacing.elements.medium,
         className
       )}
     >
@@ -42,7 +37,8 @@ export const Navigation = ({
           size={variant === "mobile" ? "icon" : "default"}
           className={cn(
             variant === "mobile" ? "h-10 w-10 rounded-full" : "h-9 px-4",
-            isActive(item.path) && "bg-accent text-accent-foreground"
+            isActive(item.path) && "bg-accent text-accent-foreground",
+            theme.transitions.default
           )}
           onClick={() => router.push(item.path)}
         >
@@ -58,7 +54,9 @@ export const Navigation = ({
             <>
               {item.icon}
               {variant === "desktop" && (
-                <span className="ml-2">{item.label}</span>
+                <span className={cn("ml-2", theme.typography.body.default)}>
+                  {item.label}
+                </span>
               )}
             </>
           )}
