@@ -5,14 +5,19 @@ import Image from "next/image";
 import { useState } from "react";
 import { Navigation } from "./navigation";
 import { navigationItems } from "@/lib/config/navigation";
+import { layoutConfig } from "@/lib/config/layout";
 
 export const Header = () => {
   const router = useRouter();
   const [isImageLoaded, setIsImageLoaded] = useState(false);
 
   return (
-    <header className="w-full bg-background border-b border-border h-[78px]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
+    <header
+      className={`w-full bg-background border-b ${layoutConfig.border.default} ${layoutConfig.height.header}`}
+    >
+      <div
+        className={`${layoutConfig.maxWidth} mx-auto ${layoutConfig.padding.x} h-full`}
+      >
         <div className="flex justify-between items-center h-full">
           <div
             className="flex items-center space-x-4 transition-transform duration-300 hover:scale-[1.02] active:scale-[0.98]"
@@ -37,7 +42,11 @@ export const Header = () => {
               Chorchester
             </h1>
           </div>
-          <Navigation items={navigationItems} className="hidden md:flex" />
+          <Navigation
+            items={navigationItems}
+            variant="desktop"
+            className="hidden md:flex"
+          />
         </div>
       </div>
     </header>

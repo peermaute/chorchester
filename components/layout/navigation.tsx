@@ -3,28 +3,22 @@
 import { useRouter, usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import {
-  ListIcon,
-  SearchIcon,
-  UserIcon,
-  SettingsIcon,
-} from "@/components/ui/icons/custom-icons";
-import Image from "next/image";
+import { NavigationItem } from "@/types/navigation";
 import { User } from "@/app/types/User";
-
-interface NavigationItem {
-  path: string;
-  icon: React.ReactNode;
-  label: string;
-}
 
 interface NavigationProps {
   items: NavigationItem[];
   user?: User | null;
   className?: string;
+  variant?: "mobile" | "desktop";
 }
 
-export const Navigation = ({ items, user, className }: NavigationProps) => {
+export const Navigation = ({
+  items,
+  user,
+  className,
+  variant = "mobile",
+}: NavigationProps) => {
   const router = useRouter();
   const pathname = usePathname();
 
@@ -34,29 +28,39 @@ export const Navigation = ({ items, user, className }: NavigationProps) => {
   };
 
   return (
-    <nav className={cn("flex items-center justify-between", className)}>
+    <nav
+      className={cn(
+        "flex items-center gap-4",
+        variant === "mobile" ? "justify-around" : "justify-end",
+        className
+      )}
+    >
       {items.map((item) => (
         <Button
           key={item.path}
           variant="ghost"
-          size="icon"
+          size={variant === "mobile" ? "icon" : "default"}
           className={cn(
-            "h-10 w-10 rounded-full",
+            variant === "mobile" ? "h-10 w-10 rounded-full" : "h-9 px-4",
             isActive(item.path) && "bg-accent text-accent-foreground"
           )}
           onClick={() => router.push(item.path)}
         >
           {item.path === "/profile" && user?.picture ? (
             <div className="relative h-6 w-6 rounded-full overflow-hidden">
-              <Image
+              <img
                 src={user.picture}
                 alt="Profile picture"
-                fill
-                className="object-cover"
+                className="object-cover w-full h-full"
               />
             </div>
           ) : (
-            item.icon
+            <>
+              {item.icon}
+              {variant === "desktop" && (
+                <span className="ml-2">{item.label}</span>
+              )}
+            </>
           )}
         </Button>
       ))}
