@@ -4,7 +4,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getUsers } from "@/app/api/users";
 import { User } from "@/app/types/User";
 import { Skeleton } from "@/app/components/ui/skeleton";
-import UserCard from "@/app/components/UserCard";
+import UserCard from "@/components/features/users/user-card";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";

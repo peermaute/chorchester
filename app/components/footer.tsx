@@ -1,8 +1,10 @@
 "use client";
-import { ListIcon } from "./list-icon";
-import { SearchIcon } from "./search-icon";
-import { UserIcon } from "./user-icon";
-import { SettingsIcon } from "./icons/settings-icon";
+import {
+  ListIcon,
+  SearchIcon,
+  UserIcon,
+  SettingsIcon,
+} from "@/components/ui/icons/custom-icons";
 import { useRouter, usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";

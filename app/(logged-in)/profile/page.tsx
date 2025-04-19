@@ -33,7 +33,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { UserIcon } from "@/app/components/user-icon";
+import { UserIcon } from "@/components/ui/icons/custom-icons";
 import { ProfilePictureUpload } from "@/app/components/profile-picture-upload";
 import { getUserByEmail, updateUser } from "@/app/api/users";
 import { useSession } from "next-auth/react";
