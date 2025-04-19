@@ -40,6 +40,7 @@ import { useSession } from "next-auth/react";
 import { User } from "@/app/types/User";
 import { toast } from "sonner";
 import { Skeleton } from "../../components/ui/skeleton";
+import { cn } from "@/lib/utils";
 
 const MAX_PERSONAL_INFO_LENGTH = 1000;
 const MAX_NAME_LENGTH = 255;
@@ -87,6 +88,7 @@ const Profile = () => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -152,6 +154,7 @@ const Profile = () => {
     if (!session?.user?.email) return;
 
     try {
+      setIsSubmitting(true);
       const updatedUser = await updateUser(session.user.email, {
         ...values,
         picture: user?.picture,
@@ -161,6 +164,8 @@ const Profile = () => {
     } catch (error) {
       console.error("Error updating profile:", error);
       toast.error("Failed to update profile");
+    } finally {
+      setIsSubmitting(false);
     }
   }
 
@@ -431,7 +436,13 @@ const Profile = () => {
                   >
                     Abbrechen
                   </Button>
-                  <Button type="submit">Änderungen speichern</Button>
+                  <Button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="min-w-[180px]"
+                  >
+                    {isSubmitting ? "Speichern..." : "Änderungen speichern"}
+                  </Button>
                 </div>
               </form>
             </Form>
