@@ -88,7 +88,7 @@ function SignInContent() {
   };
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-between bg-background py-8">
+    <div className="flex flex-col min-h-[100dvh] bg-background py-8">
       <div className="flex-1 flex items-center justify-center w-full px-4 sm:px-6">
         <div className="w-full max-w-md">
           <Card>
@@ -165,7 +165,7 @@ function SignInContent() {
           </Card>
         </div>
       </div>
-      <div className="w-full mt-8">
+      <div className="mt-8">
         <FooterLinks />
       </div>
     </div>
