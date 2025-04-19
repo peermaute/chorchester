@@ -160,10 +160,10 @@ const Profile = () => {
         picture: user?.picture,
       });
       setUser(updatedUser);
-      toast.success("Profile updated successfully!");
+      toast.success("Profil erfolgreich aktualisiert!");
     } catch (error) {
       console.error("Error updating profile:", error);
-      toast.error("Failed to update profile");
+      toast.error("Fehler beim Aktualisieren des Profils");
     } finally {
       setIsSubmitting(false);
     }
