@@ -52,14 +52,14 @@ export const authOptions: NextAuthOptions = {
           const { error } = await resend.emails.send({
             from: process.env.EMAIL_FROM!,
             to: email,
-            subject: "Sign in to Unimusik",
+            subject: "Anmeldung bei Chorchester",
             html: `
               <div>
-                <h1>Welcome to Unimusik!</h1>
-                <p>Click the link below to sign in to your account:</p>
-                <a href="${url}">Sign in to Unimusik</a>
-                <p>If you didn't request this email, you can safely ignore it.</p>
-                <p>This link will expire in 24 hours.</p>
+                <h1>Willkommen bei Chorchester!</h1>
+                <p>Klicke auf den Link unten, um dich bei deinem Konto anzumelden:</p>
+                <a href="${url}">Bei Chorchester anmelden</a>
+                <p>Falls du diese E-Mail nicht angefordert hast, kannst du sie ignorieren.</p>
+                <p>Dieser Link ist 24 Stunden gültig.</p>
               </div>
             `,
           });
