@@ -1,8 +1,14 @@
 "use client";
 
 import Link from "next/link";
+import { FC } from "react";
 
-const footerLinks = [
+interface FooterLink {
+  href: string;
+  label: string;
+}
+
+const footerLinks: FooterLink[] = [
   {
     href: "/about",
     label: "About",
@@ -21,7 +27,7 @@ const footerLinks = [
   },
 ];
 
-export const FooterLinks = () => {
+export const FooterLinks: FC = () => {
   return (
     <div className="py-6 md:py-8">
       <div className="flex flex-col md:flex-row justify-between items-center gap-4">

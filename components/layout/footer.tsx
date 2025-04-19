@@ -1,22 +1,27 @@
 "use client";
 
 import { Navigation } from "./navigation";
-import { FooterLinks } from "./footer-links";
+import { FooterLinks } from "@/components/ui/footer-links";
+import {
+  ListIcon,
+  MusicIcon,
+  UserIcon,
+} from "@/components/ui/icons/custom-icons";
 
 const navigationItems = [
   {
     path: "/",
-    icon: "Home",
+    icon: <ListIcon className="h-5 w-5" />,
     label: "Home",
   },
   {
     path: "/songs",
-    icon: "Music",
+    icon: <MusicIcon className="h-5 w-5" />,
     label: "Songs",
   },
   {
     path: "/profile",
-    icon: "User",
+    icon: <UserIcon className="h-5 w-5" />,
     label: "Profile",
   },
 ];
