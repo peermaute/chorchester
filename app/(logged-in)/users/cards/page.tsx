@@ -4,7 +4,7 @@ import { getUsers } from "@/app/api/users";
 import { User } from "@/app/types/User";
 import { Skeleton } from "@/app/components/ui/skeleton";
 import { cn } from "@/lib/utils";
-import UserCard from "@/app/components/UserCard";
+import UserCard from "@/components/features/users/user-card";
 
 const UserCardSkeleton = () => (
   <div className="w-[60vh] aspect-[3/4] rounded-xl overflow-hidden">

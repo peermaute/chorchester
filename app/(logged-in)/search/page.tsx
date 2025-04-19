@@ -2,7 +2,7 @@
 import { getUsersByName } from "@/app/api/users";
 import { User } from "@/app/types/User";
 import { useState } from "react";
-import UserCardSearch from "@/app/components/UserCardSearch";
+import UserCardSearch from "@/components/features/users/user-card-search";
 
 const Search = () => {
   const [input, setInput] = useState<string>("");
