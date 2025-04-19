@@ -2,16 +2,16 @@
 
 import { signOut, useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
-import { SettingsIcon } from "@/app/components/icons/settings-icon";
 import {
+  SettingsIcon,
   LogOutIcon,
-  Trash2Icon,
+  TrashIcon,
   LockIcon,
-  HelpCircleIcon,
+  HelpIcon,
   MailIcon,
-  MessageSquareIcon,
+  MessageIcon,
   PhoneIcon,
-} from "lucide-react";
+} from "@/components/ui/icons/custom-icons";
 import {
   Card,
   CardContent,
@@ -132,7 +132,7 @@ export default function SettingsPage() {
               <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
                 <div className="space-y-2">
                   <div className="flex items-center gap-2">
-                    <MessageSquareIcon className="h-4 w-4 text-muted-foreground" />
+                    <MessageIcon className="h-4 w-4 text-muted-foreground" />
                     <p className="font-medium">SMS Support</p>
                   </div>
                   <p className="text-sm text-muted-foreground">
@@ -178,7 +178,7 @@ export default function SettingsPage() {
                 className="gap-2"
                 onClick={() => setShowDeleteConfirm(true)}
               >
-                <Trash2Icon className="h-4 w-4" />
+                <TrashIcon className="h-4 w-4" />
                 Konto löschen
               </Button>
             </div>

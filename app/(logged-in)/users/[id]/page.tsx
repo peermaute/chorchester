@@ -1,8 +1,10 @@
 "use client";
 import { getUser } from "@/app/api/users";
-import { GroupIcon } from "@/app/components/group-icon";
-import { InfoIcon } from "@/app/components/info-icon";
-import { MusicIcon } from "@/app/components/music-icon";
+import {
+  GroupIcon,
+  InfoIcon,
+  MusicIcon,
+} from "@/components/ui/icons/custom-icons";
 import { User } from "@/app/types/User";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/app/components/ui/skeleton";
