@@ -87,15 +87,14 @@ export const BaseUserCard = ({
     switch (variant) {
       case "search":
         return cn(
-          "group relative rounded-lg bg-card p-4 shadow-sm transition-all duration-200",
-          "hover:shadow-md hover:bg-accent/5 hover:scale-[1.02]",
-          "active:scale-[0.98] cursor-pointer",
+          "group relative rounded-xl border bg-card p-4 shadow transition-all duration-200",
+          "hover:bg-accent/5 cursor-pointer",
           className
         );
       case "default":
       default:
         return cn(
-          "group relative rounded-lg bg-card shadow-sm overflow-hidden cursor-pointer",
+          "group relative rounded-xl border bg-card shadow overflow-hidden cursor-pointer",
           className
         );
     }
