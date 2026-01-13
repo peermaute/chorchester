@@ -1,32 +1,48 @@
 "use client";
 import { getUsersByName } from "@/app/api/users";
 import { User } from "@/app/types/User";
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import UserCardSearch from "@/components/features/users/user-card-search";
+import { Search as SearchIconLucide, Loader2 } from "lucide-react";
 
 const Search = () => {
   const [input, setInput] = useState<string>("");
   const [users, setUsers] = useState<User[]>([]);
   const [noUserFound, setNoUserFound] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const handleSubmit = async () => {
-    if (!input) return;
+  const performSearch = useCallback(async (searchTerm: string) => {
+    if (!searchTerm.trim()) {
+      setUsers([]);
+      setNoUserFound(false);
+      return;
+    }
+    setIsLoading(true);
     try {
-      const result = await getUsersByName(input);
+      const result = await getUsersByName(searchTerm);
       if (result.length === 0) {
         setUsers([]);
         setNoUserFound(true);
-        return;
+      } else {
+        setNoUserFound(false);
+        setUsers(result);
       }
-      setNoUserFound(false);
-      setUsers(result);
     } catch (error) {
       console.error("Error fetching users:", error);
       setUsers([]);
       setNoUserFound(true);
+    } finally {
+      setIsLoading(false);
     }
-    setInput("");
-  };
+  }, []);
+
+  useEffect(() => {
+    const debounceTimeout = setTimeout(() => {
+      performSearch(input);
+    }, 300);
+
+    return () => clearTimeout(debounceTimeout);
+  }, [input, performSearch]);
 
   return (
     <div className="flex flex-col items-center p-4">
@@ -40,21 +56,13 @@ const Search = () => {
             placeholder="Nach User suchen"
             autoFocus
             className="block w-full rounded-md border border-muted bg-background px-5 py-4 pr-14 tracking-wider text-foreground drop-shadow-sm transition placeholder:text-muted-foreground/60 hover:drop-shadow-md focus:outline-none focus:border-muted-foreground/40 focus:ring-0 focus:drop-shadow-md"
-            onKeyDown={(event) => {
-              if (event.key === "Enter") {
-                handleSubmit();
-              }
-            }}
           />
-          <div
-            className="absolute inset-y-0 right-0 flex py-3 pr-3 hover:cursor-pointer"
-            onClick={() => {
-              handleSubmit();
-            }}
-          >
-            <kbd className="inline-flex items-center rounded-md border border-muted px-2 pt-1 font-sans text-xs text-muted-foreground/60">
-              ↵
-            </kbd>
+          <div className="absolute inset-y-0 right-0 flex items-center pr-4">
+            {isLoading ? (
+              <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
+            ) : (
+              <SearchIconLucide className="h-5 w-5 text-muted-foreground" />
+            )}
           </div>
         </div>
         <div className="grid gap-4">
